@@ -20,3 +20,8 @@ h1 {
 input {
   width: 100px !important;
 }
+
+.data-scroll {
+  height:100px;
+  overflow-y:auto;
+}
