@@ -1,5 +1,15 @@
-/* If you're feeling fancy you can add interactivity 
-    to your site with Javascript */
+var td = document.createElement('td');
+for (var i = 0; i < 2; i++) {
+  var table = document.createElement('table');
+  var tr = document.createElement('tr');
+}
 
-// prints "hi" in the browser's dev tools console
-console.log("hi");
+
+
+<td>
+          <table>
+            <tr>
+              <th><input type="text" name="title"></th>
+            </tr>
+          </table>
+        </td>
