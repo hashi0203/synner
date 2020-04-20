@@ -1,0 +1,22 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+
+.chart-container {
+  position: relative;
+  height:100px;
+  width: 200px;
+}
+
+input {
+  width: 100px !important;
+}
