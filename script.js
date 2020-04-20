@@ -15,6 +15,18 @@ function draw_graph(canvas) {
   var options = {
     legend: {
         display: false
+     },
+    scales: {
+      xAxes: [{
+       ticks: {
+        callback: function(value, index, values){ return  '' }
+       }
+      }],
+      yAxes: [{
+       ticks: {
+        callback: function(value, index, values){ return  '' }
+       }
+      }]
      }
   };
 
@@ -22,7 +34,7 @@ function draw_graph(canvas) {
 
     type: 'bar',  //グラフの種類
     data: mydata,  //表示するデータ
-    // options: options  //オプション設定
+    options: options  //オプション設定
 
   });
 };
@@ -33,14 +45,16 @@ for (var i = 0; i < 2; i++) {
   var table = document.createElement('table');
   var tr = document.createElement('tr');
   var th = document.createElement('th');
-  
   var input = document.createElement('input');
   input.setAttribute("type","text");
   input.setAttribute("id", "title"+i);
   th.appendChild(input);
+  
+  var td = document.createElement('td');
   var canvas = document.createElement('canvas');
   canvas.setAttribute("id","canvas"+i);
   th.appendChild(canvas);
+  
   
   tr.appendChild(th);
   table.appendChild(tr);
