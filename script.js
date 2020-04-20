@@ -84,7 +84,7 @@ for (var i = 0; i < 2; i++) {
     var td = document.createElement('td');
     td.textContent = j;
     tr.appendChild(td);  
-    thead.appendChild(tr);
+    div.appendChild(tr);
   }
   tbody.appendChild(div);
   table.appendChild(tbody);
