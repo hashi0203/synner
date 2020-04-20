@@ -45,7 +45,6 @@ function draw_chart(canvas) {
 for (var i = 0; i < 2; i++) {
   var td_top = document.createElement('td');
   var table = document.createElement('table');
-  table.setAttribute("width",100);
   
   var tr = document.createElement('tr');
   var th = document.createElement('th');
@@ -62,8 +61,14 @@ for (var i = 0; i < 2; i++) {
   div.setAttribute("class","chart-container");
   var canvas = document.createElement('canvas');
   canvas.setAttribute("id","canvas"+i);
-  div.appendChild(canvas)
+  div.appendChild(canvas);
   td.appendChild(div);
+  tr.appendChild(td);  
+  table.appendChild(tr);
+  
+  var tr = document.createElement('tr');
+  var td = document.createElement('td');
+  td.textContent = "Depends on";
   tr.appendChild(td);  
   table.appendChild(tr);
   
