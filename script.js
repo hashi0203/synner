@@ -1,4 +1,4 @@
-function draw_graph(canvas) {
+function draw_chart(canvas) {
   //「月別データ」
   var mydata = {
     labels: ["１月", "２月", "３月", "４月", "５月", "６月", "７月"],
@@ -27,7 +27,9 @@ function draw_graph(canvas) {
         callback: function(value, index, values){ return  '' }
        }
       }]
-     }
+     },
+    responsive: true,
+    maintainAspectRatio: false
   };
 
   var chart = new Chart(canvas, {
@@ -56,14 +58,17 @@ for (var i = 0; i < 2; i++) {
   
   var tr = document.createElement('tr');
   var td = document.createElement('td');
+  var div = document.createElement('div');
+  div.setAttribute("class","chart-container");
   var canvas = document.createElement('canvas');
   canvas.setAttribute("id","canvas"+i);
-  td.appendChild(canvas);
+  div.appendChild(canvas)
+  td.appendChild(div);
   tr.appendChild(td);  
   table.appendChild(tr);
   
   td_top.append(table);
   document.getElementById('data-tables').appendChild(td_top); 
-  draw_graph(canvas);
+  draw_chart(canvas);
 }
 
