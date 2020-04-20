@@ -3,13 +3,47 @@ for (var i = 0; i < 2; i++) {
   var table = document.createElement('table');
   var tr = document.createElement('tr');
   var th = document.createElement('th');
+  
   var input = document.createElement('input');
   input.setAttribute("type","text");
   input.setAttribute("id", "title"+i);
   th.appendChild(input);
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute("id","canvas"+i);
+  th.appendChild(canvas);
+  
   tr.appendChild(th);
   table.appendChild(tr);
   td_top.append(table);
   document.getElementById('data-tables').appendChild(td_top);
+  
+  //「月別データ」
+  var mydata = {
+    labels: ["１月", "２月", "３月", "４月", "５月", "６月", "７月"],
+    datasets: [
+      {
+        label: '数量',
+        hoverBackgroundColor: "rgba(255,99,132,0.3)",
+        data: [65, 59, 80, 81, 56, 55, 48],
+      }
+    ]
+  };
+
+  //「オプション設定」
+  var options = {
+    title: {    
+      display: true,
+      text: 'サンプルチャート'
+    }
+  };
+
+  var chart = new Chart(canvas, {
+
+    type: 'bar',  //グラフの種類
+    data: mydata,  //表示するデータ
+    options: options  //オプション設定
+
+  });
+  // <canvas id="stage"></canvas>
 }
 
