@@ -45,6 +45,7 @@ function draw_chart(canvas) {
 for (var i = 0; i < 2; i++) {
   var td_top = document.createElement('td');
   var table = document.createElement('table');
+  var thead = document.createElement('thead');
   
   var tr = document.createElement('tr');
   var th = document.createElement('th');
@@ -53,7 +54,7 @@ for (var i = 0; i < 2; i++) {
   input.setAttribute("id", "title"+i);
   th.appendChild(input);
   tr.appendChild(th);
-  table.appendChild(tr);
+  thead.appendChild(tr);
   
   var tr = document.createElement('tr');
   var td = document.createElement('td');
@@ -64,13 +65,29 @@ for (var i = 0; i < 2; i++) {
   div.appendChild(canvas);
   td.appendChild(div);
   tr.appendChild(td);  
-  table.appendChild(tr);
+  thead.appendChild(tr);
   
   var tr = document.createElement('tr');
   var td = document.createElement('td');
   td.textContent = "Depends on";
   tr.appendChild(td);  
-  table.appendChild(tr);
+  thead.appendChild(tr);
+  
+  table.appendChild(thead);
+  
+  var tbody = document.createElement('tbody');
+  tbody.setAttribute("height",100);
+  var div = document.createElement('div');
+  div.setAttribute("class","data-scroll");
+  for (var j = 0; j < 10; j++) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.textContent = j;
+    tr.appendChild(td);  
+    thead.appendChild(tr);
+  }
+  tbody.appendChild(div);
+  table.appendChild(tbody);
   
   td_top.append(table);
   document.getElementById('data-tables').appendChild(td_top); 
