@@ -111,16 +111,38 @@ var div = document.createElement('div');
 div.textContent = 'Describe by:';
 td.appendChild(div);
 var div = document.createElement('div');
-div.setAttribute("class","btn-group-vertical");
+// div.setAttribute("class","btn-group-vertical");
+div.setAttribute("class","btn-group-vertical btn-group-toggle");
+div.setAttribute("data-toggle","buttons");
 var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
+// for (var i=0; i<items.length; i++) {
+//   var button = document.createElement('button');
+//   button.setAttribute("type","button");
+//   button.setAttribute("id",items[i].replace(' ','-',).toLowerCase());
+//   button.setAttribute("class","btn btn-outline-primary");
+//   button.textContent = items[i];
+//   if (i == 0) {
+//     button.active = true;
+//   }
+//   div.appendChild(button);
+// }
 for (var i=0; i<items.length; i++) {
-  var button = document.createElement('button');
-  button.setAttribute("type","button");
-  button.setAttribute("id",items[i].replace(' ','-',).toLowerCase());
-  button.setAttribute("class","btn btn-primary");
-  button.textContent = items[i];
-  div.appendChild(button);
+  var str = items[i].relplace(' ','-').toLowerCase();
+  var label = document.createElement('label');
+  label.setAttribute("id",str);
+  label.setAttribute("class","center btn btn-outline-primary");
+  var input = document.createElement('input');
+  input.setAttribute("type","radio");
+  input.setAttribute("name","describe-by");
+  input.setAttribute("value",str);
+  
+  label.addClass("active");
+  input.addClass("checked");
+  input.addClass("required");
+  input.textContent = items[i];
+
 }
+
 td.appendChild(div);
 
 tr.appendChild(td);
