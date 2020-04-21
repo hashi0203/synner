@@ -107,15 +107,18 @@ tr.appendChild(th);
 table.appendChild(tr);
 var tr = document.createElement('tr');
 var td = document.createElement('td');
-td.textContent = 'Describe by:';
 var div = document.createElement('div');
-
-for (var str in ['Distribution','Enumeration','Expression','Visual Relationship','Sequence']) {
+div.textContent = 'Describe by:';
+td.appendChild(div);
+var div = document.createElement('div');
+div.setAttribute("class","btn-group-vertical");
+var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
+for (var i=0; i<items.length; i++) {
   var button = document.createElement('button');
   button.setAttribute("type","button");
-  button.setAttribute("id",str.replace(' ','-',).toLowerCase());
+  button.setAttribute("id",items[i].replace(' ','-',).toLowerCase());
   button.setAttribute("class","btn btn-primary");
-  // button.textContent(str);
+  button.textContent = items[i];
   div.appendChild(button);
 }
 td.appendChild(div);
