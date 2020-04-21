@@ -96,7 +96,7 @@ for (var i = 0; i < 2; i++) {
 
 data_idx = 0;
 var th = document.createElement('th');
-th.textContent = document.getElementById('title'+data_idx);
+th.textContent = document.getElementById('title'+data_idx).value;
 document.getElementById('data-detail-title').appendChild(th);
 
 var table = document.createElement('table');
@@ -108,6 +108,19 @@ table.appendChild(tr);
 var tr = document.createElement('tr');
 var td = document.createElement('td');
 td.textContent = 'Describe by:';
+var div = document.createElement('div');
 
+for (var str in ['Distribution','Enumeration','Expression','Visual Relationship','Sequence']) {
+  var button = document.createElement('button');
+  button.setAttribute("type","button");
+  button.setAttribute("id",str.replace(' ','-',).toLowerCase());
+  button.setAttribute("class","btn btn-primary");
+  // button.textContent(str);
+  div.appendChild(button);
+}
+td.appendChild(div);
 
+tr.appendChild(td);
+table.appendChild(tr);
+document.getElementById('data-detail-content').appendChild(table);
 
