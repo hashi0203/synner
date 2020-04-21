@@ -94,3 +94,53 @@ for (var i = 0; i < 2; i++) {
   draw_chart(canvas);
 }
 
+data_idx = 0;
+var th = document.createElement('th');
+th.textContent = document.getElementById('title'+data_idx).value;
+document.getElementById('data-detail-title').appendChild(th);
+
+var table = document.createElement('table');
+var tr = document.createElement('tr');
+var th = document.createElement('th');
+th.textContent = 'Default Case';
+tr.appendChild(th);
+table.appendChild(tr);
+var tr = document.createElement('tr');
+var td = document.createElement('td');
+var div = document.createElement('div');
+div.textContent = 'Describe by:';
+td.appendChild(div);
+var div = document.createElement('div');
+div.setAttribute("class","btn-group-vertical btn-group-toggle");
+div.setAttribute("data-toggle","buttons");
+var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
+for (var i=0; i<items.length; i++) {
+  var str = items[i].replace(' ','-').toLowerCase();
+  var label = document.createElement('label');
+  label.setAttribute("id",str);
+  if (i == 0) {
+    label.setAttribute("class","center btn btn-outline-primary active");
+  } else {
+    label.setAttribute("class","center btn btn-outline-primary");
+  }
+  var input = document.createElement('input');
+  input.setAttribute("type","radio");
+  input.setAttribute("name","describe-by");
+  input.setAttribute("value",str);
+  if (i == 0) {
+    input.checked = true;
+  }
+  input.required = true;
+  label.appendChild(input);
+  var span = document.createElement('span');
+  span.textContent = items[i];
+  label.appendChild(span);
+  div.appendChild(label);
+}
+
+td.appendChild(div);
+
+tr.appendChild(td);
+table.appendChild(tr);
+document.getElementById('data-detail-content').appendChild(table);
+
