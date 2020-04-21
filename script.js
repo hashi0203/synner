@@ -111,21 +111,9 @@ var div = document.createElement('div');
 div.textContent = 'Describe by:';
 td.appendChild(div);
 var div = document.createElement('div');
-// div.setAttribute("class","btn-group-vertical");
 div.setAttribute("class","btn-group-vertical btn-group-toggle");
 div.setAttribute("data-toggle","buttons");
 var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
-// for (var i=0; i<items.length; i++) {
-//   var button = document.createElement('button');
-//   button.setAttribute("type","button");
-//   button.setAttribute("id",items[i].replace(' ','-',).toLowerCase());
-//   button.setAttribute("class","btn btn-outline-primary");
-//   button.textContent = items[i];
-//   if (i == 0) {
-//     button.active = true;
-//   }
-//   div.appendChild(button);
-// }
 for (var i=0; i<items.length; i++) {
   var str = items[i].replace(' ','-').toLowerCase();
   var label = document.createElement('label');
@@ -139,12 +127,14 @@ for (var i=0; i<items.length; i++) {
   input.setAttribute("type","radio");
   input.setAttribute("name","describe-by");
   input.setAttribute("value",str);
-  // if (i == 0) {
-  //   input.checked = true;
-  // }
+  if (i == 0) {
+    input.checked = true;
+  }
   input.required = true;
   label.appendChild(input);
-  // label.textContent = items[i];
+  var span = document.createElement('span');
+  span.textContent = items[i];
+  label.appendChild(span);
   div.appendChild(label);
 }
 
