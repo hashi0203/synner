@@ -19,12 +19,9 @@ h1 {
 
 input {
   width: 100px !important;
-<<<<<<< HEAD
 }
 
 .data-scroll {
   height:100px;
   overflow-y:auto;
-=======
->>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
 }
