@@ -94,3 +94,11 @@ for (var i = 0; i < 2; i++) {
   draw_chart(canvas);
 }
 
+data_idx = 0;
+var tr = document.createElement('tr');
+var th = document.createElement('th');
+td.textContent = document.getElementById('title'+data_idx);
+tr.appendChild(td);
+var td_top = document.createElement('td');
+var table = document.createElement('table');
+var th = document.createElement
