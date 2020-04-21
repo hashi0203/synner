@@ -95,10 +95,19 @@ for (var i = 0; i < 2; i++) {
 }
 
 data_idx = 0;
+var th = document.createElement('th');
+th.textContent = document.getElementById('title'+data_idx);
+document.getElementById('data-detail-title').appendChild(th);
+
+var table = document.createElement('table');
 var tr = document.createElement('tr');
 var th = document.createElement('th');
-td.textContent = document.getElementById('title'+data_idx);
-tr.appendChild(td);
-var td_top = document.createElement('td');
-var table = document.createElement('table');
-var th = document.createElement
+th.textContent = 'Default Case';
+tr.appendChild(th);
+table.appendChild(tr);
+var tr = document.createElement('tr');
+var td = document.createElement('td');
+td.textContent = 'Describe by:';
+
+
+
