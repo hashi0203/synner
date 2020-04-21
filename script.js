@@ -45,7 +45,10 @@ function draw_chart(canvas) {
 for (var i = 0; i < 2; i++) {
   var td_top = document.createElement('td');
   var table = document.createElement('table');
+<<<<<<< HEAD
   var thead = document.createElement('thead');
+=======
+>>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
   
   var tr = document.createElement('tr');
   var th = document.createElement('th');
@@ -54,7 +57,11 @@ for (var i = 0; i < 2; i++) {
   input.setAttribute("id", "title"+i);
   th.appendChild(input);
   tr.appendChild(th);
+<<<<<<< HEAD
   thead.appendChild(tr);
+=======
+  table.appendChild(tr);
+>>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
   
   var tr = document.createElement('tr');
   var td = document.createElement('td');
@@ -65,12 +72,17 @@ for (var i = 0; i < 2; i++) {
   div.appendChild(canvas);
   td.appendChild(div);
   tr.appendChild(td);  
+<<<<<<< HEAD
   thead.appendChild(tr);
+=======
+  table.appendChild(tr);
+>>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
   
   var tr = document.createElement('tr');
   var td = document.createElement('td');
   td.textContent = "Depends on";
   tr.appendChild(td);  
+<<<<<<< HEAD
   thead.appendChild(tr);
   
   table.appendChild(thead);
@@ -88,12 +100,16 @@ for (var i = 0; i < 2; i++) {
   }
   tbody.appendChild(div);
   table.appendChild(tbody);
+=======
+  table.appendChild(tr);
+>>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
   
   td_top.append(table);
   document.getElementById('data-tables').appendChild(td_top); 
   draw_chart(canvas);
 }
 
+<<<<<<< HEAD
 data_idx = 0;
 var th = document.createElement('th');
 th.textContent = document.getElementById('title'+data_idx).value;
@@ -144,3 +160,5 @@ tr.appendChild(td);
 table.appendChild(tr);
 document.getElementById('data-detail-content').appendChild(table);
 
+=======
+>>>>>>> ad6016104e6e71715015a30a4302935b19244ac8
