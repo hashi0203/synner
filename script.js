@@ -127,20 +127,25 @@ var items = ['Distribution','Enumeration','Expression','Visual Relationship','Se
 //   div.appendChild(button);
 // }
 for (var i=0; i<items.length; i++) {
-  var str = items[i].relplace(' ','-').toLowerCase();
+  var str = items[i].replace(' ','-').toLowerCase();
   var label = document.createElement('label');
   label.setAttribute("id",str);
-  label.setAttribute("class","center btn btn-outline-primary");
+  if (i == 0) {
+    label.setAttribute("class","center btn btn-outline-primary active");
+  } else {
+    label.setAttribute("class","center btn btn-outline-primary");
+  }
   var input = document.createElement('input');
   input.setAttribute("type","radio");
   input.setAttribute("name","describe-by");
   input.setAttribute("value",str);
-  
-  label.addClass("active");
-  input.addClass("checked");
-  input.addClass("required");
-  input.textContent = items[i];
-
+  // if (i == 0) {
+  //   input.checked = true;
+  // }
+  input.required = true;
+  label.appendChild(input);
+  // label.textContent = items[i];
+  div.appendChild(label);
 }
 
 td.appendChild(div);
