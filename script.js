@@ -60,6 +60,7 @@ function app_child(cs){
   for(var i = 0; i < cs.length - 1; i++) {
     cs[i+1].appendChild(cs[i]);
   }
+  console.log("you need list longer than 2")
 };
 
 function fill_titles() {
@@ -129,7 +130,7 @@ function fill_data_detail_content() {
   var tr = new_elem('tr');
   var td = new_elem('td');
   var div = new_elem('div');
-  div.textConten = 'Describe by:';
+  div.textContent = 'Describe by:';
   app_child([div,td]);
   var div = new_elem('div');
   add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
@@ -148,60 +149,14 @@ function fill_data_detail_content() {
       input.checked = true;
     }
     input.required = true;
-    app_child(input,label);
+    app_child([input,label]);
     var span = new_elem('span');
     span.textContent = items[i];
-    app_child(span,label,div);
+    app_child([span,label,div]);
   }
   app_child([div,td,tr,table,document.getElementById('data_detail_content')]);
   
 };
-
-var table = document.createElement('table');
-var tr = document.createElement('tr');
-var th = document.createElement('th');
-th.textContent = 'Default Case';
-tr.appendChild(th);
-table.appendChild(tr);
-var tr = document.createElement('tr');
-var td = document.createElement('td');
-var div = document.createElement('div');
-div.textContent = 'Describe by:';
-td.appendChild(div);
-var div = document.createElement('div');
-div.setAttribute("class","btn-group-vertical btn-group-toggle");
-div.setAttribute("data-toggle","buttons");
-var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
-for (var i=0; i<items.length; i++) {
-  var str = items[i].replace(' ','-').toLowerCase();
-  var label = document.createElement('label');
-  label.setAttribute("id",str);
-  if (i == 0) {
-    label.setAttribute("class","center btn btn-outline-primary active");
-  } else {
-    label.setAttribute("class","center btn btn-outline-primary");
-  }
-  var input = document.createElement('input');
-  input.setAttribute("type","radio");
-  input.setAttribute("name","describe-by");
-  input.setAttribute("value",str);
-  if (i == 0) {
-    input.checked = true;
-  }
-  input.required = true;
-  label.appendChild(input);
-  var span = document.createElement('span');
-  span.textContent = items[i];
-  label.appendChild(span);
-  div.appendChild(label);
-}
-
-td.appendChild(div);
-
-tr.appendChild(td);
-table.appendChild(tr);
-document.getElementById('data_detail_content').appendChild(table);
-
 
 function init() {
   dim = 3;
@@ -217,4 +172,5 @@ function init() {
   }
   
   fill_data_detail_title(0);
-}
+  fill_data_detail_content();
+};
