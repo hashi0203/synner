@@ -17,18 +17,24 @@ h1 {
   width: 200px;
 }
 
-input {
-  width: 100px !important;
+.size-fix {
+  width: 100%;
 }
 
-.data-scroll {
-  height:100px;
-  overflow-y:auto;
+#data-list-scroll {
+  width:100%;
+  overflow-x:scroll;
 }
 
 #data-list.layout-fixed {
     table-layout: fixed;
 }
+
 #data-list {
   maxwidth: 100%;
+}
+
+.data-scroll {
+  height:200px;
+  overflow-y:auto;
 }

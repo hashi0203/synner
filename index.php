@@ -18,7 +18,7 @@
   <body>
     <?php
     $data_number = 1000;
-    $col = 2;
+    $col = 3;
     ?>
     
     
@@ -32,7 +32,7 @@
           </ul>
           <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item">
-              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" value="<?=$data_number?>">
+              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" value=<?=$data_number?> style="width:80px">
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Download Data</a>
@@ -54,52 +54,56 @@
       </nav>
     </header>
       
-    <table id="data-list" border="1" style="border-collapse: collapse">
-<!--       <tr id="data-tables"> -->
-      <thead>
-        <tr>
-          <?php
-          for ($i=0; $i<$col; $i++) {
-          echo "
-            <th width=120>
-              <input type='text' id='title".$i."' value='Column".$i."'>
-            </th>
-          "; } ?>
-        </tr>
-        <tr>
-          <?php
-          for ($i=0; $i<$col; $i++) {
-          echo "
-            <td width=120>
-              <div class='chart-container'>
-                <canvas id='canvas".$i."'>
-              </div>
+    <div id="data-list-scroll">
+      <table id="data-list" border="1" style="border-collapse: collapse">
+  <!--       <tr id="data-tables"> -->
+        <thead>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <th width=200>
+                <input type='text' id='title".$i."' class='size-fix' value='Column".$i."'>
+              </th>
+            "; } ?>
+          </tr>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <td width=200>
+                <div class='chart-container'>
+                  <canvas id='canvas".$i."'>
+                </div>
+              </td>
+            "; } ?>
+          </tr>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <td width=200>Depends on: </td>
+            "; } ?>
+          </tr>
+        </thead>
+        <tbody height=100>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++){
+              <td width=200>
+              <div class="data-scroll">
+                <?php
+                for($i=0; $i < $data_number; $i++){
+                  echo "
+                    <input type='text' class='size-fix' value=".$i.">
+                  ""
             </td>
-          "; } ?>
-        </tr>
-        <tr>
-          <?php
-          for ($i=0; $i<$col; $i++) {
-          echo "
-            <td width=120>Depends on: </td>
-          "; } ?>
-        </tr>
-      </thead>
-      <tbody height=100>
-        <tr>
-          <td width=120>
-            <div class="data-scroll">
-              <?php
-              for($i=0; $i < $data_number; $i++){
-                echo "
-                  <input type='text' value=".$i.">
-              "; } ?>
-          </td>
-        </div>
-        </tr>
-      </tbody>
-      
-    </table>
+            "; } ?>
+          </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     
     <div id="data-detail" style="width: 100%; border-top: solid 2px black;">
       <table>
