@@ -1,3 +1,6 @@
+var dim;
+var data_number;
+
 function draw_chart(canvas) {
   //「月別データ」
   var mydata = {
@@ -41,7 +44,6 @@ function draw_chart(canvas) {
   });
 };
 
-var dim = 2;
 
 function new_elem(e) {
   return document.createElement(e);
@@ -71,7 +73,7 @@ function fill_titles() {
 function fill_canvases() {
   for (var i = 0; i < dim; i++) {
     var td = new_elem('td');
-    add_atts(td,[['width','200']]);
+    add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
     add_atts(div,[['class','chart-container']]);
     var canvas = new_elem('canvas');
@@ -80,8 +82,46 @@ function fill_canvases() {
   }
 }
 
+function fill_dependencies() {
+  for (var i = 0; i < dim; i++) {
+    var td = new_elem('td');
+    add_atts(td,[['width',"200"]]);
+    td.textContent = 'Depends on: ';
+    app_child([td,document.getElementById("dependencies"))]);
+  }
+}
 
+function fill_datas() {
+  data_number = Number(document.getElementById("data_number").value);
+  if (data_number < 1) {
+    data_number = 1;
+    document.getElementById("data_number").value = 1;
+  } else {
+    data_number = Math.round(data_number);
+    document.getElementById("data_number").value = data_number;
+  }
+  for (var i = 0; i < dim; i++) {
+    var td = new_elem('td');
+    var div = new_elem('div');
+    for (var j = 0; j < data_number; j++) {
+      var input = e  
+    }
+  }
+}
 
+<?php
+            for ($i=0; $i<$col; $i++){
+              echo "
+              <td width=200>
+              <div class='data-scroll'>
+              ";
+              for($j=0; $j < $data_number; $j++){
+                echo "
+                  <input type='text' class='size-fix data".$i."' value=".$j.">
+                "; }
+              echo "</td>
+            "; } ?>
+          </div>
 
 // for (var i = 0; i < 2; i++) {
 //   var td_top = document.createElement('td');
@@ -135,11 +175,6 @@ function fill_canvases() {
   // draw_chart(canvas);
 // }
 
-var canvases = document.getElementsByTagName('canvas');
-for (var i = 0; i < canvases.length; i++) {
-  draw_chart(canvases[i]);
-}
-
 data_idx = 0;
 var th = document.createElement('th');
 th.textContent = document.getElementById('title'+data_idx).value;
@@ -192,7 +227,12 @@ document.getElementById('data-detail-content').appendChild(table);
 
 
 function init() {
+  dim = 3;
+  
   fill_titles();
   fill_canvases();
-  
+  var canvases = document.getElementsByTagName('canvas');
+  for (var i = 0; i < canvases.length; i++) {
+    draw_chart(canvases[i]);
+  }
 }
