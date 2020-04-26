@@ -143,26 +143,17 @@ function fill_data_detail_content() {
       add_atts(label,[['id',str],['class','center btn btn-outline-primary']]);
     }
     var input = new_elem('input');
-    add_atts(input,[['type','radio'],['name'
-    input.setAttribute("type","radio");
-    input.setAttribute("name","describe-by");
-    input.setAttribute("value",str);
+    add_atts(input,[['type','radio'],['name','describe-by'],['value',str]]);
     if (i == 0) {
       input.checked = true;
     }
     input.required = true;
-    label.appendChild(input);
-    var span = document.createElement('span');
+    app_child(input,label);
+    var span = new_elem('span');
     span.textContent = items[i];
-    label.appendChild(span);
-    div.appendChild(label);
+    app_child(span,label,div);
   }
-
-  td.appendChild(div);
-
-  tr.appendChild(td);
-  table.appendChild(tr);
-  document.getElementById('data_detail_content').appendChild(table);
+  app_child([div,td,tr,table,document.getElementById('data_detail_content')]);
   
 };
 
