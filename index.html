@@ -15,12 +15,7 @@
     <!-- import the webpage's javascript file -->
     <script src="/script.js" defer></script>
   </head>  
-  <body>
-    <?php
-    $data_number = 1000;
-    $col = 3;
-    ?>
-    
+  <body> 
     
     <header style="color:white;">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,7 +27,7 @@
           </ul>
           <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item">
-              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" value=<?=$data_number?> style="width:80px">
+              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" id="data-number" value="1000" style="width:80px">
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Download Data</a>
@@ -58,14 +53,8 @@
       <table id="data-list" border="1" style="border-collapse: collapse">
   <!--       <tr id="data-tables"> -->
         <thead>
-          <tr>
-            <?php
-            for ($i=0; $i<$col; $i++) {
-            echo "
-              <th width=200>
-                <input type='text' id='title".$i."' class='size-fix' value='Column".$i."'>
-              </th>
-            "; } ?>
+          <tr id="titles">
+            
           </tr>
           <tr>
             <?php

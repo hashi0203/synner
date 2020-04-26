@@ -41,6 +41,35 @@ function draw_chart(canvas) {
   });
 };
 
+var dim = 2;
+
+function new_elem(e) {
+  return document.createElement(e);
+}
+
+function add_atts(e,atts){
+  for(var i = 0; i < atts.length; i++) {
+    e.setAttribute(atts[i][0],atts[i][1]);
+  }
+}
+
+function fill_titles() {
+  for (var i = 0; i < dim; i++) {
+    var th = new_elem('th');
+    var input = new_elem('input');
+    add_atts(input,[['type','text'],['id','title'+i],['class','size-fix'],['value','Column'+i]]);
+    
+  }
+}
+<?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <th width=200>
+                <input type='text' id='title".$i."' class='size-fix' value='Column".$i."'>
+              </th>
+            "; } ?>
+
+
 
 // for (var i = 0; i < 2; i++) {
 //   var td_top = document.createElement('td');
