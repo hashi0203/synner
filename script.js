@@ -97,7 +97,12 @@ function fill_dependencies() {
       var div = new_elem('div');
       add_atts(div,[['class','del_button']]);
       var span = new_elem('span');
-      span.textContent = json[i]["dependency"][j];
+      var id = json[i]["dependency"][j];
+      var dep = json.filter(function(json){
+        if (json.id == id) return true;
+      });
+      span.textContent = dep[0]["name"];
+      add_atts(span,[['style','display:inline;']])
       app_child([span,div]);
       var a = new_elem('a');
       add_atts(a,[['class','batsu'],['id','d'+i+'-'+j],['onclick','delete_dependency(this.id);']]);

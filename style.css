@@ -42,7 +42,7 @@ h1 {
 .del_button {
   background-color:gray;
   border-radius: 20px;
-  display: inline-block;
+/*   display: inline-block; */
 }
 
 .batsu{
@@ -51,7 +51,7 @@ h1 {
     border: 1px solid #999;
     color: #999 !important;
     display: flex;
-    justify-content: center;
+/*     justify-content: center; */
     align-items: center;
     border-radius: 100%;
     width: 1.3em;
