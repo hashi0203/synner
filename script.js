@@ -121,6 +121,48 @@ function fill_data_detail_title(idx) {
 };
 
 function fill_data_detail_content() {
+  var table = new_elem('table');
+  var tr = new_elem('tr');
+  var th = new_elem('th');
+  th.textContent = 'Default Case';
+  app_child([th,tr,table]);
+  var tr = new_elem('tr');
+  var td = new_elem('td');
+  var div = new_elem('div');
+  div.textConten = 'Describe by:';
+  app_child([div,td]);
+  var div = new_elem('div');
+  add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
+  for (var i=0; i<items.length; i++) {
+    var str = items[i].replace(' ','_').toLowerCase();
+    var label = new_elem('label');
+    if (i == 0) {
+      add_atts(label,[['id',str],['class','center btn btn-outline-primary active']]);
+    } else {
+      add_atts(label,[['id',str],['class','center btn btn-outline-primary']]);
+    }
+    var input = new_elem('input');
+    add_atts(input,[['type','radio'],['name'
+    input.setAttribute("type","radio");
+    input.setAttribute("name","describe-by");
+    input.setAttribute("value",str);
+    if (i == 0) {
+      input.checked = true;
+    }
+    input.required = true;
+    label.appendChild(input);
+    var span = document.createElement('span');
+    span.textContent = items[i];
+    label.appendChild(span);
+    div.appendChild(label);
+  }
+
+  td.appendChild(div);
+
+  tr.appendChild(td);
+  table.appendChild(tr);
+  document.getElementById('data_detail_content').appendChild(table);
   
 };
 
