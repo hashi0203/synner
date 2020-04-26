@@ -51,6 +51,7 @@ for (var i = 0; i < 2; i++) {
   var input = document.createElement('input');
   input.setAttribute("type","text");
   input.setAttribute("id", "title"+i);
+  input.setAttribute("value", "Column"+i);
   th.appendChild(input);
   tr.appendChild(th);
   thead.appendChild(tr);
