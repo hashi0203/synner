@@ -1,4 +1,3 @@
-var dim;
 var data_number;
 var data_idx;
 var json;
@@ -67,28 +66,28 @@ function app_child(cs){
 };
 
 function fill_titles() {
-  for (var i = 0; i < dim; i++) {
+  for (var i = 0; i < json.length; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value',json[i]["name"]]]);
+    add_atts(input,[['type','text'],['id','title'+json[i]["id"]],['class','size_fix'],['value',json[i]["name"]]]);
     app_child([input,th,document.getElementById("titles")]);
   }
 };
 
 function fill_canvases() {
-  for (var i = 0; i < dim; i++) {
+  for (var i = 0; i < json.length; i++) {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
     add_atts(div,[['class','chart_container']]);
     var canvas = new_elem('canvas');
-    add_atts(canvas,[['id','canvas'+i]]);
+    add_atts(canvas,[['id','canvas'+json[i]["id"]]]);
     app_child([canvas,div,td,document.getElementById("canvases")]);
   }
 };
 
 function fill_dependencies() {
-  for (var i = 0; i < dim; i++) {
+  for (var i = 0; i < json.length; i++) {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     td.textContent = 'Depends on: ';
@@ -105,14 +104,14 @@ function fill_datas() {
     data_number = Math.round(data_number);
     document.getElementById("data_number").value = data_number;
   }
-  for (var i = 0; i < dim; i++) {
+  for (var i = 0; i < json.length; i++) {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
     add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix data'+i],['value',json[i]["data"][j]]]);
+      add_atts(input,[['type','text'],['class','size_fix data'+json[i]["id"]],['value',json[i]["data"][j]]]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -162,7 +161,6 @@ function fill_data_detail_content() {
 };
 
 function init() {
-  dim = 3;
   data_number = 1000;
   
   var name = [];
@@ -176,9 +174,9 @@ function init() {
   var sex = [];
   for (var i = 0; i < data_number; i++) {
     if (Math.random() < 0.5) {
-      surname.push('M');
+      sex.push('M');
     } else {
-      surname.push('F');
+      sex.push('F');
     }
   }
   var age = [];
@@ -187,19 +185,23 @@ function init() {
   }
   
   json = [
-    { "name": "Name",
-      "dependency": [],
+    { "id": 0,
+      "name": "Name",
+      "dependency": [2],
        "data": name
     },
-    { "name": "Surname",
+    { "id": 1,
+      "name": "Surname",
       "dependency": [],
        "data": surname
     },
-    { "name": "Sex",
+    { "id": 2,
+      "name": "Sex",
       "dependency": [],
        "data": sex
     },
-    { "name": "Age",
+    { "id": 3,
+      "name": "Age",
       "dependency": [],
        "data": age
     },
