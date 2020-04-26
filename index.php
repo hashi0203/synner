@@ -61,7 +61,7 @@
           <?php
           for ($i=0; $i<$col; $i++) {
           echo "
-            <th>
+            <th width=120>
               <input type='text' id='title".$i."' value='Column".$i."'>
             </th>
           "; } ?>
@@ -70,7 +70,7 @@
           <?php
           for ($i=0; $i<$col; $i++) {
           echo "
-            <td>
+            <td width=120>
               <div class='chart-container'>
                 <canvas id='canvas".$i."'>
               </div>
@@ -81,13 +81,13 @@
           <?php
           for ($i=0; $i<$col; $i++) {
           echo "
-            <td>Depends on: </td>
+            <td width=120>Depends on: </td>
           "; } ?>
         </tr>
       </thead>
       <tbody height=100>
         <tr>
-          <td>
+          <td width=120>
             <div class="data-scroll">
               <?php
               for($i=0; $i < $data_number; $i++){
