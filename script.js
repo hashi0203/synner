@@ -7,18 +7,24 @@ function toCountDict(array){
   for(let key of array){
       dict[key] = array.filter(function(x){return x==key}).length;
   }
-  return dict;
+  var keys = Object.keys(dict);
+  var values = [];
+  for (var i = 0; i < keys.length; i++) {
+    values.push(dict[keys[i]]);
+  }
+  return [keys,values];
 };
 
 function draw_chart(canvas,data) {
   //「月別データ」
+  data = toCountDict(data);
   var mydata = {
-    labels: ["１月", "２月", "３月", "４月", "５月", "６月", "７月"],
+    labels: data[0],
     datasets: [
       {
         label: '数量',
         hoverBackgroundColor: "rgba(255,99,132,0.3)",
-        data: [65, 59, 80, 81, 56, 55, 48],
+        data: data[1],
       }
     ]
   };
@@ -30,12 +36,21 @@ function draw_chart(canvas,data) {
      },
     scales: {
       xAxes: [{
-       ticks: {
-        callback: function(value, index, values){ return  '' }
-       }
+        ticks: {
+          callback: function(value, index, values){ return  '' }
+         },
+        gridLines: {
+          display: false
+        },
+        scaleLabel: {
+          //表示されるy軸の名称について
+          display: true, //表示するか否か
+                    fontSize: 15
+        }
       }],
       yAxes: [{
        ticks: {
+        beginAtZero: true,
         callback: function(value, index, values){ return  '' }
        }
       }]
