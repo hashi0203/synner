@@ -53,21 +53,33 @@ function add_atts(e,atts){
   }
 }
 
+function app_child(cs){
+  for(var i = 0; i < cs.length - 1; i++) {
+    cs[i+1].appendChild(cs[i]);
+  }
+}
+
 function fill_titles() {
   for (var i = 0; i < dim; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
     add_atts(input,[['type','text'],['id','title'+i],['class','size-fix'],['value','Column'+i]]);
-    
+    app_child([input,th,document.getElementById("titles")]);
   }
 }
-<?php
-            for ($i=0; $i<$col; $i++) {
-            echo "
-              <th width=200>
-                <input type='text' id='title".$i."' class='size-fix' value='Column".$i."'>
-              </th>
-            "; } ?>
+
+function fill_canvases() {
+  for (var i = 0; i < dim; i++) {
+    var td = new_elem('td');
+    add_atts(td,[['width','200']]);
+    var div = new_elem('div');
+    add_atts(div,[['class','chart-container']]);
+    var canvas = new_elem('canvas');
+    add_atts(canvas,[['id','canvas'+i]]);
+    app_child([canvas,div,td,document.getElementById("canvases")]);
+  }
+}
+
 
 
 
@@ -177,3 +189,10 @@ td.appendChild(div);
 tr.appendChild(td);
 table.appendChild(tr);
 document.getElementById('data-detail-content').appendChild(table);
+
+
+function init() {
+  fill_titles();
+  fill_canvases();
+  
+}

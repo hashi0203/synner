@@ -15,7 +15,7 @@
     <!-- import the webpage's javascript file -->
     <script src="/script.js" defer></script>
   </head>  
-  <body onload="fill_titles();"> 
+  <body> 
     
     <header style="color:white;">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -51,13 +51,46 @@
       
     <div id="data-list-scroll">
       <table id="data-list" border="1" style="border-collapse: collapse">
+  <!--       <tr id="data-tables"> -->
         <thead>
-          <tr id="titles"></tr>
-          <tr id="canvases"></tr>
-          <tr id="dependencies"></tr>
+          <tr id="titles">
+            
+          </tr>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <td width=200>
+                <div class='chart-container'>
+                  <canvas id='canvas".$i."'>
+                </div>
+              </td>
+            "; } ?>
+          </tr>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++) {
+            echo "
+              <td width=200>Depends on: </td>
+            "; } ?>
+          </tr>
         </thead>
-        <tbody height="100">
-          <tr id="datas"></tr>
+        <tbody height=100>
+          <tr>
+            <?php
+            for ($i=0; $i<$col; $i++){
+              echo "
+              <td width=200>
+              <div class='data-scroll'>
+              ";
+              for($j=0; $j < $data_number; $j++){
+                echo "
+                  <input type='text' class='size-fix data".$i."' value=".$j.">
+                "; }
+              echo "</td>
+            "; } ?>
+          </div>
+          </tr>
         </tbody>
       </table>
     </div>
