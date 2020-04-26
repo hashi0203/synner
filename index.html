@@ -16,14 +16,58 @@
     <script src="/script.js" defer></script>
   </head>  
   <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <h3 style="color:white;">Synner</h3>
+<!--       <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+ -->
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+<!--         <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+        
+        <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+      </div>
+    </nav>
+    
     <h1>Synner</h1>
     
     <table border="1" style="border-collapse: collapse">
       <tr id="data-tables"></tr>
-      <tr id="data-detail-title"></tr>
-      <tr id="data-detail-content"></tr>
-    </table>  
-
+    </table>
+    
+    <div id="data-detail">
+      <table>
+        <tr id="data-detail-title"></tr>
+        <tr id="data-detail-content"></tr>
+      </table>
+    </div>
+    
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix -->
     <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
