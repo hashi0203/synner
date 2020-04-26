@@ -1,6 +1,7 @@
 var dim;
 var data_number;
 var data_idx;
+var json;
 
 function draw_chart(canvas) {
   //「月別データ」
@@ -57,10 +58,12 @@ function add_atts(e,atts){
 };
 
 function app_child(cs){
+  if (cs.length < 2) {
+    console.log("you need list longer than 2");
+  }
   for(var i = 0; i < cs.length - 1; i++) {
     cs[i+1].appendChild(cs[i]);
   }
-  console.log("you need list longer than 2")
 };
 
 function fill_titles() {
@@ -160,6 +163,22 @@ function fill_data_detail_content() {
 
 function init() {
   dim = 3;
+  
+  var 
+  for 
+  Math.random().toString(32).substring(2)
+  
+  json = [
+    { "name": "Name",
+      "dependency": [],
+       "data": [1,2,3]
+    },
+    { "name": "Age",
+      "dependency": [],
+       "data": [1,2,3]
+    },
+  ];
+  console.log(json);
   
   fill_titles();
   fill_canvases();
