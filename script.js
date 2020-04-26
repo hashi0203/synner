@@ -23,8 +23,9 @@ function draw_chart(canvas,data) {
     datasets: [
       {
         label: '数量',
-        hoverBackgroundColor: "rgba(255,99,132,0.3)",
         data: data[1],
+        hoverBackgroundColor: "rgba(255,99,132,0.3)",
+        backgroundColor: "rgba(36,22,236,1)"
       }
     ]
   };
@@ -40,19 +41,20 @@ function draw_chart(canvas,data) {
           callback: function(value, index, values){ return  '' }
          },
         gridLines: {
-          display: false
+          display: false // グリッドラインを表示しない
         },
         scaleLabel: {
-          //表示されるy軸の名称について
-          display: true, //表示するか否か
-                    fontSize: 15
+          display: false // 軸名を表示しない
         }
       }],
       yAxes: [{
-       ticks: {
-        beginAtZero: true,
-        callback: function(value, index, values){ return  '' }
-       }
+        ticks: {
+          beginAtZero: true, // 0から始める
+          callback: function(value, index, values){ return  '' }
+        },
+        scaleLabel: {
+          display: false // 軸名を表示しない
+        }
       }]
      },
     responsive: true,
