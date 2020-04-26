@@ -2,7 +2,15 @@ var data_number;
 var data_idx;
 var json;
 
-function draw_chart(canvas) {
+function toCountDict(array){
+  let dict = {};
+  for(let key of array){
+      dict[key] = array.filter(function(x){return x==key}).length;
+  }
+  return dict;
+};
+
+function draw_chart(canvas,data) {
   //「月別データ」
   var mydata = {
     labels: ["１月", "２月", "３月", "４月", "５月", "６月", "７月"],
@@ -239,7 +247,7 @@ function init() {
   
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
-    draw_chart(canvases[i]);
+    draw_chart(canvases[i], json[i]["data"]);
   }
   
   fill_data_detail_title(0);
