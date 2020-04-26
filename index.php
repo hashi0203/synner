@@ -26,7 +26,7 @@
           </ul>
           <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item">
-              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" value="1000">
+              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" id="data-number" value="1000">
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Download Data</a>
@@ -48,60 +48,56 @@
       </nav>
     </header>
     
+    <?php $col = 2; ?>
+    
     <table border="1" style="border-collapse: collapse">
 <!--       <tr id="data-tables"> -->
-      <tr>
-        <td>
-        <?php
-        $col = 2;
-        for ($i=0; $i<$col; $i++) {
-        echo "
-          <table>
-            <tr>
-              <th>
-                <input type='text' id='title".$i."' value='Column".$i."'>
-              </th>
-            </tr>
-          </table>
-        "; } ?>
-        
-      </tr>
+      <thead>
+        <tr>
+          <?php
+          for ($i=0; $i<$col; $i++) {
+          echo "
+            <th>
+              <input type='text' id='title".$i."' value='Column".$i."'>
+            </th>
+          "; } ?>
+        </tr>
+        <tr>
+          <?php
+          for ($i=0; $i<$col; $i++) {
+          echo "
+            <td>
+              <div class='chart-container'>
+                <canvas id='canvas".$i."'>
+              </div>
+            </td>
+          "; } ?>
+        </tr>
+        <tr>
+          <?php
+          for ($i=0; $i<$col; $i++) {
+          echo "
+            <td>Depends on: </td>
+          "; } ?>
+        </tr>
+        <tr>
+          <?php
+          for ($i=0; $i<$col; $i++) {
+          echo "
+            <td>Depends on: </td>
+          "; } ?>
+        </tr>
+      </thead>
+      <tbody height=100>
+        <div class="data-scroll">
+          for($i=0;)
+        </div>
+      </tbody>
+      
     </table>
     
     
-<!--     for (var i = 0; i < 2; i++) {
-  var td_top = document.createElement('td');
-  var table = document.createElement('table');
-  var thead = document.createElement('thead');
-  var tr = document.createElement('tr');
-  var th = document.createElement('th');
-  var input = document.createElement('input');
-  input.setAttribute("type","text");
-  input.setAttribute("id", "title"+i);
-  input.setAttribute("value", "Column"+i);
-  th.appendChild(input);
-  tr.appendChild(th);
-  thead.appendChild(tr);
-  
-  var tr = document.createElement('tr');
-  var td = document.createElement('td');
-  var div = document.createElement('div');
-  div.setAttribute("class","chart-container");
-  var canvas = document.createElement('canvas');
-  canvas.setAttribute("id","canvas"+i);
-  div.appendChild(canvas);
-  td.appendChild(div);
-  tr.appendChild(td);  
-  thead.appendChild(tr);
-  
-  var tr = document.createElement('tr');
-  var td = document.createElement('td');
-  td.textContent = "Depends on";
-  tr.appendChild(td);  
-  thead.appendChild(tr);
-  
-  table.appendChild(thead);
-  
+<!--      
   var tbody = document.createElement('tbody');
   tbody.setAttribute("height",100);
   var div = document.createElement('div');

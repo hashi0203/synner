@@ -42,56 +42,61 @@ function draw_chart(canvas) {
 };
 
 
-for (var i = 0; i < 2; i++) {
-  var td_top = document.createElement('td');
-  var table = document.createElement('table');
-  var thead = document.createElement('thead');
-  var tr = document.createElement('tr');
-  var th = document.createElement('th');
-  var input = document.createElement('input');
-  input.setAttribute("type","text");
-  input.setAttribute("id", "title"+i);
-  input.setAttribute("value", "Column"+i);
-  th.appendChild(input);
-  tr.appendChild(th);
-  thead.appendChild(tr);
+// for (var i = 0; i < 2; i++) {
+//   var td_top = document.createElement('td');
+//   var table = document.createElement('table');
+//   var thead = document.createElement('thead');
+//   var tr = document.createElement('tr');
+//   var th = document.createElement('th');
+//   var input = document.createElement('input');
+//   input.setAttribute("type","text");
+//   input.setAttribute("id", "title"+i);
+//   input.setAttribute("value", "Column"+i);
+//   th.appendChild(input);
+//   tr.appendChild(th);
+//   thead.appendChild(tr);
   
-  var tr = document.createElement('tr');
-  var td = document.createElement('td');
-  var div = document.createElement('div');
-  div.setAttribute("class","chart-container");
-  var canvas = document.createElement('canvas');
-  canvas.setAttribute("id","canvas"+i);
-  div.appendChild(canvas);
-  td.appendChild(div);
-  tr.appendChild(td);  
-  thead.appendChild(tr);
+//   var tr = document.createElement('tr');
+//   var td = document.createElement('td');
+//   var div = document.createElement('div');
+//   div.setAttribute("class","chart-container");
+//   var canvas = document.createElement('canvas');
+//   canvas.setAttribute("id","canvas"+i);
+//   div.appendChild(canvas);
+//   td.appendChild(div);
+//   tr.appendChild(td);  
+//   thead.appendChild(tr);
   
-  var tr = document.createElement('tr');
-  var td = document.createElement('td');
-  td.textContent = "Depends on";
-  tr.appendChild(td);  
-  thead.appendChild(tr);
+//   var tr = document.createElement('tr');
+//   var td = document.createElement('td');
+//   td.textContent = "Depends on";
+//   tr.appendChild(td);  
+//   thead.appendChild(tr);
   
-  table.appendChild(thead);
+//   table.appendChild(thead);
   
-  var tbody = document.createElement('tbody');
-  tbody.setAttribute("height",100);
-  var div = document.createElement('div');
-  div.setAttribute("class","data-scroll");
-  for (var j = 0; j < 10; j++) {
-    var tr = document.createElement('tr');
-    var td = document.createElement('td');
-    td.textContent = j;
-    tr.appendChild(td);  
-    div.appendChild(tr);
-  }
-  tbody.appendChild(div);
-  table.appendChild(tbody);
+//   var tbody = document.createElement('tbody');
+//   tbody.setAttribute("height",100);
+//   var div = document.createElement('div');
+//   div.setAttribute("class","data-scroll");
+//   for (var j = 0; j < 10; j++) {
+//     var tr = document.createElement('tr');
+//     var td = document.createElement('td');
+//     td.textContent = j;
+//     tr.appendChild(td);  
+//     div.appendChild(tr);
+//   }
+//   tbody.appendChild(div);
+//   table.appendChild(tbody);
   
-  td_top.append(table);
-  document.getElementById('data-tables').appendChild(td_top); 
-  draw_chart(canvas);
+//   td_top.append(table);
+//   document.getElementById('data-tables').appendChild(td_top); 
+  // draw_chart(canvas);
+// }
+
+var canvases = document.getElementsByTagName('canvas');
+for (var i = 0; i < canvases.length; i++) {
+  draw_chart(canvases[i]);
 }
 
 data_idx = 0;
