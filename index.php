@@ -16,6 +16,12 @@
     <script src="/script.js" defer></script>
   </head>  
   <body>
+    <?php
+    $data_number = 1000;
+    $col = 2;
+    ?>
+    
+    
     <header style="color:white;">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -26,7 +32,7 @@
           </ul>
           <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item">
-              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" id="data-number" value="1000">
+              <span style="padding-right:10px;opacity:0.5;">Dataset Size:</span><input type="number" value="<?=$data_number?>">
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Download Data</a>
@@ -47,9 +53,7 @@
         </div>
       </nav>
     </header>
-    
-    <?php $col = 2; ?>
-    
+      
     <table border="1" style="border-collapse: collapse">
 <!--       <tr id="data-tables"> -->
       <thead>
@@ -80,42 +84,20 @@
             <td>Depends on: </td>
           "; } ?>
         </tr>
-        <tr>
-          <?php
-          for ($i=0; $i<$col; $i++) {
-          echo "
-            <td>Depends on: </td>
-          "; } ?>
-        </tr>
       </thead>
       <tbody height=100>
         <div class="data-scroll">
-          for($i=0;)
+          <?php
+          for($i=0; $i < $data_number; $i++){
+            echo "
+              <tr>
+                <td>".$i."</td>
+              </tr>
+          "; } ?>
         </div>
       </tbody>
       
     </table>
-    
-    
-<!--      
-  var tbody = document.createElement('tbody');
-  tbody.setAttribute("height",100);
-  var div = document.createElement('div');
-  div.setAttribute("class","data-scroll");
-  for (var j = 0; j < 10; j++) {
-    var tr = document.createElement('tr');
-    var td = document.createElement('td');
-    td.textContent = j;
-    tr.appendChild(td);  
-    div.appendChild(tr);
-  }
-  tbody.appendChild(div);
-  table.appendChild(tbody);
-  
-  td_top.append(table);
-  document.getElementById('data-tables').appendChild(td_top); 
-  draw_chart(canvas);
-} -->
     
     <div id="data-detail" style="width: 100%; border-top: solid 2px black;">
       <table>
