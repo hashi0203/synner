@@ -160,6 +160,10 @@ function fill_data_detail_content() {
   
 };
 
+function delete_dependency(obj) {
+  console.log(obj.getAttribute('class'));
+}
+
 function init() {
   data_number = 1000;
   
