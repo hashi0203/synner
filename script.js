@@ -10,7 +10,7 @@ function toCountDict(array){
   var keys = Object.keys(dict);
   var values = [];
   for (var i = 0; i < keys.length; i++) {
-    values.push(dict[keys[i]]);
+    values.push(dict[keys[i]]*100/data_number);
   }
   return [keys,values];
 };
@@ -22,7 +22,7 @@ function draw_chart(canvas,data) {
     labels: data[0],
     datasets: [
       {
-        label: '数量',
+        label: 'Number(%)',
         data: data[1],
         hoverBackgroundColor: "rgba(255,99,132,0.3)",
         backgroundColor: "rgba(36,22,236,1)"
