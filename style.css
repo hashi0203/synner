@@ -11,30 +11,30 @@ h1 {
 }
 
 
-.chart-container {
+.chart_container {
   position: relative;
   height:100px;
   width: 200px;
 }
 
-.size-fix {
+.size_fix {
   width: 100%;
 }
 
-#data-list-scroll {
+#data_list_scroll {
   width:100%;
   overflow-x:scroll;
 }
 
-#data-list.layout-fixed {
+#data_list.layout-fixed {
     table-layout: fixed;
 }
 
-#data-list {
+#data_list {
   maxwidth: 100%;
 }
 
-.data-scroll {
+.data_scroll {
   height:200px;
   overflow-y:auto;
 }

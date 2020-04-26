@@ -66,7 +66,7 @@ function fill_titles() {
   for (var i = 0; i < dim; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+i],['class','size-fix'],['value','Column'+i]]);
+    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value','Column'+i]]);
     app_child([input,th,document.getElementById("titles")]);
   }
 };
@@ -76,7 +76,7 @@ function fill_canvases() {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
-    add_atts(div,[['class','chart-container']]);
+    add_atts(div,[['class','chart_container']]);
     var canvas = new_elem('canvas');
     add_atts(canvas,[['id','canvas'+i]]);
     app_child([canvas,div,td,document.getElementById("canvases")]);
@@ -105,10 +105,10 @@ function fill_datas() {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
-    add_atts(div,[['class','data-scroll']]);
+    add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size-fix data'+i],['value',j]]);
+      add_atts(input,[['type','text'],['class','size_fix data'+i],['value',j]]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -117,11 +117,12 @@ function fill_datas() {
 
 function fill_data_detail_title(idx) {
   data_idx = idx;
+  document.getElementById('data_detail_title').textContent = document.getElementById('title'+data_idx).value;
 };
 
-var th = document.createElement('th');
-th.textContent = document.getElementById('title'+data_idx).value;
-document.getElementById('data-detail-title').appendChild(th);
+function fill_data_detail_content() {
+  
+};
 
 var table = document.createElement('table');
 var tr = document.createElement('tr');
@@ -166,19 +167,21 @@ td.appendChild(div);
 
 tr.appendChild(td);
 table.appendChild(tr);
-document.getElementById('data-detail-content').appendChild(table);
+document.getElementById('data_detail_content').appendChild(table);
 
 
 function init() {
   dim = 3;
-  data_idx = 0;
   
   fill_titles();
   fill_canvases();
   fill_dependencies();
   fill_datas();
+  
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
     draw_chart(canvases[i]);
   }
+  
+  fill_data_detail_title(0);
 }
