@@ -114,7 +114,7 @@ function fill_canvases() {
 function fill_dependencies() {
   for (var i = 0; i < json.length; i++) {
     var td = new_elem('td');
-    add_atts(td,[['width',"200"]]);
+    add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
     var span = new_elem('span');
     add_atts(span,[['style','font-size: 15px;']])
     span.textContent = 'Depends on: ';
@@ -131,7 +131,7 @@ function fill_dependencies() {
       add_atts(span,[['style','font-size: 12px; padding-right: 5px']])
       app_child([span,div]);
       var a = new_elem('a');
-      add_atts(a,[['class','batsu'],['id','d'+i+'-'+j],['onclick','delete_dependency(this.id);']]);
+      add_atts(a,[['class','batsu'],['id','d'+i+'_'+j],['onclick','delete_dependency(this.id);']]);
       a.textContent = '✕';
       app_child([a,div,td]);
     }
@@ -207,13 +207,11 @@ function fill_data_detail_content() {
 
 function delete_dependency(obj) {
   console.log(obj);
-  var idx = obj.replace('d','').split('-');
+  var idx = obj.replace('d','').split('_');
   json[idx[0]]['dependency'] = json[idx[0]]['dependency'].splice(idx[1],idx[1]);
   console.log(json);
-  
-  var obj = document.getElementById(obj);
-  var obj_parent = obj.parentNode;
-	obj_parent.removeChild(obj);
+  console.log(obj);
+	document.getElementById('dependency_content'+idx[0]).removeChild(document.getElementById(obj).parentNode);
 }
 
 function init() {
