@@ -207,7 +207,13 @@ function fill_data_detail_content() {
 
 function delete_dependency(obj) {
   console.log(obj);
-  obj = obj.split('-');
+  var idx = obj.replace('d','').split('-');
+  json[idx[0]]['dependency'] = json[idx[0]]['dependency'].splice(idx[1],idx[1]);
+  console.log(json);
+  
+  var obj = document.getElementById(obj);
+  var obj_parent = obj.parentNode;
+	obj_parent.removeChild(obj);
 }
 
 function init() {
