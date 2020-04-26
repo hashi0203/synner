@@ -39,6 +39,12 @@ h1 {
   overflow-y:auto;
 }
 
+.del_button {
+  background-color:gray;
+  border-radius: 20px;
+  display: inline-block;
+}
+
 .batsu{
     font-size: 100%;/*ボタンの大きさ*/
     font-weight: bold;

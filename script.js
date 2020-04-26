@@ -92,18 +92,22 @@ function fill_dependencies() {
     add_atts(td,[['width',"200"]]);
     var span = new_elem('span');
     span.textContent = 'Depends on: ';
-    app_child([span,document.getElementById("dependencies")]);
-    for (var j = 0; j < json[i])
-    var div = new_elem('div');
-    var span = new_elem('span');
-    span.textContent = 
+    app_child([span,td]);
+    for (var j = 0; j < json[i]["dependency"].length; j++) {
+      var div = new_elem('div');
+      add_atts(div,[['class','del_button']]);
+      var span = new_elem('span');
+      span.textContent = json[i]["dependency"][j];
+      app_child([span,div]);
+      var a = new_elem('a');
+      add_atts(a,[['class','batsu'],['id','d'+i+'-'+j],['onclick','delete_dependency(this.id);']]);
+      a.textContent = '✕';
+      app_child([a,div,td]);
+    }
+    app_child([td,document.getElementById("dependencies")]);
   }
 };
 
-
-<div style="background-color:gray; border-radius: 20px">
-      del<a class="batsu" id="aaaaa" onclick="delete_dependency(this.id);">✕</a>
-    </div>
 
 function fill_datas() {
   data_number = Number(document.getElementById("data_number").value);
