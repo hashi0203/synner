@@ -41,12 +41,12 @@ h1 {
 
 .del_button {
   background-color: rgb(10,10,10,0.2);
-  border-radius: 10px;
+  border-radius: 7px;
   display: inline-block;
 }
 
 .batsu{
-    font-size: 100%;/*ボタンの大きさ*/
+    font-size: 80%;/*ボタンの大きさ*/
     font-weight: bold;
     border: 1px solid #999;
     color: #999 !important;

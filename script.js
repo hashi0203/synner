@@ -128,7 +128,7 @@ function fill_dependencies() {
         if (json.id == id) return true;
       });
       span.textContent = dep[0]["name"];
-      add_atts(span,[['style','font-size: 15px;']])
+      add_atts(span,[['style','font-size: 12px; padding-right: 5px']])
       app_child([span,div]);
       var a = new_elem('a');
       add_atts(a,[['class','batsu'],['id','d'+i+'-'+j],['onclick','delete_dependency(this.id);']]);
@@ -207,6 +207,7 @@ function fill_data_detail_content() {
 
 function delete_dependency(obj) {
   console.log(obj);
+  obj = obj.split('-');
 }
 
 function init() {
