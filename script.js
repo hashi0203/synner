@@ -1,5 +1,6 @@
 var dim;
 var data_number;
+var data_idx;
 
 function draw_chart(canvas) {
   //「月別データ」
@@ -47,19 +48,19 @@ function draw_chart(canvas) {
 
 function new_elem(e) {
   return document.createElement(e);
-}
+};
 
 function add_atts(e,atts){
   for(var i = 0; i < atts.length; i++) {
     e.setAttribute(atts[i][0],atts[i][1]);
   }
-}
+};
 
 function app_child(cs){
   for(var i = 0; i < cs.length - 1; i++) {
     cs[i+1].appendChild(cs[i]);
   }
-}
+};
 
 function fill_titles() {
   for (var i = 0; i < dim; i++) {
@@ -68,7 +69,7 @@ function fill_titles() {
     add_atts(input,[['type','text'],['id','title'+i],['class','size-fix'],['value','Column'+i]]);
     app_child([input,th,document.getElementById("titles")]);
   }
-}
+};
 
 function fill_canvases() {
   for (var i = 0; i < dim; i++) {
@@ -80,16 +81,16 @@ function fill_canvases() {
     add_atts(canvas,[['id','canvas'+i]]);
     app_child([canvas,div,td,document.getElementById("canvases")]);
   }
-}
+};
 
 function fill_dependencies() {
   for (var i = 0; i < dim; i++) {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     td.textContent = 'Depends on: ';
-    app_child([td,document.getElementById("dependencies"))]);
+    app_child([td,document.getElementById("dependencies")]);
   }
-}
+};
 
 function fill_datas() {
   data_number = Number(document.getElementById("data_number").value);
@@ -102,80 +103,22 @@ function fill_datas() {
   }
   for (var i = 0; i < dim; i++) {
     var td = new_elem('td');
+    add_atts(td,[['width',"200"]]);
     var div = new_elem('div');
+    add_atts(div,[['class','data-scroll']]);
     for (var j = 0; j < data_number; j++) {
-      var input = e  
+      var input = new_elem('input');
+      add_atts(input,[['type','text'],['class','size-fix data'+i],['value',j]]);
+      app_child([input,div]);
     }
+    app_child([div,td,document.getElementById("datas")]);
   }
-}
+};
 
-<?php
-            for ($i=0; $i<$col; $i++){
-              echo "
-              <td width=200>
-              <div class='data-scroll'>
-              ";
-              for($j=0; $j < $data_number; $j++){
-                echo "
-                  <input type='text' class='size-fix data".$i."' value=".$j.">
-                "; }
-              echo "</td>
-            "; } ?>
-          </div>
+function fill_data_detail_title(idx) {
+  data_idx = idx;
+};
 
-// for (var i = 0; i < 2; i++) {
-//   var td_top = document.createElement('td');
-//   var table = document.createElement('table');
-//   var thead = document.createElement('thead');
-//   var tr = document.createElement('tr');
-//   var th = document.createElement('th');
-//   var input = document.createElement('input');
-//   input.setAttribute("type","text");
-//   input.setAttribute("id", "title"+i);
-//   input.setAttribute("value", "Column"+i);
-//   th.appendChild(input);
-//   tr.appendChild(th);
-//   thead.appendChild(tr);
-  
-//   var tr = document.createElement('tr');
-//   var td = document.createElement('td');
-//   var div = document.createElement('div');
-//   div.setAttribute("class","chart-container");
-//   var canvas = document.createElement('canvas');
-//   canvas.setAttribute("id","canvas"+i);
-//   div.appendChild(canvas);
-//   td.appendChild(div);
-//   tr.appendChild(td);  
-//   thead.appendChild(tr);
-  
-//   var tr = document.createElement('tr');
-//   var td = document.createElement('td');
-//   td.textContent = "Depends on";
-//   tr.appendChild(td);  
-//   thead.appendChild(tr);
-  
-//   table.appendChild(thead);
-  
-//   var tbody = document.createElement('tbody');
-//   tbody.setAttribute("height",100);
-//   var div = document.createElement('div');
-//   div.setAttribute("class","data-scroll");
-//   for (var j = 0; j < 10; j++) {
-//     var tr = document.createElement('tr');
-//     var td = document.createElement('td');
-//     td.textContent = j;
-//     tr.appendChild(td);  
-//     div.appendChild(tr);
-//   }
-//   tbody.appendChild(div);
-//   table.appendChild(tbody);
-  
-//   td_top.append(table);
-//   document.getElementById('data-tables').appendChild(td_top); 
-  // draw_chart(canvas);
-// }
-
-data_idx = 0;
 var th = document.createElement('th');
 th.textContent = document.getElementById('title'+data_idx).value;
 document.getElementById('data-detail-title').appendChild(th);
@@ -228,9 +171,12 @@ document.getElementById('data-detail-content').appendChild(table);
 
 function init() {
   dim = 3;
+  data_idx = 0;
   
   fill_titles();
   fill_canvases();
+  fill_dependencies();
+  fill_datas();
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
     draw_chart(canvases[i]);
