@@ -90,14 +90,15 @@
           <tr>
             <?php
             for ($i=0; $i<$col; $i++){
+              echo "
               <td width=200>
-              <div class="data-scroll">
-                <?php
-                for($i=0; $i < $data_number; $i++){
-                  echo "
-                    <input type='text' class='size-fix' value=".$i.">
-                  ""
-            </td>
+              <div class='data-scroll'>
+              ";
+              for($j=0; $j < $data_number; $j++){
+                echo "
+                  <input type='text' class='size-fix data".$i."' value=".$j.">
+                "; }
+              echo "</td>
             "; } ?>
           </div>
           </tr>
