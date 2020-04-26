@@ -25,3 +25,7 @@ input {
   height:100px;
   overflow-y:auto;
 }
+
+#data-list.layout-fixed {
+    table-layout: fixed;
+}

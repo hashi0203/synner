@@ -54,7 +54,7 @@
       </nav>
     </header>
       
-    <table border="1" style="border-collapse: collapse">
+    <table id="data-list" border="1" style="border-collapse: collapse">
 <!--       <tr id="data-tables"> -->
       <thead>
         <tr>
@@ -86,15 +86,17 @@
         </tr>
       </thead>
       <tbody height=100>
-        <div class="data-scroll">
-          <?php
-          for($i=0; $i < $data_number; $i++){
-            echo "
-              <tr>
-                <td>".$i."</td>
-              </tr>
-          "; } ?>
+        <tr>
+          <td>
+            <div class="data-scroll">
+              <?php
+              for($i=0; $i < $data_number; $i++){
+                echo "
+                  <input type='text' value=".$i.">
+              "; } ?>
+          </td>
         </div>
+        </tr>
       </tbody>
       
     </table>
