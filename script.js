@@ -90,10 +90,20 @@ function fill_dependencies() {
   for (var i = 0; i < json.length; i++) {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
-    td.textContent = 'Depends on: ';
-    app_child([td,document.getElementById("dependencies")]);
+    var span = new_elem('span');
+    span.textContent = 'Depends on: ';
+    app_child([span,document.getElementById("dependencies")]);
+    for (var j = 0; j < json[i])
+    var div = new_elem('div');
+    var span = new_elem('span');
+    span.textContent = 
   }
 };
+
+
+<div style="background-color:gray; border-radius: 20px">
+      del<a class="batsu" id="aaaaa" onclick="delete_dependency(this.id);">✕</a>
+    </div>
 
 function fill_datas() {
   data_number = Number(document.getElementById("data_number").value);
@@ -161,7 +171,7 @@ function fill_data_detail_content() {
 };
 
 function delete_dependency(obj) {
-  console.log(obj.getAttribute('class'));
+  console.log(obj);
 }
 
 function init() {
