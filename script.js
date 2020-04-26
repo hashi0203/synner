@@ -91,6 +91,7 @@ function fill_dependencies() {
     var td = new_elem('td');
     add_atts(td,[['width',"200"]]);
     var span = new_elem('span');
+    add_atts(span,[['style','font-size: 15px;']])
     span.textContent = 'Depends on: ';
     app_child([span,td]);
     for (var j = 0; j < json[i]["dependency"].length; j++) {
@@ -102,7 +103,7 @@ function fill_dependencies() {
         if (json.id == id) return true;
       });
       span.textContent = dep[0]["name"];
-      add_atts(span,[['style','display:inline;']])
+      add_atts(span,[['style','font-size: 15px;']])
       app_child([span,div]);
       var a = new_elem('a');
       add_atts(a,[['class','batsu'],['id','d'+i+'-'+j],['onclick','delete_dependency(this.id);']]);
