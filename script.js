@@ -70,7 +70,7 @@ function fill_titles() {
   for (var i = 0; i < dim; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value','Column'+i]]);
+    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value',json[i]["name"]]]);
     app_child([input,th,document.getElementById("titles")]);
   }
 };
@@ -112,7 +112,7 @@ function fill_datas() {
     add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix data'+i],['value',j]]);
+      add_atts(input,[['type','text'],['class','size_fix data'+i],['value',json[i]["data"][j]]]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -163,19 +163,45 @@ function fill_data_detail_content() {
 
 function init() {
   dim = 3;
+  data_number = 1000;
   
-  var 
-  for 
-  Math.random().toString(32).substring(2)
+  var name = [];
+  for (var i = 0; i < data_number; i++) {  
+    name.push(Math.random().toString(32).substring(2));
+  }
+  var surname = [];
+  for (var i = 0; i < data_number; i++) {  
+    surname.push(Math.random().toString(32).substring(2));
+  }
+  var sex = [];
+  for (var i = 0; i < data_number; i++) {
+    if (Math.random() < 0.5) {
+      surname.push('M');
+    } else {
+      surname.push('F');
+    }
+  }
+  var age = [];
+  for (var i = 0; i < data_number; i++) {
+    age.push(Math.floor(Math.random()*100));
+  }
   
   json = [
     { "name": "Name",
       "dependency": [],
-       "data": [1,2,3]
+       "data": name
+    },
+    { "name": "Surname",
+      "dependency": [],
+       "data": surname
+    },
+    { "name": "Sex",
+      "dependency": [],
+       "data": sex
     },
     { "name": "Age",
       "dependency": [],
-       "data": [1,2,3]
+       "data": age
     },
   ];
   console.log(json);
