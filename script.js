@@ -163,19 +163,19 @@ function add_data(i) {
 };
 
 function fill_items(item) {
-  if (item == 'title') {
+  if (item == 'titles') {
     for (var i = 0; i < json.length; i++) {
       add_title(i);
     }
-  } else if (item == 'canvas') {
+  } else if (item == 'canvases') {
     for (var i = 0; i < json.length; i++) {
       add_canvas(i);
     }
-  } else if (item == 'dependency') {
+  } else if (item == 'dependencies') {
     for (var i = 0; i < json.length; i++) {
       add_dependency(i);
     }
-  } else if (item == 'data') {
+  } else if (item == 'datas') {
     for (var i = 0; i < json.length; i++) {
       add_data(i);
     }
@@ -333,19 +333,26 @@ function replace_all_children(item) {
 };
 
 function delete_field(i) {
-  json = json.splice(i,1);
+  console.log(json);
+  console.log(i);
+  json.splice(i,1);
+  console.log(json);
   if (i == data_idx) {
     data_idx = 0;
   } else if (i < data_idx) {
     data_idx--;
   }
-  for (var item in items) {
-    replace_all_children(item);
+  for (var i = 0; i < items.length; i++) {
+    replace_all_children(items[i]);
+  }
+  var canvases = document.getElementsByTagName('canvas');
+  for (var i = 0; i < canvases.length; i++) {
+    draw_chart(canvases[i], json[i]["data"],i);
   }
 };
 
 function delete_dependency(i,j) {
-  json[i]['dependency'] = json[i]['dependency'].splice(j,1);
+  json[i]['dependency'].splice(j,1);
 	document.getElementById('dependency_content'+i).removeChild(document.getElementById('d'+i+'_'+j).parentNode);
 };
 
@@ -370,7 +377,6 @@ function init() {
     data_number = Math.round(data_number);
     document.getElementById("data_number").value = data_number;
   }
-  // data_number = 1000;
   
   var name = [];
   for (var i = 0; i < data_number; i++) {  
@@ -428,7 +434,6 @@ function init() {
   max_id = json.length;
   
   for (var i = 0; i < items.length; i++) {
-    
     fill_items(items[i]);
   }
   
