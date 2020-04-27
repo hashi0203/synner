@@ -70,11 +70,18 @@ table.layout-fixed {
   float:left;
 }
 
+#described1 table tr th {
+  width: 50%;
+}
+
 .y_scroll {
   max-height: 200px;
   overflow-y: scroll;
 }
 
+.y_scroll tr td {
+  width: 50%;
+}
 
 .del_button {
   background-color: rgb(10,10,10,0.2);
