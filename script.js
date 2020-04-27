@@ -150,17 +150,22 @@ function add_dependency(i) {
   var div2 = new_elem('div');
   add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
   for (var j = 0; j < json.length; j++) {
-    if (i == j) {
+    if (i == j) { // 自分自身には依存できない
       continue;
     }
-    jid = json[j]['id'];
-    if (json[i]['dependency'].some( function(value) { return value == jid; }))
+    var jid = json[j]['id'];
+    if (json[i]['dependency'].some( function(value) { return value == jid; })) { // すでに依存関係として定義されている
+      continue;
+    }
+    var iid = json[i]['id'];
+    if (json[j]['dependency'].some( function(value) { return value == iid; })) { // 相手に依存されている
+      continue;
+    }
     var a = new_elem('a');
     add_atts(a,[['class','dropdown-item point']]);
     a.textContent = json[j]['name'];
     app_child([a,div2]);
   }
-
   app_child([div2,div, td,document.getElementById("dependencies")]);
 };
 
