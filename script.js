@@ -202,36 +202,46 @@ function make_data_detail_content() {
   }
   app_child([div,td,tr]);
   
-  var td = new_elem('td');
-  add_atts(td,[['id','domain']]);
-  var div = new_elem('div');
-  div.textContent = 'Domain:';
-  app_child([div,td]);
-  var div = new_elem('div');
-  add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
-  var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
-  for (var i=0; i<items.length; i++) {
-    var label = new_elem('label');
-    add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary']]);
-    var input = new_elem('input');
-    add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
-    input.required = true;
-    app_child([input,label]);
-    var span = new_elem('span');
-    span.textContent = items[i];
-    app_child([span,label,div]);
-  }
-  app_child([div,td]);
+  // var td = new_elem('td');
+  // add_atts(td,[['id','described0'],['class','described']]);
+  // var div = new_elem('div');
+  // div.textContent = 'Domain:';
+  // app_child([div,td]);
+  // var div = new_elem('div');
+  // add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  // var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
+  // for (var i=0; i<items.length; i++) {
+  //   var label = new_elem('label');
+  //   add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary']]);
+  //   var input = new_elem('input');
+  //   add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
+  //   input.required = true;
+  //   app_child([input,label]);
+  //   var span = new_elem('span');
+  //   span.textContent = items[i];
+  //   app_child([span,label,div]);
+  // }
+  // app_child([div,td]);
+  // var div = new_elem('div');
+  // add_atts(div,[['class','dist_chart']]);
+  // var canvas = new_elem('canvas');
+  // add_atts(canvas,[['id','dist_chart'+data_idx]]);
+  // app_child([canvas,div,td,tr]);
   
-  var div = new_elem('div');
-  add_atts(div,[['class','dist_chart']]);
-  var canvas = new_elem('canvas');
-  add_atts(canvas,[['id','dist_chart'+data_idx]]);
-  app_child([canvas,div,td,tr]);
+  var td = new_elem('td');
+  add_atts(td,[['id','described1'],['class','described']]);
+  var table = new_elem('table');
+  var tr = new_elem('tr');
+  var th = new_elem('th');
+  th.textContent = 'Value';
+  app_child([th,tr]);
+  var th = new_elem('th');
+  th.textContent = 'Distribution';
+  app_child([th,tr,table]);
+  var tr = new_elem('tr');
+  
   
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
-  
-  
 };
 
 function fill_data_detail_content() {
