@@ -184,7 +184,7 @@ function fill_items(item) {
 
 function fill_data_detail_title(idx) {
   data_idx = idx;
-  document.getElementById('data_detail_title').textContent = document.getElementById('title'+data_idx).value;
+  document.getElementById('data_detail_title').textContent = json[data_idx]['name'];
 };
 
 function make_data_detail_content() {
@@ -319,10 +319,11 @@ function add_field() {
   max_id++;
   json.push({"id": max_id, "name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
   
-  add_title(max_id);
-  add_canvas(max_id);
-  add_dependency(max_id);
-  add_data(max_id);
+  var idx = json.length-1;
+  add_title(idx);
+  add_canvas(idx);
+  add_dependency(idx);
+  add_data(idx);
 };
 
 function replace_all_children(item) {
@@ -333,12 +334,11 @@ function replace_all_children(item) {
 };
 
 function delete_field(i) {
-  console.log(json);
-  console.log(i);
   json.splice(i,1);
-  console.log(json);
   if (i == data_idx) {
     data_idx = 0;
+    fill_data_detail_title(data_idx);
+    fill_data_detail_content();
   } else if (i < data_idx) {
     data_idx--;
   }
@@ -347,6 +347,7 @@ function delete_field(i) {
   }
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
+    console.log(i);
     draw_chart(canvases[i], json[i]["data"],i);
   }
 };
@@ -437,9 +438,15 @@ function init() {
     fill_items(items[i]);
   }
   
-  var canvases = document.getElementsByTagName('canvas');
-  for (var i = 0; i < canvases.length; i++) {
-    draw_chart(canvases[i], json[i]["data"],i);
+  var i = 0;
+  while (true) {
+    var canvas = document.getElementById('canvas'+i);
+    if (canvas) {
+      draw_chart(canvas, json[i]["data"],i);
+      i++;
+    } else {
+      break;
+    }
   }
   
   fill_data_detail_title(0);
