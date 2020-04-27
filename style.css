@@ -52,10 +52,14 @@ table.layout-fixed {
   text-align: center;
   width: 200px;
   height: 230px;
-  float: left
 }
+
 #domain {
   padding-left: 2%;
+}
+
+#domain .btn-group-vertical {
+  float:left;
 }
 
 .del_button {

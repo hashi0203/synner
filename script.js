@@ -234,6 +234,12 @@ function fill_data_detail_content() {
     span.textContent = items[i];
     app_child([span,label,div]);
   }
+  app_child([div,td]);
+  
+  var div = new_elem('div');
+  add_atts(div,[['class','dist_chart']]);
+  var canvas = new_elem('canvas');
+  add_atts
   app_child([div,td,tr]);
   
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
