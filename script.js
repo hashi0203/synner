@@ -202,31 +202,31 @@ function make_data_detail_content() {
   }
   app_child([div,td,tr]);
   
-  // var td = new_elem('td');
-  // add_atts(td,[['id','described0'],['class','described']]);
-  // var div = new_elem('div');
-  // div.textContent = 'Domain:';
-  // app_child([div,td]);
-  // var div = new_elem('div');
-  // add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
-  // var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
-  // for (var i=0; i<items.length; i++) {
-  //   var label = new_elem('label');
-  //   add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary']]);
-  //   var input = new_elem('input');
-  //   add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
-  //   input.required = true;
-  //   app_child([input,label]);
-  //   var span = new_elem('span');
-  //   span.textContent = items[i];
-  //   app_child([span,label,div]);
-  // }
-  // app_child([div,td]);
-  // var div = new_elem('div');
-  // add_atts(div,[['class','dist_chart']]);
-  // var canvas = new_elem('canvas');
-  // add_atts(canvas,[['id','dist_chart'+data_idx]]);
-  // app_child([canvas,div,td,tr]);
+  var td = new_elem('td');
+  add_atts(td,[['id','described0'],['class','described']]);
+  var div = new_elem('div');
+  div.textContent = 'Domain:';
+  app_child([div,td]);
+  var div = new_elem('div');
+  add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
+  for (var i=0; i<items.length; i++) {
+    var label = new_elem('label');
+    add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary']]);
+    var input = new_elem('input');
+    add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
+    input.required = true;
+    app_child([input,label]);
+    var span = new_elem('span');
+    span.textContent = items[i];
+    app_child([span,label,div]);
+  }
+  app_child([div,td]);
+  var div = new_elem('div');
+  add_atts(div,[['class','dist_chart']]);
+  var canvas = new_elem('canvas');
+  add_atts(canvas,[['id','dist_chart'+data_idx]]);
+  app_child([canvas,div,td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','described1'],['class','described']]);
@@ -260,10 +260,20 @@ function make_data_detail_content() {
 };
 
 function fill_data_detail_content() {
-  add_atts(document.getElementById('description'+json[data_idx]['description']),[['class','center btn btn-outline-primary active']]);
-  add_atts(document.getElementById('domain'+json[data_idx]['domain']),[['class','center btn btn-outline-primary active']]);
-  draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
-  
+  var did = json[data_idx]['description'];
+  add_atts(document.getElementById('description'+did),[['class','center btn btn-outline-primary active']]);
+  if (did == 0) {
+    add_atts(document.getElementById('domain'+json[data_idx]['domain']),[['class','center btn btn-outline-primary active']]);
+    draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
+  } else if (did == 1) {
+    
+  }
+  var descs = document.getElementsByClassName('described');
+  for (var i = 0; i < descs.length; i++) {
+    if (i != did) {
+      document.getElementById('described'+did).style.display = 'none';
+    }
+  }
 }
 
 function delete_dependency(obj) {
