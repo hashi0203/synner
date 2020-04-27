@@ -142,7 +142,23 @@ function add_dependency_col(i) {
     a.textContent = '✕';
     app_child([a,div,td]);
   }
-  if ()
+  var avail_dep = [];
+  for (var j = 0; j < json.length; j++) {
+    if (i == j) { // 自分自身には依存できない
+      continue;
+    }
+    var jid = json[j]['id'];
+    if (json[i]['dependency'].some( function(value) { return value == jid; })) { // すでに依存関係として定義されている
+      continue;
+    }
+    var iid = json[i]['id'];
+    if (json[j]['dependency'].some( function(value) { return value == iid; })) { // 相手に依存されている
+      continue;
+    }
+    avail_dep.push(j);
+  }
+  
+  if (avail_dep.length >= 1) {
     var div = new_elem('div');
     add_atts(div,[['class','dropdown']]);
     var icon = new_elem('i');
@@ -150,24 +166,16 @@ function add_dependency_col(i) {
     app_child([icon,div]);
     var div2 = new_elem('div');
     add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
-    for (var j = 0; j < json.length; j++) {
-      if (i == j) { // 自分自身には依存できない
-        continue;
-      }
-      var jid = json[j]['id'];
-      if (json[i]['dependency'].some( function(value) { return value == jid; })) { // すでに依存関係として定義されている
-        continue;
-      }
-      var iid = json[i]['id'];
-      if (json[j]['dependency'].some( function(value) { return value == iid; })) { // 相手に依存されている
-        continue;
-      }
+    for (var j = 0; j < avail_dep.length; j++) {
       var a = new_elem('a');
-      add_atts(a,[['class','dropdown-item point'],['onclick','add_dependency('+i+','+j+');']]);
-      a.textContent = json[j]['name'];
+      add_atts(a,[['class','dropdown-item point'],['onclick','add_dependency('+i+','+avail_dep[j]+');']]);
+      a.textContent = json[avail_dep[j]]['name'];
       app_child([a,div2]);
     }
     app_child([div2,div, td,document.getElementById("dependencies")]);
+  } else {
+    app_child([td,document.getElementById("dependencies")]);
+  }
 };
 
 function add_data_col(i) {
@@ -389,7 +397,7 @@ function add_dependency(i,j) {
 
 function delete_dependency(i,j) {
   json[i]['dependency'].splice(j,1);
-	document.getElementById('dependency_content'+i).removeChild(document.getElementById('d'+i+'_'+j).parentNode);
+  replace_all_children('dependencies');
 };
 
 function update_canvas(i) {
