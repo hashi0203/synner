@@ -95,7 +95,7 @@ function fill_titles() {
   for (var i = 0; i < json.length; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+json[i]["id"]],['class','size_fix'],['value',json[i]["name"]]]);
+    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value',json[i]["name"]]]);
     app_child([input,th,document.getElementById("titles")]);
   }
 };
@@ -107,7 +107,7 @@ function fill_canvases() {
     var div = new_elem('div');
     add_atts(div,[['class','chart_container']]);
     var canvas = new_elem('canvas');
-    add_atts(canvas,[['id','canvas'+json[i]["id"]]]);
+    add_atts(canvas,[['id','canvas'+i]]);
     app_child([canvas,div,td,document.getElementById("canvases")]);
   }
 };
@@ -157,7 +157,7 @@ function fill_datas() {
     add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix data'+json[i]["id"]],['value',json[i]["data"][j]]]);
+      add_atts(input,[['type','text'],['class','size_fix data'+i+'_'+j],['value',json[i]["data"][j]],['onclick','update_data(this.id);']]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -207,13 +207,17 @@ function fill_data_detail_content() {
 };
 
 function delete_dependency(obj) {
-  console.log(obj);
   var idx = obj.replace('d','').split('_');
   json[idx[0]]['dependency'] = json[idx[0]]['dependency'].splice(idx[1],idx[1]);
-  console.log(json);
-  console.log(obj);
 	document.getElementById('dependency_content'+idx[0]).removeChild(document.getElementById(obj).parentNode);
-}
+};
+
+function update_data(obj) {
+  var idx = obj.replace('data','').split('_');
+  json[idx[0]]['data'][idx[1]] = document.getElementById(obj).value;
+  var canvas = document.getElementsById('canvas'+idx[0]);
+  draw_chart(canvas, json[idx[0]]["data"]);
+};
 
 function init() {
   data_number = 1000;
@@ -243,22 +247,22 @@ function init() {
     { "id": 0,
       "name": "Name",
       "dependency": [2],
-       "data": name
+      "data": name
     },
     { "id": 1,
       "name": "Surname",
       "dependency": [],
-       "data": surname
+      "data": surname
     },
     { "id": 2,
       "name": "Sex",
       "dependency": [],
-       "data": sex
+      "data": sex
     },
     { "id": 3,
       "name": "Age",
       "dependency": [],
-       "data": age
+      "data": age
     },
   ];
   console.log(json);
