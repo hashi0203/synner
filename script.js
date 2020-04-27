@@ -247,6 +247,7 @@ function make_data_detail_content() {
 
 function fill_data_detail_content() {
   var did = json[data_idx]['description'];
+  console.log(did);
   add_atts(document.getElementById('description'+did),[['class','center btn btn-outline-primary active']]);
   if (did == 0) {
     add_atts(document.getElementById('domain'+json[data_idx]['domain']),[['class','center btn btn-outline-primary active']]);
@@ -274,7 +275,7 @@ function fill_data_detail_content() {
   var descs = document.getElementsByClassName('described');
   for (var i = 0; i < descs.length; i++) {
     if (i != did) {
-      document.getElementById('described'+did).style.display = 'none';
+      document.getElementById('described'+i).style.display = 'none';
     }
   }
 }
