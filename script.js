@@ -99,19 +99,14 @@ function fill_titles() {
     app_child([input,th]);
     
     var icon = new_elem('i');
-    add_atts(icon,[['class','far fa-edit fa-fw'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
+    add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
     app_child([icon,th]);
     
     var icon = new_elem('i');
-    add_atts(icon,[['class','far fa-trash-alt fa-fw']]);
+    add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
     
     app_child([icon,th,document.getElementById("titles")]);
-  }
-  var th = new_elem('th');
-  var icon = new_elem('i');
-  add_atts(icon,[['class','fas fa-plus fa-2x']]);
-  app_child([])
-  
+  }  
 };
 
 function fill_canvases() {
