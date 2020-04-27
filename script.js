@@ -142,9 +142,21 @@ function add_dependency(i) {
     a.textContent = '✕';
     app_child([a,div,td]);
   }
+  var div = new_elem('div');
+  add_atts(div,[['class','dropdown']]);
   var icon = new_elem('i');
-  add_atts(icon,[['class','fas fa-plus fa-fw point']]);
-  app_child([icon,td,document.getElementById("dependencies")]);
+  add_atts(icon,[['class','fas fa-plus fa-fw dropdown-toggle point'],['data-toggle','dropdown'],['aria-haspopup','true'],['aria-expanded','false']]);
+  app_child([icon,div]);
+  var div2 = new_elem('div');
+  add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
+  for (var i = 0; i < json.length; i++) {
+    var a = new_elem('a');
+    add_atts(a,[['class','dropdown-item point']]);
+    a.textContent = json[i]['name'];
+    app_child([a,div2]);
+  }
+
+  app_child([div2,div, td,document.getElementById("dependencies")]);
 };
 
 function add_data(i) {
