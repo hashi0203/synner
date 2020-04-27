@@ -99,7 +99,7 @@ function fill_titles() {
     app_child([input,th]);
     
     var icon = new_elem('i');
-    add_atts(icon,[['class','far fa-edit fa-fw'],['onclick','chan']]);
+    add_atts(icon,[['class','far fa-edit fa-fw'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
     app_child([icon,th]);
     
     var icon = new_elem('i');
@@ -197,7 +197,7 @@ function make_data_detail_content() {
   var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
   for (var i=0; i<items.length; i++) {
     var label = new_elem('label');
-    add_atts(label,[['id','description'+i],['class','center btn btn-outline-primary']]);
+    add_atts(label,[['id','description'+i],['class','center btn btn-outline-primary descriptions']]);
     var input = new_elem('input');
     add_atts(input,[['type','radio'],['name','describe-by'],['value',i]]);
     if (i == 0) {
@@ -212,7 +212,7 @@ function make_data_detail_content() {
   app_child([div,td,tr]);
   
   var td = new_elem('td');
-  add_atts(td,[['id','described0'],['class','described']]);
+  add_atts(td,[['id','described0'],['class','describeds']]);
   var div = new_elem('div');
   div.textContent = 'Domain:';
   app_child([div,td]);
@@ -221,7 +221,7 @@ function make_data_detail_content() {
   var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
   for (var i=0; i<items.length; i++) {
     var label = new_elem('label');
-    add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary']]);
+    add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary domains']]);
     var input = new_elem('input');
     add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
     input.required = true;
@@ -238,7 +238,7 @@ function make_data_detail_content() {
   app_child([canvas,div,td,tr]);
   
   var td = new_elem('td');
-  add_atts(td,[['id','described1'],['class','described']]);
+  add_atts(td,[['id','described1'],['class','describeds']]);
   var table1 = new_elem('table');
   var tr1 = new_elem('tr');
   var th = new_elem('th');
@@ -256,9 +256,23 @@ function make_data_detail_content() {
 
 function fill_data_detail_content() {
   var did = json[data_idx]['description'];
-  console.log(did);
-  add_atts(document.getElementById('description'+did),[['class','center btn btn-outline-primary active']]);
+  var descriptions = document.getElementsByClassName('descriptions');
+  for (var i = 0; i < descriptions.length; i++) {
+    if (i == did) {
+      add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary active']]);
+    } else {
+      add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
+    }
+  }
   if (did == 0) {
+    var descriptions = document.getElementsByClassName('descriptions');
+    for (var i = 0; i < descriptions.length; i++) {
+      if (i == did) {
+        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary active']]);
+      } else {
+        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
+      }
+    }
     add_atts(document.getElementById('domain'+json[data_idx]['domain']),[['class','center btn btn-outline-primary active']]);
     draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
   } else if (did == 1) {
@@ -281,9 +295,11 @@ function fill_data_detail_content() {
       app_child([input,td1,tr1,table,table_wrapper]);
     }
   }
-  var descs = document.getElementsByClassName('described');
-  for (var i = 0; i < descs.length; i++) {
-    if (i != did) {
+  var describeds = document.getElementsByClassName('describeds');
+  for (var i = 0; i < describeds.length; i++) {
+    if (i == did) {
+      document.getElementById('described'+i).style.display = 'table-cell';
+    } else {
       document.getElementById('described'+i).style.display = 'none';
     }
   }
