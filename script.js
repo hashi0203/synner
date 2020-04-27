@@ -107,6 +107,11 @@ function fill_titles() {
     
     app_child([icon,th,document.getElementById("titles")]);
   }
+  var th = new_elem('th');
+  var icon = new_elem('i');
+  add_atts(icon,[['class','fas fa-plus fa-2x']]);
+  app_child([])
+  
 };
 
 function fill_canvases() {
@@ -166,7 +171,7 @@ function fill_datas() {
     add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data(this.id);']]);
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -311,12 +316,14 @@ function delete_dependency(i,j) {
 	document.getElementById('dependency_content'+i).removeChild(document.getElementById('d'+i+'_'+j).parentNode);
 };
 
-function update_data(obj) {
-  var idx = obj.replace('data','').split('_');
-  json[idx[0]]['data'][idx[1]] = document.getElementById(obj).value;
-  var canvas = document.getElementById('canvas'+idx[0]);
-  json[idx[0]]['chart'].destroy();
-  draw_chart(canvas, json[idx[0]]["data"],idx[0]);
+function update_data(i,j) {
+  json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
+  var canvas = document.getElementById('canvas'+i);
+  json[i]['chart'].destroy();
+  draw_chart(canvas, json[i]["data"],i);
+  if (i = data_idx) {
+    fill_data_detail_content();
+  }
 };
 
 function init() {
