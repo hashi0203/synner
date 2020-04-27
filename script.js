@@ -2,6 +2,7 @@ var data_number;
 var data_idx;
 var json;
 var max_id;
+var items = ['titles','canvases','dependencies','datas'];
 
 function toCountDict(array){
   let dict = {};
@@ -324,12 +325,22 @@ function add_field() {
   add_data(max_id);
 };
 
+function replace_all_children(item) {
+  var elem = document.getElementById(item);
+  var clone = elem.cloneNode(false);
+  elem.parentNode.replaceChild(clone,elem);
+  fill_items(item);
+};
+
 function delete_field(i) {
   json = json.splice(i,1);
   if (i == data_idx) {
     data_idx = 0;
   } else if (i < data_idx) {
     data_idx--;
+  }
+  for (var item in items) {
+    replace_all_children(item);
   }
 };
 
@@ -416,10 +427,10 @@ function init() {
   
   max_id = json.length;
   
-  fill_items('title');
-  fill_items('canvas');
-  fill_items('dependency');
-  fill_items('data');
+  for (var i = 0; i < items.length; i++) {
+    
+    fill_items(items[i]);
+  }
   
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
