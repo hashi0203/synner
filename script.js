@@ -230,15 +230,27 @@ function make_data_detail_content() {
   
   var td = new_elem('td');
   add_atts(td,[['id','described1'],['class','described']]);
-  var table = new_elem('table');
-  var tr = new_elem('tr');
+  var table1 = new_elem('table');
+  var tr1 = new_elem('tr');
   var th = new_elem('th');
   th.textContent = 'Value';
-  app_child([th,tr]);
+  app_child([th,tr1]);
   var th = new_elem('th');
   th.textContent = 'Distribution';
-  app_child([th,tr,table]);
-  var tr = new_elem('tr');
+  app_child([th,tr1,table1]);
+  var tr1 = new_elem('tr');
+  var data = toCountDict(json[data_idx]['data']);
+  for (var i = 0; i < data[0].length; i++) {
+    var td1 = new_elem('td');
+    var input = new_elem('input');
+    add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
+    app_child([input,td1,tr1]);
+    var td1 = new_elem('td');
+    var input = new_elem('input');
+    add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
+    app_child([input,td1,tr1,table1]);
+  }
+  app_child([table1,td]);
   
   
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
