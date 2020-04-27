@@ -92,61 +92,86 @@ function app_child(cs){
   }
 };
 
+function add_title(i) {
+  var th = new_elem('th');
+  var input = new_elem('input');
+  add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]]]);
+  app_child([input,th]);
+
+  var icon = new_elem('i');
+  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
+  app_child([icon,th]);
+
+  var icon = new_elem('i');
+  add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
+
+  app_child([icon,th,document.getElementById("titles")]);
+};
+
+function add_canvas(i) {
+  var td = new_elem('td');
+  add_atts(td,[['width',"200"]]);
+  var div = new_elem('div');
+  add_atts(div,[['class','chart_container']]);
+  var canvas = new_elem('canvas');
+  add_atts(canvas,[['id','canvas'+i]]);
+  app_child([canvas,div,td,document.getElementById("canvases")]);
+};
+
+function add_dependencies(i) {
+  var td = new_elem('td');
+  add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
+  var span = new_elem('span');
+  add_atts(span,[['style','font-size: 15px;']])
+  span.textContent = 'Depends on: ';
+  app_child([span,td]);
+  for (var j = 0; j < json[i]["dependency"].length; j++) {
+    var div = new_elem('div');
+    add_atts(div,[['class','del_button']]);
+    var span = new_elem('span');
+    var id = json[i]["dependency"][j];
+    var dep = json.filter(function(json){
+      if (json.id == id) return true;
+    });
+    span.textContent = dep[0]["name"];
+    add_atts(span,[['style','font-size: 12px; padding-right: 5px']])
+    app_child([span,div]);
+    var a = new_elem('a');
+    add_atts(a,[['class','batsu'],['id','d'+i+'_'+j],['onclick','delete_dependency('+i+','+j+');']]);
+    a.textContent = '✕';
+    app_child([a,div,td]);
+  }
+  app_child([td,document.getElementById("dependencies")]);
+};
+
+function add_data(i) {
+  var td = new_elem('td');
+  add_atts(td,[['width',"200"]]);
+  var div = new_elem('div');
+  add_atts(div,[['class','data_scroll']]);
+  for (var j = 0; j < data_number; j++) {
+    var input = new_elem('input');
+    add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
+    app_child([input,div]);
+  }
+  app_child([div,td,document.getElementById("datas")]);
+}
+
 function fill_titles() {
   for (var i = 0; i < json.length; i++) {
-    var th = new_elem('th');
-    var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]]]);
-    app_child([input,th]);
     
-    var icon = new_elem('i');
-    add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
-    app_child([icon,th]);
-    
-    var icon = new_elem('i');
-    add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
-    
-    app_child([icon,th,document.getElementById("titles")]);
   }  
 };
 
 function fill_canvases() {
   for (var i = 0; i < json.length; i++) {
-    var td = new_elem('td');
-    add_atts(td,[['width',"200"]]);
-    var div = new_elem('div');
-    add_atts(div,[['class','chart_container']]);
-    var canvas = new_elem('canvas');
-    add_atts(canvas,[['id','canvas'+i]]);
-    app_child([canvas,div,td,document.getElementById("canvases")]);
+    
   }
 };
 
 function fill_dependencies() {
   for (var i = 0; i < json.length; i++) {
-    var td = new_elem('td');
-    add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
-    var span = new_elem('span');
-    add_atts(span,[['style','font-size: 15px;']])
-    span.textContent = 'Depends on: ';
-    app_child([span,td]);
-    for (var j = 0; j < json[i]["dependency"].length; j++) {
-      var div = new_elem('div');
-      add_atts(div,[['class','del_button']]);
-      var span = new_elem('span');
-      var id = json[i]["dependency"][j];
-      var dep = json.filter(function(json){
-        if (json.id == id) return true;
-      });
-      span.textContent = dep[0]["name"];
-      add_atts(span,[['style','font-size: 12px; padding-right: 5px']])
-      app_child([span,div]);
-      var a = new_elem('a');
-      add_atts(a,[['class','batsu'],['id','d'+i+'_'+j],['onclick','delete_dependency('+i+','+j+');']]);
-      a.textContent = '✕';
-      app_child([a,div,td]);
-    }
-    app_child([td,document.getElementById("dependencies")]);
+    
   }
 };
 
@@ -161,16 +186,7 @@ function fill_datas() {
     document.getElementById("data_number").value = data_number;
   }
   for (var i = 0; i < json.length; i++) {
-    var td = new_elem('td');
-    add_atts(td,[['width',"200"]]);
-    var div = new_elem('div');
-    add_atts(div,[['class','data_scroll']]);
-    for (var j = 0; j < data_number; j++) {
-      var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
-      app_child([input,div]);
-    }
-    app_child([div,td,document.getElementById("datas")]);
+    
   }
 };
 
