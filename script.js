@@ -288,22 +288,30 @@ function init() {
     { "id": 0,
       "name": "Name",
       "dependency": [2],
-      "data": name
+      "data": name,
+      "description": 0,
+      "domain" : 2
     },
     { "id": 1,
       "name": "Surname",
       "dependency": [],
-      "data": surname
+      "data": surname,
+      "description": 2,
+      "expressions": "uniform(0,1)"
     },
     { "id": 2,
       "name": "Sex",
       "dependency": [],
-      "data": sex
+      "data": sex,
+      "description": 1,
+      "enumeration": [1,2]
     },
     { "id": 3,
       "name": "Age",
       "dependency": [],
-      "data": age
+      "data": age,
+      "description": 3,
+      "visual-relationship": []
     },
   ];
   console.log(json);
@@ -319,5 +327,6 @@ function init() {
   }
   
   fill_data_detail_title(0);
+  make_data_detail_content();
   fill_data_detail_content();
 };
