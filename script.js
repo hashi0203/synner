@@ -204,8 +204,36 @@ function fill_data_detail_content() {
     span.textContent = items[i];
     app_child([span,label,div]);
   }
-  app_child([div,td])
+  app_child([div,td,tr]);
+  
   var td = new_elem('td');
+  var div = new_elem('div');
+  div.textContent = 'Domain:';
+  app_child([div,td]);
+  var div = new_elem('div');
+  add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
+  for (var i=0; i<items.length; i++) {
+    var str = items[i].replace(' ','_').toLowerCase();
+    var label = new_elem('label');
+    if (i == 0) {
+      add_atts(label,[['id',str],['class','center btn btn-outline-primary active']]);
+    } else {
+      add_atts(label,[['id',str],['class','center btn btn-outline-primary']]);
+    }
+    var input = new_elem('input');
+    add_atts(input,[['type','radio'],['name','describe-by'],['value',str]]);
+    if (i == 0) {
+      input.checked = true;
+    }
+    input.required = true;
+    app_child([input,label]);
+    var span = new_elem('span');
+    span.textContent = items[i];
+    app_child([span,label,div]);
+  }
+  app_child([div,td,tr]);
+  
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
   
 };

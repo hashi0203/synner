@@ -26,7 +26,7 @@ h1 {
   overflow-x:scroll;
 }
 
-#data_list.layout-fixed {
+table.layout-fixed {
     table-layout: fixed;
 }
 
@@ -37,6 +37,10 @@ h1 {
 .data_scroll {
   height:200px;
   overflow-y:auto;
+}
+
+#data_detail {
+  width: 100%;
 }
 
 .del_button {
