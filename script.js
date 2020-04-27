@@ -239,22 +239,8 @@ function make_data_detail_content() {
   th.textContent = 'Distribution';
   app_child([th,tr1,table1,td]);
   var div = new_elem('div');
-  add_atts(div,[['class','y_scroll']]);
-  var table1 = new_elem('table');
-  var data = toCountDict(json[data_idx]['data']);
-  for (var i = 0; i < data[0].length; i++) {
-    var tr1 = new_elem('tr');
-    var td1 = new_elem('td');
-    var input = new_elem('input');
-    add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
-    app_child([input,td1,tr1]);
-    var td1 = new_elem('td');
-    var input = new_elem('input');
-    add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
-    app_child([input,td1,tr1,table1]);
-  }
-  app_child([table1,div,td]);
-  
+  add_atts(div,[['id','val-dist']]);
+  app_child([div,td]);
   
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
 };
@@ -266,7 +252,24 @@ function fill_data_detail_content() {
     add_atts(document.getElementById('domain'+json[data_idx]['domain']),[['class','center btn btn-outline-primary active']]);
     draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
   } else if (did == 1) {
-    
+    var table_wrapper = document.getElementById('val-dist');
+    var rmv_obj = document.getElementById('val-dist-table');
+    if (rmv_obj != null) {
+      table_wrapper.removeChild(rmv_obj);
+    }
+    var data = toCountDict(json[data_idx]['data']);
+    var table = new_elem('table');
+    for (var i = 0; i < data[0].length; i++) {
+      var tr1 = new_elem('tr');
+      var td1 = new_elem('td');
+      var input = new_elem('input');
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
+      app_child([input,td1,tr1]);
+      var td1 = new_elem('td');
+      var input = new_elem('input');
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
+      app_child([input,td1,tr1,table,table_wrapper]);
+    }
   }
   var descs = document.getElementsByClassName('described');
   for (var i = 0; i < descs.length; i++) {

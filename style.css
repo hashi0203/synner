@@ -74,12 +74,12 @@ table.layout-fixed {
   width: 50%;
 }
 
-.y_scroll {
+#val-dist{
   max-height: 200px;
   overflow-y: scroll;
 }
 
-.y_scroll tr td {
+#val-dist tr td {
   width: 50%;
 }
 
