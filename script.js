@@ -93,7 +93,7 @@ function app_child(cs){
   }
 };
 
-function add_title(i) {
+function add_title_col(i) {
   var th = new_elem('th');
   var input = new_elem('input');
   add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]]]);
@@ -109,7 +109,7 @@ function add_title(i) {
   app_child([icon,th,document.getElementById("titles")]);
 };
 
-function add_canvas(i) {
+function add_canvas_col(i) {
   var td = new_elem('td');
   add_atts(td,[['width',"200"]]);
   var div = new_elem('div');
@@ -119,7 +119,7 @@ function add_canvas(i) {
   app_child([canvas,div,td,document.getElementById("canvases")]);
 };
 
-function add_dependency(i) {
+function add_dependency_col(i) {
   var td = new_elem('td');
   add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
   var div = new_elem('div');
@@ -142,34 +142,35 @@ function add_dependency(i) {
     a.textContent = '✕';
     app_child([a,div,td]);
   }
-  var div = new_elem('div');
-  add_atts(div,[['class','dropdown']]);
-  var icon = new_elem('i');
-  add_atts(icon,[['class','fas fa-plus fa-fw dropdown-toggle point'],['data-toggle','dropdown'],['aria-haspopup','true'],['aria-expanded','false']]);
-  app_child([icon,div]);
-  var div2 = new_elem('div');
-  add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
-  for (var j = 0; j < json.length; j++) {
-    if (i == j) { // 自分自身には依存できない
-      continue;
+  if ()
+    var div = new_elem('div');
+    add_atts(div,[['class','dropdown']]);
+    var icon = new_elem('i');
+    add_atts(icon,[['class','fas fa-plus fa-fw dropdown-toggle point'],['data-toggle','dropdown'],['aria-haspopup','true'],['aria-expanded','false']]);
+    app_child([icon,div]);
+    var div2 = new_elem('div');
+    add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
+    for (var j = 0; j < json.length; j++) {
+      if (i == j) { // 自分自身には依存できない
+        continue;
+      }
+      var jid = json[j]['id'];
+      if (json[i]['dependency'].some( function(value) { return value == jid; })) { // すでに依存関係として定義されている
+        continue;
+      }
+      var iid = json[i]['id'];
+      if (json[j]['dependency'].some( function(value) { return value == iid; })) { // 相手に依存されている
+        continue;
+      }
+      var a = new_elem('a');
+      add_atts(a,[['class','dropdown-item point'],['onclick','add_dependency('+i+','+j+');']]);
+      a.textContent = json[j]['name'];
+      app_child([a,div2]);
     }
-    var jid = json[j]['id'];
-    if (json[i]['dependency'].some( function(value) { return value == jid; })) { // すでに依存関係として定義されている
-      continue;
-    }
-    var iid = json[i]['id'];
-    if (json[j]['dependency'].some( function(value) { return value == iid; })) { // 相手に依存されている
-      continue;
-    }
-    var a = new_elem('a');
-    add_atts(a,[['class','dropdown-item point']]);
-    a.textContent = json[j]['name'];
-    app_child([a,div2]);
-  }
-  app_child([div2,div, td,document.getElementById("dependencies")]);
+    app_child([div2,div, td,document.getElementById("dependencies")]);
 };
 
-function add_data(i) {
+function add_data_col(i) {
   var td = new_elem('td');
   add_atts(td,[['width',"200"]]);
   var div = new_elem('div');
@@ -189,19 +190,19 @@ function add_data(i) {
 function fill_items(item) {
   if (item == 'titles') {
     for (var i = 0; i < json.length; i++) {
-      add_title(i);
+      add_title_col(i);
     }
   } else if (item == 'canvases') {
     for (var i = 0; i < json.length; i++) {
-      add_canvas(i);
+      add_canvas_col(i);
     }
   } else if (item == 'dependencies') {
     for (var i = 0; i < json.length; i++) {
-      add_dependency(i);
+      add_dependency_col(i);
     }
   } else if (item == 'datas') {
     for (var i = 0; i < json.length; i++) {
-      add_data(i);
+      add_data_col(i);
     }
   }
 };
@@ -344,10 +345,10 @@ function add_field() {
   json.push({"id": max_id, "name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
   
   var idx = json.length-1;
-  add_title(idx);
-  add_canvas(idx);
-  add_dependency(idx);
-  add_data(idx);
+  add_title_col(idx);
+  add_canvas_col(idx);
+  add_dependency_col(idx);
+  add_data_col(idx);
 };
 
 function replace_all_children(item) {
@@ -380,6 +381,11 @@ function delete_field(i) {
     }
   }
 };
+
+function add_dependency(i,j) {
+  json[i]['dependency'].push(json[j]['id']);
+  replace_all_children('dependencies');
+}
 
 function delete_dependency(i,j) {
   json[i]['dependency'].splice(j,1);
