@@ -142,7 +142,9 @@ function add_dependency(i) {
     a.textContent = '✕';
     app_child([a,div,td]);
   }
-  app_child([td,document.getElementById("dependencies")]);
+  var icon = new_elem('i');
+  add_atts(icon,[['class','fas fa-plus fa-fw point']]);
+  app_child([icon,td,document.getElementById("dependencies")]);
 };
 
 function add_data(i) {
