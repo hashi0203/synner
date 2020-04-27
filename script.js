@@ -171,9 +171,11 @@ function fill_data_detail_title(idx) {
 
 function fill_data_detail_content() {
   var table = new_elem('table');
+  add_atts(table,[['border','1']]);
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = 'Default Case';
+  add_atts(th,[['colspan','2']]);
   app_child([th,tr,table]);
   var tr = new_elem('tr');
   var td = new_elem('td');
@@ -202,7 +204,9 @@ function fill_data_detail_content() {
     span.textContent = items[i];
     app_child([span,label,div]);
   }
-  app_child([div,td,tr,table,document.getElementById('data_detail_content')]);
+  app_child([div,td])
+  var td = new_elem('td');
+  app_child([td,tr,table,document.getElementById('data_detail_content')]);
   
 };
 
