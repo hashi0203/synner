@@ -95,8 +95,17 @@ function fill_titles() {
   for (var i = 0; i < json.length; i++) {
     var th = new_elem('th');
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['id','title'+i],['class','size_fix'],['value',json[i]["name"]]]);
-    app_child([input,th,document.getElementById("titles")]);
+    add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]]]);
+    app_child([input,th]);
+    
+    var icon = new_elem('i');
+    add_atts(icon,[['class','far fa-edit fa-fw'],['onclick','chan']]);
+    app_child([icon,th]);
+    
+    var icon = new_elem('i');
+    add_atts(icon,[['class','far fa-trash-alt fa-fw']]);
+    
+    app_child([icon,th,document.getElementById("titles")]);
   }
 };
 
