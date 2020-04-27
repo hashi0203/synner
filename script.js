@@ -24,7 +24,8 @@ function draw_chart(canvas,data) {
       {
         label: 'Number(%)',
         data: data[1],
-        hoverBackgroundColor: "rgba(255,99,132,0.3)",
+        // hoverBackgroundColor: "rgba(255,99,132,0.3)",
+        hoverBackgroundColor: "rgba(36,22,236,0.3)",
         backgroundColor: "rgba(36,22,236,1)"
       }
     ]
