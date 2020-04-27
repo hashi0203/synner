@@ -15,7 +15,7 @@ function toCountDict(array){
   return [keys,values];
 };
 
-function draw_chart(canvas,data) {
+function draw_chart(canvas,data, i) {
   //「月別データ」
   data = toCountDict(data);
   var mydata = {
@@ -157,7 +157,7 @@ function fill_datas() {
     add_atts(div,[['class','data_scroll']]);
     for (var j = 0; j < data_number; j++) {
       var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix data'+i+'_'+j],['value',json[i]["data"][j]],['onclick','update_data(this.id);']]);
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data(this.id);']]);
       app_child([input,div]);
     }
     app_child([div,td,document.getElementById("datas")]);
@@ -214,8 +214,10 @@ function delete_dependency(obj) {
 
 function update_data(obj) {
   var idx = obj.replace('data','').split('_');
+  console.log(obj);
+  console.log(json[idx[0]]['data']);
   json[idx[0]]['data'][idx[1]] = document.getElementById(obj).value;
-  var canvas = document.getElementsById('canvas'+idx[0]);
+  var canvas = document.getElementById('canvas'+idx[0]);
   draw_chart(canvas, json[idx[0]]["data"]);
 };
 
@@ -274,7 +276,7 @@ function init() {
   
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
-    draw_chart(canvases[i], json[i]["data"]);
+    draw_chart(canvases[i], json[i]["data"],i);
   }
   
   fill_data_detail_title(0);
