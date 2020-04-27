@@ -70,6 +70,12 @@ table.layout-fixed {
   float:left;
 }
 
+.y_scroll {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+
 .del_button {
   background-color: rgb(10,10,10,0.2);
   border-radius: 7px;
