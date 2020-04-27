@@ -39,6 +39,10 @@ table.layout-fixed {
   overflow-y:auto;
 }
 
+#data_detail {
+  padding: 10px;
+}
+
 #data_detail_content table {
   width: 98%;
   margin: auto;
@@ -46,9 +50,12 @@ table.layout-fixed {
 
 #description {
   text-align: center;
+  width: 200px;
+  height: 230px;
+  float: left
 }
 #domain {
-  
+  padding-left: 2%;
 }
 
 .del_button {
