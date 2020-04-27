@@ -179,6 +179,7 @@ function fill_data_detail_content() {
   app_child([th,tr,table]);
   var tr = new_elem('tr');
   var td = new_elem('td');
+  add_atts(td,[['width','20%'],['id','description']]);
   var div = new_elem('div');
   div.textContent = 'Describe by:';
   app_child([div,td]);
@@ -207,6 +208,7 @@ function fill_data_detail_content() {
   app_child([div,td,tr]);
   
   var td = new_elem('td');
+  add_atts(td,[['width','80%'],['id','domain']]);
   var div = new_elem('div');
   div.textContent = 'Domain:';
   app_child([div,td]);

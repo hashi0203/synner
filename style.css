@@ -39,8 +39,16 @@ table.layout-fixed {
   overflow-y:auto;
 }
 
-#data_detail {
-  width: 100%;
+#data_detail_content table {
+  width: 98%;
+  margin: auto;
+}
+
+#description {
+  text-align: center;
+}
+#domain {
+  
 }
 
 .del_button {
