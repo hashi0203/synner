@@ -118,7 +118,7 @@ function add_canvas(i) {
   app_child([canvas,div,td,document.getElementById("canvases")]);
 };
 
-function add_dependencies(i) {
+function add_dependency(i) {
   var td = new_elem('td');
   add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
   var span = new_elem('span');
@@ -151,42 +151,33 @@ function add_data(i) {
   add_atts(div,[['class','data_scroll']]);
   for (var j = 0; j < data_number; j++) {
     var input = new_elem('input');
-    add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
+    if (json[i]["data"][j] == undefined) {
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['onchange','update_data('+i+','+j+');']]);
+    } else {
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
+    }
     app_child([input,div]);
   }
   app_child([div,td,document.getElementById("datas")]);
-}
-
-function fill_titles() {
-  for (var i = 0; i < json.length; i++) {
-    
-  }  
 };
 
-function fill_canvases() {
-  for (var i = 0; i < json.length; i++) {
-    
-  }
-};
-
-function fill_dependencies() {
-  for (var i = 0; i < json.length; i++) {
-    
-  }
-};
-
-
-function fill_datas() {
-  data_number = Number(document.getElementById("data_number").value);
-  if (data_number < 1) {
-    data_number = 1;
-    document.getElementById("data_number").value = 1;
-  } else {
-    data_number = Math.round(data_number);
-    document.getElementById("data_number").value = data_number;
-  }
-  for (var i = 0; i < json.length; i++) {
-    
+function fill_items(item) {
+  if (item == 'title') {
+    for (var i = 0; i < json.length; i++) {
+      add_title(i);
+    }
+  } else if (item == 'canvas') {
+    for (var i = 0; i < json.length; i++) {
+      add_canvas(i);
+    }
+  } else if (item == 'dependency') {
+    for (var i = 0; i < json.length; i++) {
+      add_dependency(i);
+    }
+  } else if (item == 'data') {
+    for (var i = 0; i < json.length; i++) {
+      add_data(i);
+    }
   }
 };
 
@@ -325,21 +316,12 @@ function fill_data_detail_content() {
 
 function add_field() {
   max_id++;
-  json.push({"id": max_id, "Name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
+  json.push({"id": max_id, "name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
   
-  var th = new_elem('th');
-  var input = new_elem('input');
-  add_atts(input,[['type','text'],['id','title'+max_id],['value',json[max_id]["name"]]]);
-  app_child([input,th]);
-
-  var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+max_id+'); fill_data_detail_content('+max_id+');']]);
-  app_child([icon,th]);
-
-  var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
-
-  app_child([icon,th,document.getElementById("titles")]);
+  add_title(max_id);
+  add_canvas(max_id);
+  add_dependency(max_id);
+  add_data(max_id);
   
 };
 
@@ -359,7 +341,15 @@ function update_data(i,j) {
 };
 
 function init() {
-  data_number = 1000;
+  data_number = Number(document.getElementById("data_number").value);
+  if (data_number < 1) {
+    data_number = 1;
+    document.getElementById("data_number").value = 1;
+  } else {
+    data_number = Math.round(data_number);
+    document.getElementById("data_number").value = data_number;
+  }
+  // data_number = 1000;
   
   var name = [];
   for (var i = 0; i < data_number; i++) {  
@@ -416,10 +406,10 @@ function init() {
   
   max_id = 3;
   
-  fill_titles();
-  fill_canvases();
-  fill_dependencies();
-  fill_datas();
+  fill_items('title');
+  fill_items('canvas');
+  fill_items('dependency');
+  fill_items('data');
   
   var canvases = document.getElementsByTagName('canvas');
   for (var i = 0; i < canvases.length; i++) {
