@@ -374,6 +374,41 @@ function update_data(i,j) {
   }
 };
 
+function change_data_size() {
+  data_number = Number(document.getElementById("data_number").value);
+  if (data_number < 1) {
+    data_number = 1;
+    document.getElementById("data_number").value = 1;
+  } else {
+    data_number = Math.round(data_number);
+    document.getElementById("data_number").value = data_number;
+  }
+  for (var i = 0; i < )
+  
+};
+
+function data_generator(item) {
+  var data = [];
+  if (item == 'name') {
+    for (var i = 0; i < data_number; i++) {  
+      data.push(Math.random().toString(32).substring(2));
+    }
+  } else if (item == 'sex') {
+    for (var i = 0; i < data_number; i++) {
+      if (Math.random() < 0.5) {
+        data.push('M');
+      } else {
+        data.push('F');
+      }
+    }
+  } else if (item == 'age') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(Math.floor(Math.random()*100));
+    }
+  }
+  return data;  
+}
+
 function init() {
   data_number = Number(document.getElementById("data_number").value);
   if (data_number < 1) {
@@ -384,31 +419,16 @@ function init() {
     document.getElementById("data_number").value = data_number;
   }
   
-  var name = [];
-  for (var i = 0; i < data_number; i++) {  
-    name.push(Math.random().toString(32).substring(2));
-  }
-  var surname = [];
-  for (var i = 0; i < data_number; i++) {  
-    surname.push(Math.random().toString(32).substring(2));
-  }
-  var sex = [];
-  for (var i = 0; i < data_number; i++) {
-    if (Math.random() < 0.5) {
-      sex.push('M');
-    } else {
-      sex.push('F');
-    }
-  }
-  var age = [];
-  for (var i = 0; i < data_number; i++) {
-    age.push(Math.floor(Math.random()*100));
-  }
+  var name = data_generator('name');
+  var surname = data_generator('name');
+  var sex = data_generator('sex');
+  var age = data_generator('age');
   
   json = [
     { "id": 0,
       "name": "Name",
       "dependency": [2],
+      "generator": 'name',
       "data": name,
       "description": 0,
       "domain" : 2
@@ -416,6 +436,7 @@ function init() {
     { "id": 1,
       "name": "Surname",
       "dependency": [],
+      "generator": 'name',
       "data": surname,
       "description": 2,
       "expressions": "uniform(0,1)"
@@ -423,6 +444,7 @@ function init() {
     { "id": 2,
       "name": "Sex",
       "dependency": [],
+      "generator": 'sex',
       "data": sex,
       "description": 1,
       "enumeration": [1,2]
@@ -430,6 +452,7 @@ function init() {
     { "id": 3,
       "name": "Age",
       "dependency": [],
+      "generator": 'age',
       "data": age,
       "description": 3,
       "visual-relationship": []
