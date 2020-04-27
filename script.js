@@ -1,6 +1,7 @@
 var data_number;
 var data_idx;
 var json;
+var max_id;
 
 function toCountDict(array){
   let dict = {};
@@ -304,7 +305,27 @@ function fill_data_detail_content() {
       document.getElementById('described'+i).style.display = 'none';
     }
   }
-}
+};
+
+function add_field() {
+  max_id++;
+  json.push({"id": max_id, "Name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
+  
+  var th = new_elem('th');
+  var input = new_elem('input');
+  add_atts(input,[['type','text'],['id','title'+max_id],['value',json[max_id]["name"]]]);
+  app_child([input,th]);
+
+  var icon = new_elem('i');
+  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+max_id+'); fill_data_detail_content('+max_id+');']]);
+  app_child([icon,th]);
+
+  var icon = new_elem('i');
+  add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
+
+  app_child([icon,th,document.getElementById("titles")]);
+  
+};
 
 function delete_dependency(i,j) {
   json[i]['dependency'] = json[i]['dependency'].splice(j,j);
@@ -376,6 +397,8 @@ function init() {
     },
   ];
   console.log(json);
+  
+  max_id = 3;
   
   fill_titles();
   fill_canvases();

@@ -108,3 +108,7 @@ table.layout-fixed {
     border-color: #333;
     color: #FFF !important;
 }
+
+.point {
+  cursor: pointer;
+}
