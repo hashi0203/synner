@@ -122,10 +122,10 @@ function add_canvas(i) {
 function add_dependency(i) {
   var td = new_elem('td');
   add_atts(td,[['id','dependency_content'+i],['width',"200"]]);
-  var span = new_elem('span');
-  add_atts(span,[['style','font-size: 15px;']])
-  span.textContent = 'Depends on: ';
-  app_child([span,td]);
+  var div = new_elem('div');
+  add_atts(div,[['style','font-size: 15px;']])
+  div.textContent = 'Depends on: ';
+  app_child([div,td]);
   for (var j = 0; j < json[i]["dependency"].length; j++) {
     var div = new_elem('div');
     add_atts(div,[['class','del_button']]);
@@ -149,10 +149,15 @@ function add_dependency(i) {
   app_child([icon,div]);
   var div2 = new_elem('div');
   add_atts(div2,[['class','dropdown-menu'],['aria-labelledby','dropdown1']]);
-  for (var i = 0; i < json.length; i++) {
+  for (var j = 0; j < json.length; j++) {
+    if (i == j) {
+      continue;
+    }
+    jid = json[j]['id'];
+    if (json[i]['dependency'].some( function(value) { return value == jid; }))
     var a = new_elem('a');
     add_atts(a,[['class','dropdown-item point']]);
-    a.textContent = json[i]['name'];
+    a.textContent = json[j]['name'];
     app_child([a,div2]);
   }
 

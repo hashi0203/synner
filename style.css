@@ -48,6 +48,11 @@ table.layout-fixed {
   margin: auto;
 }
 
+#dependencies td div {
+  float: left;
+  padding-right: 5px;
+}
+
 #description {
   text-align: center;
   width: 200px;
