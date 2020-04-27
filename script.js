@@ -362,13 +362,17 @@ function delete_dependency(i,j) {
 	document.getElementById('dependency_content'+i).removeChild(document.getElementById('d'+i+'_'+j).parentNode);
 };
 
-function update_data(i,j) {
-  json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
+function update_canvas(i) {
   var canvas = document.getElementById('canvas'+i);
   if (json[i]['chart']) {
     json[i]['chart'].destroy();
   }
   draw_chart(canvas, json[i]["data"],i);
+}
+
+function update_data(i,j) {
+  json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
+  update_canvas(i);
   if (i = data_idx) {
     fill_data_detail_content();
   }
@@ -383,8 +387,13 @@ function change_data_size() {
     data_number = Math.round(data_number);
     document.getElementById("data_number").value = data_number;
   }
-  for (var i = 0; i < )
-  
+  for (var i = 0; i < json.length; i++) {
+    json[i]['data'] = data_generator(json[i]['generator']);
+  }
+  replace_all_children('datas');
+  for (var i = 0; i < json.length; i++) {
+    update_canvas(i);
+  }
 };
 
 function data_generator(item) {
