@@ -62,7 +62,7 @@ function draw_chart(canvas,data, i) {
     maintainAspectRatio: false
   };
 
-  var chart = new Chart(canvas, {
+  json[i]['chart'] = new Chart(canvas, {
 
     type: 'bar',  //グラフの種類
     data: mydata,  //表示するデータ
@@ -214,11 +214,10 @@ function delete_dependency(obj) {
 
 function update_data(obj) {
   var idx = obj.replace('data','').split('_');
-  console.log(obj);
-  console.log(json[idx[0]]['data']);
   json[idx[0]]['data'][idx[1]] = document.getElementById(obj).value;
   var canvas = document.getElementById('canvas'+idx[0]);
-  draw_chart(canvas, json[idx[0]]["data"]);
+  json[idx[0]]['chart'].destroy();
+  draw_chart(canvas, json[idx[0]]["data"],idx[0]);
 };
 
 function init() {
