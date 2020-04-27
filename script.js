@@ -239,10 +239,12 @@ function fill_data_detail_content() {
   var div = new_elem('div');
   add_atts(div,[['class','dist_chart']]);
   var canvas = new_elem('canvas');
-  add_atts
-  app_child([div,td,tr]);
+  add_atts(canvas,[['id','dist_chart'+data_idx]]);
+  app_child([canvas,div,td,tr]);
   
   app_child([td,tr,table,document.getElementById('data_detail_content')]);
+  
+  draw_chart(canvas, json[data_idx]["data"],data_idx);
   
 };
 
@@ -327,6 +329,6 @@ function init() {
   }
   
   fill_data_detail_title(0);
-  make_data_detail_content();
+  // make_data_detail_content();
   fill_data_detail_content();
 };

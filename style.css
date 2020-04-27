@@ -56,6 +56,14 @@ table.layout-fixed {
 
 #domain {
   padding-left: 2%;
+  height: 230px;
+}
+
+.dist_chart {
+  float: left;
+  position: relative;
+  padding-left: 2%;
+  height:200px;
 }
 
 #domain .btn-group-vertical {
