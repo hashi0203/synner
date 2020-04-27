@@ -345,10 +345,15 @@ function delete_field(i) {
   for (var i = 0; i < items.length; i++) {
     replace_all_children(items[i]);
   }
-  var canvases = document.getElementsByTagName('canvas');
-  for (var i = 0; i < canvases.length; i++) {
-    console.log(i);
-    draw_chart(canvases[i], json[i]["data"],i);
+  var i = 0;
+  while (true) {
+    var canvas = document.getElementById('canvas'+i);
+    if (canvas) {
+      draw_chart(canvas, json[i]["data"],i);
+      i++;
+    } else {
+      break;
+    }
   }
 };
 
