@@ -103,7 +103,7 @@ function add_title(i) {
   app_child([icon,th]);
 
   var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-trash-alt fa-fw point']]);
+  add_atts(icon,[['class','far fa-trash-alt fa-fw point'],['onclick','delete_field('+i+');']]);
 
   app_child([icon,th,document.getElementById("titles")]);
 };
@@ -151,10 +151,10 @@ function add_data(i) {
   add_atts(div,[['class','data_scroll']]);
   for (var j = 0; j < data_number; j++) {
     var input = new_elem('input');
-    if (json[i]["data"][j] == undefined) {
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['onchange','update_data('+i+','+j+');']]);
-    } else {
+    if (json[i]["data"][j]) {
       add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
+    } else {
+      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['onchange','update_data('+i+','+j+');']]);
     }
     app_child([input,div]);
   }
@@ -322,18 +322,28 @@ function add_field() {
   add_canvas(max_id);
   add_dependency(max_id);
   add_data(max_id);
-  
+};
+
+function delete_field(i) {
+  json = json.splice(i,1);
+  if (i == data_idx) {
+    data_idx = 0;
+  } else if (i < data_idx) {
+    data_idx--;
+  }
 };
 
 function delete_dependency(i,j) {
-  json[i]['dependency'] = json[i]['dependency'].splice(j,j);
+  json[i]['dependency'] = json[i]['dependency'].splice(j,1);
 	document.getElementById('dependency_content'+i).removeChild(document.getElementById('d'+i+'_'+j).parentNode);
 };
 
 function update_data(i,j) {
   json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
   var canvas = document.getElementById('canvas'+i);
-  json[i]['chart'].destroy();
+  if (json[i]['chart']) {
+    json[i]['chart'].destroy();
+  }
   draw_chart(canvas, json[i]["data"],i);
   if (i = data_idx) {
     fill_data_detail_content();
@@ -404,7 +414,7 @@ function init() {
   ];
   console.log(json);
   
-  max_id = 3;
+  max_id = json.length;
   
   fill_items('title');
   fill_items('canvas');
