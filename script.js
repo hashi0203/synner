@@ -221,28 +221,30 @@ function fill_data_detail_title(idx) {
 };
 
 function make_sug_table(item) {
+  var title;
+  var content;
   if (item == 'custom') {
-    var table = new_elem('table');
-    var tr = new_elem('tr');
-    var th = new_elem('th');
-    th.textContent = 'Custom';
-    app_child([th,tr,table]);
-    var tr = new_elem('tr');
-    var td = new_elem('td');
-    td.textContent = 'Design your own custom type';
-    app_child([td,tr,table]);
-    var tr = new_elem('tr');
-    var td = new_elem('td');
-    var button = new_elem('button');
-    add_atts(button, [['type', 'button'],['class','btn btn-primary']]);
-    button.textContent = 'Use';
-    app_child([button,])
-    
-    <button type="button" class="btn btn-primary">Primary</button>
-    var input = new_elem('input');
-    add_atts(input, [['type', 'button'],['']])
+    title = 'Custom';
+    content = 'Design your own custom type';
   }
-}
+  
+  var table = new_elem('table');
+  var tr = new_elem('tr');
+  var th = new_elem('th');
+  th.textContent = title;
+  app_child([th,tr,table]);
+  var tr = new_elem('tr');
+  var td = new_elem('td');
+  td.textContent = content;
+  app_child([td,tr,table]);
+  var tr = new_elem('tr');
+  var td = new_elem('td');
+  var button = new_elem('button');
+  add_atts(button, [['type', 'button'],['class','btn btn-primary']]);
+  button.textContent = 'Use';
+  app_child([button,td,tr,table]);
+  return table;
+};
 
 function make_data_detail_content() {
   var table = new_elem('table');
@@ -278,30 +280,10 @@ function make_data_detail_content() {
   }
   app_child([div,td,tr]);
   
-  // var tr = new_elem('tr');
-  // var td = new_elem('td');
-  // add_atts(td,[['id','sug_custom']]);
-  // var div = new_elem('div');
-  // div.textContent = 'Describe by:';
-  // app_child([div,td]);
-  // var div = new_elem('div');
-  // add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
-  // var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
-  // for (var i=0; i<items.length; i++) {
-  //   var label = new_elem('label');
-  //   add_atts(label,[['id','description'+i],['class','center btn btn-outline-primary descriptions']]);
-  //   var input = new_elem('input');
-  //   add_atts(input,[['type','radio'],['name','describe-by'],['value',i]]);
-  //   if (i == 0) {
-  //     input.checked = true;
-  //   }
-  //   input.required = true;
-  //   app_child([input,label]);
-  //   var span = new_elem('span');
-  //   span.textContent = items[i];
-  //   app_child([span,label,div]);
-  // }
-  // app_child([div,td,tr]);
+  var td = new_elem('td');
+  add_atts(td,[['id','sug_custom']]);
+  var table1 = make_sug_table('custom');
+  app_child([table1,td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','described0'],['class','describeds']]);
@@ -347,55 +329,61 @@ function make_data_detail_content() {
 };
 
 function fill_data_detail_content() {
-  var did = json[data_idx]['description'];
-  var descriptions = document.getElementsByClassName('descriptions');
-  for (var i = 0; i < descriptions.length; i++) {
-    if (i == did) {
-      add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary active']]);
-    } else {
-      add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
-    }
-  }
-  if (did == 0) {
-    var domid = json[data_idx]['domain'];
-    var domains = document.getElementsByClassName('domains');
-    for (var i = 0; i < domains.length; i++) {
-      if (i == domid) {
-        add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary active']]);
+  if (json[data_idx]['data'].length >= 1) {
+    document.getElementById('description').style.display = 'table-cell';
+    var did = json[data_idx]['description'];
+    var descriptions = document.getElementsByClassName('descriptions');
+    for (var i = 0; i < descriptions.length; i++) {
+      if (i == did) {
+        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary active']]);
       } else {
-        add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary']]);
+        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
       }
     }
-    draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
-  } else if (did == 1) {
-    var table_wrapper = document.getElementById('val_dist');
-    var rmv_obj = document.getElementById('val_dist_table');
-    if (rmv_obj != null) {
-      table_wrapper.removeChild(rmv_obj);
+    if (did == 0) {
+      var domid = json[data_idx]['domain'];
+      var domains = document.getElementsByClassName('domains');
+      for (var i = 0; i < domains.length; i++) {
+        if (i == domid) {
+          add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary active']]);
+        } else {
+          add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary']]);
+        }
+      }
+      draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
+    } else if (did == 1) {
+      var table_wrapper = document.getElementById('val_dist');
+      var rmv_obj = document.getElementById('val_dist_table');
+      if (rmv_obj != null) {
+        table_wrapper.removeChild(rmv_obj);
+      }
+      var data = toCountDict(json[data_idx]['data']);
+      var table = new_elem('table');
+      add_atts(table,[['id','val_dist_table']]);
+      for (var i = 0; i < data[0].length; i++) {
+        var tr1 = new_elem('tr');
+        var td1 = new_elem('td');
+        var input = new_elem('input');
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
+        app_child([input,td1,tr1]);
+        var td1 = new_elem('td');
+        var input = new_elem('input');
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
+        app_child([input,td1,tr1,table,table_wrapper]);
+      }
     }
-    var data = toCountDict(json[data_idx]['data']);
-    var table = new_elem('table');
-    add_atts(table,[['id','val_dist_table']]);
-    for (var i = 0; i < data[0].length; i++) {
-      var tr1 = new_elem('tr');
-      var td1 = new_elem('td');
-      var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
-      app_child([input,td1,tr1]);
-      var td1 = new_elem('td');
-      var input = new_elem('input');
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
-      app_child([input,td1,tr1,table,table_wrapper]);
+    var describeds = document.getElementsByClassName('describeds');
+    for (var i = 0; i < describeds.length; i++) {
+      if (i == did) {
+        document.getElementById('described'+i).style.display = 'table-cell';
+      } else {
+        document.getElementById('described'+i).style.display = 'none';
+      }
     }
+  } else {
+    document.getElementsByClassName('descriptions').style.display = 'none';
   }
-  var describeds = document.getElementsByClassName('describeds');
-  for (var i = 0; i < describeds.length; i++) {
-    if (i == did) {
-      document.getElementById('described'+i).style.display = 'table-cell';
-    } else {
-      document.getElementById('described'+i).style.display = 'none';
-    }
-  }
+  
 };
 
 function add_field() {
