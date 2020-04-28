@@ -477,9 +477,9 @@ function fill_data_detail_content() {
   
 };
 
-function add_field() {
+function add_field(type) {
   max_id++;
-  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
+  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data_type': type, 'data': [], 'description': 0, 'domain': 0});
   
   data_idx = json.length-1;
   add_title_col(data_idx);
@@ -649,6 +649,7 @@ function init() {
       "name": "Name",
       "dependency": [2],
       "generator": 'name',
+      "data_type": 'text',
       "data": name,
       "description": 0,
       "domain" : 2
@@ -657,6 +658,7 @@ function init() {
       "name": "Surname",
       "dependency": [],
       "generator": 'name',
+      "data_type": 'text',
       "data": surname,
       "description": 2,
       "expressions": "uniform(0,1)"
@@ -665,6 +667,7 @@ function init() {
       "name": "Sex",
       "dependency": [],
       "generator": 'sex',
+      "data_type": 'text',
       "data": sex,
       "description": 1,
       "enumeration": [1,2]
@@ -673,6 +676,7 @@ function init() {
       "name": "Age",
       "dependency": [],
       "generator": 'age',
+      "data_type": 'int',
       "data": age,
       "description": 3,
       "visual-relationship": []
