@@ -7,21 +7,23 @@ var dist_chart;
 
 function toCountDict(array,type){
   let dict = {};
-  if (type == 'float') {
+  if (type == 'float' || type == 'int') {
     for(let key of array){
       dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
     }
+    const compare = (x, y) => x - y;
+    var keys = Object.keys(dict).sort(compare);
   } else {
     for(let key of array){
       dict[key] = array.filter(function(x){return x==key}).length;
     }
+    var keys = Object.keys(dict).sort(function(a,b){
+          if( a < b ) return -1;
+          if( a > b ) return 1;
+          return 0;
+    });
   }
   
-  var keys = Object.keys(dict).sort(function(a,b){
-        if( a < b ) return -1;
-        if( a > b ) return 1;
-        return 0;
-  });
   var values = [];
   for (var i = 0; i < keys.length; i++) {
     values.push(dict[keys[i]]*100/data_number);
@@ -95,7 +97,7 @@ function draw_dist_chart(i) {
   }
   
   var canvas = document.getElementById('dist_chart');
-  var data = toCountDict(json[i]['data']);
+  var data = toCountDict(json[i]['data'],json[i]['data_type']);
   var mydata = {
     labels: data[0],
     datasets: [
@@ -617,7 +619,7 @@ function change_data_size() {
     document.getElementById("data_number").value = data_number;
   }
   for (var i = 0; i < json.length; i++) {
-    json[i]['data'] = data_generator(json[i]['generator']);
+    json[i]['data'] = data_generator(json[i]['data_type'],json[i]['generator']);
   }
   replace_all_children('datas');
   fill_items('charts');
@@ -625,15 +627,16 @@ function change_data_size() {
 
 function make_new_data() {
   if (json[data_idx]['data_type'] == 'text') {
-    json[data_idx]['generator'] = 'name';
+    json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = 'age';
+    json[data_idx]['generator'] = {"min":0, "max":100};
   } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = 'height';
+    json[data_idx]['generator'] = {"min":50, "max":190};
   } else if (json[data_idx]['data_type'] == 'date') {
-    json[data_idx]['generator'] = 'birthday';
+    json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
   }
-  json[data_idx]['data'] = data_generator(json[data_idx]['generator']);
+  
+  json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
     document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
   }
@@ -658,37 +661,37 @@ function getRandomYmd(fromYmd, toYmd){
   return y + "-" + m + "-" + d;
 };
 
-function data_generator(item) {
-  var data = [];
-  if (item == 'name') {
-    for (var i = 0; i < data_number; i++) {  
-      data.push(Math.random().toString(32).substring(2));
-    }
-  } else if (item == 'sex') {
-    for (var i = 0; i < data_number; i++) {
-      if (Math.random() < 0.5) {
-        data.push('M');
-      } else {
-        data.push('F');
-      }
-    }
-  } else if (item == 'age') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(Math.floor(Math.random()*100));
-    }
-  } else if (item == 'height') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(Math.random()*140+50);
-    }
-  } else if (item == 'birthday') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(getRandomYmd('1945/01/01', '2019/12/31'));
-    }
-  }
-  return data;  
-};
+// function data_generator(item) {
+//   var data = [];
+//   if (item == 'name') {
+//     for (var i = 0; i < data_number; i++) {  
+//       data.push(Math.random().toString(32).substring(2));
+//     }
+//   } else if (item == 'sex') {
+//     for (var i = 0; i < data_number; i++) {
+//       if (Math.random() < 0.5) {
+//         data.push('M');
+//       } else {
+//         data.push('F');
+//       }
+//     }
+//   } else if (item == 'age') {
+//     for (var i = 0; i < data_number; i++) {
+//       data.push(Math.floor(Math.random()*100));
+//     }
+//   } else if (item == 'height') {
+//     for (var i = 0; i < data_number; i++) {
+//       data.push(Math.random()*140+50);
+//     }
+//   } else if (item == 'birthday') {
+//     for (var i = 0; i < data_number; i++) {
+//       data.push(getRandomYmd('1945/01/01', '2019/12/31'));
+//     }
+//   }
+//   return data;  
+// };
 
-function data_generator_test(type, info) {
+function data_generator(type, info) {
   var data = [];
   if (type == 'int') {
     var min = Math.ceil(info['min']);
@@ -755,16 +758,16 @@ function init() {
     document.getElementById("data_number").value = data_number;
   }
   
-  var name = data_generator('name');
-  var surname = data_generator('name');
-  var sex = data_generator('sex');
-  var age = data_generator('age');
+  var name = data_generator('text',{"text":'random', "min":3, "max":7});
+  var surname = data_generator('text',{"text":'random', "min":3, "max": 7});
+  var sex = data_generator('text',{"text": 'choice', "rate":[1,2], "value":['F','M']});
+  var age = data_generator('int', {"min":0, "max":100});
   
   json = [
     { "id": 0,
       "name": "Name",
       "dependency": [2],
-      "generator": 'name',
+      "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
       "data": name,
       "description": 0,
@@ -773,7 +776,7 @@ function init() {
     { "id": 1,
       "name": "Surname",
       "dependency": [],
-      "generator": 'name',
+      "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
       "data": surname,
       "description": 2,
@@ -782,7 +785,7 @@ function init() {
     { "id": 2,
       "name": "Sex",
       "dependency": [],
-      "generator": 'sex',
+      "generator": {"text": 'choice', "rate":[1,2], "value":['F','M']},
       "data_type": 'text',
       "data": sex,
       "description": 1,
@@ -791,7 +794,7 @@ function init() {
     { "id": 3,
       "name": "Age",
       "dependency": [],
-      "generator": 'age',
+      "generator": {"min":0, "max":100},
       "data_type": 'int',
       "data": age,
       "description": 3,
