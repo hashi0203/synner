@@ -536,6 +536,7 @@ function change_data_size() {
 };
 
 function make_new_data(item) {
+  json[data_idx]['generator'] = item;
   json[data_idx]['data'] = data_generator(item);
   for (var i = 0; i < data_number; i++) {
     document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
