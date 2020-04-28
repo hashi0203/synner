@@ -17,9 +17,13 @@ function toCountDict(array){
   return [keys,values];
 };
 
-function draw_chart(canvas,data, i) {
-  //「月別データ」
-  data = toCountDict(data);
+function draw_chart(i) {
+  if (json[i]['chart']) {
+    json[i]['chart'].destroy();
+  }
+  
+  var canvas = document.getElementById('canvas'+i);
+  var data = toCountDict(json[i]['data']);
   var mydata = {
     labels: data[0],
     datasets: [
@@ -73,6 +77,64 @@ function draw_chart(canvas,data, i) {
   });
 };
 
+function draw_dist_chart(canvas,data, i) {
+  if (json[i]['dist_chart']) {
+    json[i]['dist_chart'].destroy();
+  }
+  
+  data = toCountDict(data);
+  var mydata = {
+    labels: data[0],
+    datasets: [
+      {
+        label: 'Number(%)',
+        data: data[1],
+        // hoverBackgroundColor: "rgba(255,99,132,0.3)",
+        hoverBackgroundColor: "rgba(36,22,236,0.3)",
+        backgroundColor: "rgba(36,22,236,1)"
+      }
+    ]
+  };
+
+  //「オプション設定」
+  var options = {
+    legend: {
+        display: false
+     },
+    scales: {
+      xAxes: [{
+        ticks: {
+          callback: function(value, index, values){ return  '' }
+         },
+        gridLines: {
+          display: false // グリッドラインを表示しない
+        },
+        scaleLabel: {
+          display: false // 軸名を表示しない
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true, // 0から始める
+          callback: function(value, index, values){ return  '' }
+        },
+        scaleLabel: {
+          display: false // 軸名を表示しない
+        }
+      }]
+     },
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
+  json[i]['dist_chart'] = new Chart(canvas, {
+
+    type: 'bar',  //グラフの種類
+    data: mydata,  //表示するデータ
+    options: options  //オプション設定
+
+  });
+};
 
 function new_elem(e) {
   return document.createElement(e);
@@ -212,7 +274,7 @@ function fill_items(item) {
     for (var i = 0; i < json.length; i++) {
       add_data_col(i);
     }
-  }
+  } else if (item == 'chart ')
 };
 
 function fill_data_detail_title(idx) {
@@ -368,8 +430,7 @@ function fill_data_detail_content() {
           document.getElementById('domain'+i).classList.remove('active');
         }
       }
-      console.log(json[data_idx]["data"]);
-      draw_chart(document.getElementById('dist_chart'), json[data_idx]["data"],data_idx);
+      draw_dist_chart(document.getElementById('dist_chart'), json[data_idx]["data"],data_idx);
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
       var rmv_obj = document.getElementById('val_dist_table');
@@ -421,7 +482,7 @@ function add_field() {
   add_dependency_col(idx);
   add_data_col(idx);
   edit_selected(idx);
-  draw_chart(document.getElementById('canvas'+idx), json[idx]["data"],idx);
+  draw_chart(idx);
   fill_data_detail_title(idx);
   fill_data_detail_content();
 };
@@ -450,7 +511,7 @@ function delete_field(i) {
     replace_all_children(items[i]);
   }
   for (var i = 0; i < json.length; i++) {
-      draw_chart(document.getElementById('canvas'+i), json[i]["data"],i);
+      draw_chart(i);
   }
 };
 
@@ -471,17 +532,17 @@ function delete_dependency(i,j) {
   replace_all_children('dependencies');
 };
 
-function update_canvas(i) {
-  var canvas = document.getElementById('canvas'+i);
-  if (json[i]['chart']) {
-    json[i]['chart'].destroy();
-  }
-  draw_chart(canvas, json[i]["data"],i);
-}
+// function update_canvas(i) {
+//   var canvas = document.getElementById('canvas'+i);
+//   if (json[i]['chart']) {
+//     json[i]['chart'].destroy();
+//   }
+//   draw_chart(canvas, json[i]["data"],i);
+// }
 
 function update_data(i,j) {
   json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
-  update_canvas(i);
+  draw_chart(i);
   if (i = data_idx) {
     fill_data_detail_content();
   }
@@ -532,7 +593,7 @@ function change_data_size() {
   }
   replace_all_children('datas');
   for (var i = 0; i < json.length; i++) {
-    update_canvas(i);
+    draw_chart(i);
   }
 };
 
@@ -542,7 +603,7 @@ function make_new_data(item) {
   for (var i = 0; i < data_number; i++) {
     document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
   }
-  update_canvas(data_idx);
+  draw_chart(data_idx);
   fill_data_detail_content();
 }
 
@@ -626,7 +687,7 @@ function init() {
   edit_selected(data_idx);
   
   for (var i = 0; i < json.length; i++) {
-      draw_chart(document.getElementById('canvas'+i), json[i]["data"],i);
+      draw_chart(i);
   }
   
   fill_data_detail_title(data_idx);
