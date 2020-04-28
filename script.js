@@ -587,7 +587,7 @@ function edit_selected() {
         document.getElementById('data'+i+'_'+j).classList.add("bg-gray");
       }
     } else {
-      for (var j = 0; j < json[i]['data'].length; j++) {
+      for (var j = 0; j < data_number; j++) {
         document.getElementById('data'+i+'_'+j).classList.remove("bg-gray");
       }
     }
