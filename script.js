@@ -5,21 +5,18 @@ var max_id;
 var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
 
-function isNumber(numVal){
-  var pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
-  return pattern.test(numVal);
-};
-
-function toCountDict(array){
+function toCountDict(array,type){
   let dict = {};
-  for(let key of array){
-      if (isNumber(key)) {
-        key = Math.round(key);
-        dict[key] = array.filter(function(x){return Math.round(x)==key}).length;
-      } else {
-        dict[key] = array.filter(function(x){return x==key}).length;
-      }
+  if (type == 'float') {
+    for(let key of array){
+      dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
+    }
+  } else {
+    for(let key of array){
+      dict[key] = array.filter(function(x){return x==key}).length;
+    }
   }
+  
   var keys = Object.keys(dict).sort(function(a,b){
         if( a < b ) return -1;
         if( a > b ) return 1;
@@ -38,7 +35,7 @@ function draw_chart(i) {
   }
   
   var canvas = document.getElementById('canvas'+i);
-  var data = toCountDict(json[i]['data']);
+  var data = toCountDict(json[i]['data'],json[i]['data_type']);
   var mydata = {
     labels: data[0],
     datasets: [
