@@ -322,9 +322,9 @@ function make_data_detail_content() {
   }
   app_child([div,td]);
   var div = new_elem('div');
-  add_atts(div,[['class','dist_chart']]);
+  add_atts(div,[['class','dist_chart_container']]);
   var canvas = new_elem('canvas');
-  add_atts(canvas,[['id','dist_chart'+data_idx]]);
+  add_atts(canvas,[['id','dist_chart']]);
   app_child([canvas,div,td,tr]);
   
   var td = new_elem('td');
@@ -368,7 +368,7 @@ function fill_data_detail_content() {
           document.getElementById('domain'+i).classList.remove('active');
         }
       }
-      draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
+      draw_chart(document.getElementById('dist_chart'), json[data_idx]["data"],data_idx);
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
       var rmv_obj = document.getElementById('val_dist_table');

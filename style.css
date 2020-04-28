@@ -59,15 +59,20 @@ table.layout-fixed {
   height: 230px;
 }
 
-.dist_chart {
+.dist_chart_container {
   float: left;
   position: relative;
   padding-left: 2%;
   height:200px;
+  width: 70%
 }
 
 #described0 .btn-group-vertical {
   float:left;
+}
+
+#described1 table {
+  width: 60%;
 }
 
 #described1 table tr th {
