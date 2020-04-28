@@ -226,10 +226,13 @@ function make_sug_table(item) {
   if (item == 'custom') {
     title = 'Custom';
     content = 'Design your own custom type';
+  } else if (item == 'random') {
+    title = 'Random';
+    content = 'Make random dataset';
   }
   
   var table = new_elem('table');
-  add_atts(table,[['border','1'], ['width', '160']]);
+  add_atts(table,[['border','1'], ['width', '160'],['style','text-align: center; margin-left: 20px;']]);
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = title;
@@ -267,8 +270,8 @@ function make_data_detail_content() {
   app_child([table1,td,tr]);
   
   var td = new_elem('td');
-  add_atts(td,[['id','']]);
-  var table1 = make_sug_table('custom');
+  add_atts(td,[['id','sugs']]);
+  var table1 = make_sug_table('random');
   app_child([table1,td,tr]);
   
   var td = new_elem('td');
@@ -342,6 +345,7 @@ function fill_data_detail_content() {
   if (json[data_idx]['data'].length >= 1) {
     document.getElementById('description').style.display = 'table-cell';
     document.getElementById('sug_custom').style.display = 'none';
+    document.getElementById('sugs').style.display = 'none';
     var did = json[data_idx]['description'];
     var descriptions = document.getElementsByClassName('descriptions');
     for (var i = 0; i < descriptions.length; i++) {
@@ -394,6 +398,7 @@ function fill_data_detail_content() {
   } else {
     document.getElementById('description').style.display = 'none';
     document.getElementById('sug_custom').style.display = 'table-cell';
+    document.getElementById('sugs').style.display = 'table-cell';
     var describeds = document.getElementsByClassName('describeds');
     for (var i = 0; i < describeds.length; i++) {
       document.getElementById('described'+i).style.display = 'none';
@@ -411,6 +416,7 @@ function add_field() {
   add_canvas_col(idx);
   add_dependency_col(idx);
   add_data_col(idx);
+  edit_selected(idx);
   draw_chart(document.getElementById('canvas'+idx), json[idx]["data"],idx);
   fill_data_detail_title(idx);
   fill_data_detail_content();
@@ -490,7 +496,7 @@ function edit_selected(i) {
   }
   for (var j = 0; j < json.length; j++) {
     if (j == i) {
-      for (var k = 0; k < json[j]['data'].length; k++) {
+      for (var k = 0; k < data_number; k++) {
         document.getElementById('data'+j+'_'+k).classList.add("bg-gray");
       }
     } else {
