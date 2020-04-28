@@ -43,11 +43,6 @@ table.layout-fixed {
   padding: 10px;
 }
 
-#data_detail_content table {
-  width: 98%;
-  margin: auto;
-}
-
 #dependencies td div {
   float: left;
   padding-right: 5px;

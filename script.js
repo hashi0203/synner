@@ -229,7 +229,7 @@ function make_sug_table(item) {
   }
   
   var table = new_elem('table');
-  add_atts(table,[['border','1']]);
+  add_atts(table,[['border','1'], ['width', '160']]);
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = title;
@@ -252,7 +252,8 @@ function make_sug_table(item) {
 
 function make_data_detail_content() {
   var table = new_elem('table');
-  add_atts(table,[['border','1']]);
+  add_atts(table,[['border','1'],['width','98%']]);
+  table.style.margin = 'auto';
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = 'Default Case';
@@ -260,6 +261,16 @@ function make_data_detail_content() {
   app_child([th,tr,table]);
   
   var tr = new_elem('tr');
+  var td = new_elem('td');
+  add_atts(td,[['id','sug_custom']]);
+  var table1 = make_sug_table('custom');
+  app_child([table1,td,tr]);
+  
+  var td = new_elem('td');
+  add_atts(td,[['id','']]);
+  var table1 = make_sug_table('custom');
+  app_child([table1,td,tr]);
+  
   var td = new_elem('td');
   add_atts(td,[['id','description']]);
   var div = new_elem('div');
@@ -283,11 +294,6 @@ function make_data_detail_content() {
     app_child([span,label,div]);
   }
   app_child([div,td,tr]);
-  
-  var td = new_elem('td');
-  add_atts(td,[['id','sug_custom']]);
-  var table1 = make_sug_table('custom');
-  app_child([table1,td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','described0'],['class','describeds']]);
@@ -405,6 +411,7 @@ function add_field() {
   add_canvas_col(idx);
   add_dependency_col(idx);
   add_data_col(idx);
+  draw_chart(document.getElementById('canvas'+idx), json[idx]["data"],idx);
   fill_data_detail_title(idx);
   fill_data_detail_content();
 };
@@ -418,7 +425,6 @@ function replace_all_children(item) {
 
 function delete_field(i) {
   var iid = json[i]['id'];
-  console.log(iid);
   json.splice(i,1);
   for (var j = 0; j < json.length; j++) {
     json[j]['dependency'] = json[j]['dependency'].filter(function(value) { return value != iid; });
@@ -584,7 +590,6 @@ function init() {
       "visual-relationship": []
     },
   ];
-  console.log(json);
   
   max_id = json.length;
   
@@ -592,17 +597,6 @@ function init() {
     fill_items(items[i]);
   }
   edit_selected(data_idx);
-  
-  // var i = 0;
-  // while (true) {
-  //   var canvas = document.getElementById('canvas'+i);
-  //   if (canvas) {
-  //     draw_chart(canvas, json[i]["data"],i);
-  //     i++;
-  //   } else {
-  //     break;
-  //   }
-  // }
   
   for (var i = 0; i < json.length; i++) {
       draw_chart(document.getElementById('canvas'+i), json[i]["data"],i);
