@@ -714,38 +714,26 @@ function data_generator_test(type, info) {
     for (var i = 1; i < rate.length; i++) {
       rate[i] += rate[i-1];      
     }
-    var bp = arr.map(elm => {
-      return elm * 2
+    var sum = rate[rate.length-1];
+    var bp = rate.map(elm => {
+      return elm / sum;
     });
-    
     for (var i = 0; i < data_number; i++) {
-      
+      var r = Math.random();
+      var idx = bp.findIndex(elm => {
+        return elm > r;
+      });
+      data.push(value[idx]);
     }
-  }
-  
-  if (item == 'name') {
-    for (var i = 0; i < data_number; i++) {  
+  } else if (info['text'] == 'random') {
+    var min = Math.ceil(info['min']);
+    if (min > 11) {
+      min = 11;
+    }
+    var max = Math.floor(info['max']);
+    if (max > )
+    for (var i = 0; i < data_number; i++) {
       data.push(Math.random().toString(32).substring(2));
-    }
-  } else if (item == 'sex') {
-    for (var i = 0; i < data_number; i++) {
-      if (Math.random() < 0.5) {
-        data.push('M');
-      } else {
-        data.push('F');
-      }
-    }
-  } else if (item == 'age') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(Math.floor(Math.random()*100));
-    }
-  } else if (item == 'height') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(Math.random()*140+50);
-    }
-  } else if (item == 'birthday') {
-    for (var i = 0; i < data_number; i++) {
-      data.push(getRandomYmd('1945/01/01', '2019/12/31'));
     }
   }
   return data;  
