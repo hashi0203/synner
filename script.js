@@ -368,6 +368,7 @@ function fill_data_detail_content() {
           document.getElementById('domain'+i).classList.remove('active');
         }
       }
+      console.log(json[data_idx]["data"]);
       draw_chart(document.getElementById('dist_chart'), json[data_idx]["data"],data_idx);
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
