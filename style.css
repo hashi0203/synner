@@ -117,3 +117,7 @@ table.layout-fixed {
 .point {
   cursor: pointer;
 }
+
+.bg-gray {
+  background-color: rgb(192,192,192,0.5);
+}

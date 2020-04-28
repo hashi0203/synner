@@ -233,6 +233,7 @@ function make_sug_table(item) {
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = title;
+  add_atts(th,[['class','bg-gray']]);
   app_child([th,tr,table]);
   var tr = new_elem('tr');
   add_atts(tr,[['height','150']]);
@@ -241,6 +242,7 @@ function make_sug_table(item) {
   app_child([td,tr,table]);
   var tr = new_elem('tr');
   var td = new_elem('td');
+  add_atts(td,[['class','bg-gray']]);
   var button = new_elem('button');
   add_atts(button, [['type', 'button'],['class','btn btn-primary']]);
   button.textContent = 'Use';
@@ -464,6 +466,15 @@ function update_data(i,j) {
   }
 };
 
+function edit_selected(i) {
+  for (var i = 0; i < items.length; i++) {
+    var tds = document.getElementById(items[i]).children;
+    for (var j = 0; j < tds.length; j++) {
+      tds.
+    }
+  }
+};
+
 function change_data_size() {
   data_number = Number(document.getElementById("data_number").value);
   if (data_number < 1) {
@@ -502,7 +513,7 @@ function data_generator(item) {
     }
   }
   return data;  
-}
+};
 
 function init() {
   data_number = Number(document.getElementById("data_number").value);
@@ -560,6 +571,7 @@ function init() {
   for (var i = 0; i < items.length; i++) {
     fill_items(items[i]);
   }
+  edit_selected(data_idx);
   
   var i = 0;
   while (true) {
