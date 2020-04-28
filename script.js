@@ -731,9 +731,15 @@ function data_generator_test(type, info) {
       min = 11;
     }
     var max = Math.floor(info['max']);
-    if (max > )
+    if (max > 11) {
+      max = 11;
+    }
     for (var i = 0; i < data_number; i++) {
-      data.push(Math.random().toString(32).substring(2));
+      var str = Math.random().toString(32).substring(2);
+      while (str.length < min) {
+        str = Math.random().toString(32).substring(2);
+      }
+      data.push(str.substring(0,max));
     }
   }
   return data;  
