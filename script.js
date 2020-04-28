@@ -164,7 +164,7 @@ function add_title_col(i) {
   app_child([input,th]);
 
   var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); edit_selected('+i+'); fill_data_detail_content('+i+');']]);
+  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','change_selected_field('+i+');']]);
   app_child([icon,th]);
 
   var icon = new_elem('i');
@@ -283,8 +283,7 @@ function fill_items(item) {
   }
 };
 
-function fill_data_detail_title(idx) {
-  data_idx = idx;
+function fill_data_detail_title() {
   document.getElementById('data_detail_title').textContent = json[data_idx]['name'];
 };
 
@@ -482,14 +481,14 @@ function add_field() {
   max_id++;
   json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
   
-  var idx = json.length-1;
-  add_title_col(idx);
-  add_canvas_col(idx);
-  add_dependency_col(idx);
-  add_data_col(idx);
-  edit_selected(idx);
-  draw_chart(idx);
-  fill_data_detail_title(idx);
+  data_idx = json.length-1;
+  add_title_col(data_idx);
+  add_canvas_col(data_idx);
+  add_dependency_col(data_idx);
+  add_data_col(data_idx);
+  edit_selected();
+  draw_chart(data_idx);
+  fill_data_detail_title();
   fill_data_detail_content();
 };
 
@@ -508,7 +507,7 @@ function delete_field(i) {
   }
   if (i == data_idx) {
     data_idx = 0;
-    fill_data_detail_title(data_idx);
+    fill_data_detail_title();
     fill_data_detail_content();
   } else if (i < data_idx) {
     data_idx--;
@@ -522,7 +521,7 @@ function delete_field(i) {
 function update_title(i) {
   json[i]['name'] = document.getElementById('title'+i).value;
   if (i == data_idx) {
-    fill_data_detail_title(data_idx);
+    fill_data_detail_title();
   }
 };
 
@@ -544,36 +543,43 @@ function update_data(i,j) {
   }
 };
 
-function edit_selected(i) {
-  for (var j = 0; j < items.length; j++) {
-    var tds = document.getElementById(items[j]).children;
-    for (var k = 0; k < tds.length; k++) {
-      if (k == i) {
-        tds[k].classList.add("bg-gray");
+function edit_selected() {
+  for (var i = 0; i < items.length; i++) {
+    var tds = document.getElementById(items[i]).children;
+    for (var j = 0; j < tds.length; j++) {
+      if (j == data_idx) {
+        tds[j].classList.add("bg-gray");
       } else {
-        tds[k].classList.remove("bg-gray");
+        tds[j].classList.remove("bg-gray");
       }
     }
   }
-  for (var j = 0; j < json.length; j++) {
-    if (j == i) {
-      document.getElementById('title'+j).classList.add("bg-gray");
+  for (var i = 0; i < json.length; i++) {
+    if (i == data_idx) {
+      document.getElementById('title'+i).classList.add("bg-gray");
     } else {
-      document.getElementById('title'+j).classList.remove("bg-gray");
+      document.getElementById('title'+i).classList.remove("bg-gray");
     }
   }
-  for (var j = 0; j < json.length; j++) {
-    if (j == i) {
-      for (var k = 0; k < data_number; k++) {
-        document.getElementById('data'+j+'_'+k).classList.add("bg-gray");
+  for (var i = 0; i < json.length; i++) {
+    if (i == data_idx) {
+      for (var j = 0; j < data_number; j++) {
+        document.getElementById('data'+i+'_'+j).classList.add("bg-gray");
       }
     } else {
-      for (var k = 0; k < json[j]['data'].length; k++) {
-        document.getElementById('data'+j+'_'+k).classList.remove("bg-gray");
+      for (var j = 0; j < json[i]['data'].length; j++) {
+        document.getElementById('data'+i+'_'+j).classList.remove("bg-gray");
       }
     }
   }
 };
+
+function change_selected_field(i) {
+  data_idx = i;
+  fill_data_detail_title();
+  edit_selected();
+  fill_data_detail_content();
+}
 
 function change_data_size() {
   data_number = Number(document.getElementById("data_number").value);
@@ -678,11 +684,11 @@ function init() {
   for (var i = 0; i < items.length; i++) {
     fill_items(items[i]);
   }
-  edit_selected(data_idx);
+  edit_selected();
   
   fill_items('charts');
   
-  fill_data_detail_title(data_idx);
+  fill_data_detail_title();
   make_data_detail_content();
   fill_data_detail_content();
 };
