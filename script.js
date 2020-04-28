@@ -707,15 +707,16 @@ function data_generator_test(type, info) {
   } else if (info['text'] == 'choice') {
     var rate = info['rate'];
     var value = info['value'];
-    var sum  = function(arr) {
-        return arr.reduce(function(prev, current, i, arr) {
-            return prev+current;
-        });
-    };
-    if (choice.length != value.length) {
-      console.log('lengths of choice and value do not match');
+    if (rate.length != value.length) {
+      console.log('lengths of rate and value do not match');
       return;
     }
+    for (var i = 1; i < rate.length; i++) {
+      rate[i] += rate[i-1];      
+    }
+    var bp = arr.map(elm => {
+      return elm * 2
+    });
     
     for (var i = 0; i < data_number; i++) {
       
