@@ -17,6 +17,10 @@ h1 {
   width: 200px;
 }
 
+.title_input {
+  width: 160px;
+}
+
 .size_fix {
   width: 100%;
 }

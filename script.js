@@ -174,7 +174,7 @@ function app_child(cs){
 function add_title_col(i) {
   var th = new_elem('th');
   var input = new_elem('input');
-  add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]],['onchange','update_title('+i+')']]);
+  add_atts(input,[['type','text'],['id','title'+i],['class','title_input'],['value',json[i]["name"]],['onchange','update_title('+i+')']]);
   app_child([input,th]);
 
   var icon = new_elem('i');
