@@ -249,10 +249,16 @@ function add_data_col(i) {
   add_atts(div,[['class','data_scroll']]);
   for (var j = 0; j < data_number; j++) {
     var input = new_elem('input');
-    if (json[i]["data"][j]) {
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['value',json[i]["data"][j]],['onchange','update_data('+i+','+j+');']]);
+    add_atts(input,[['class','size_fix'], ['id','data'+i+'_'+j],['onchange','update_data('+i+','+j+');']]);
+    if (json[i]['data_type'] == 'int') {
+      add_atts(input,[['type','number'],['step','1']]);
+    } else if (json[i]['data_type'] == 'float') {
+      add_atts(input,[['type','number'],['step','0.1']]);
     } else {
-      add_atts(input,[['type','text'],['class','size_fix'], ['id','data'+i+'_'+j],['onchange','update_data('+i+','+j+');']]);
+      add_atts(input,[['type',json[i]['data_type']]]);
+    }
+    if (json[i]["data"][j] != undefined) {
+      add_atts(input,[['value',json[i]["data"][j]]]);
     }
     app_child([input,div]);
   }
@@ -294,7 +300,7 @@ function make_sug_table(item) {
   if (item == 'custom') {
     title = 'Custom';
     content = 'Design your own custom type';
-    onclick = "make_new_data('age');";
+    onclick = "make_new_data();";
   } else if (item == 'random') {
     title = 'Random';
     content = 'Make random dataset';
@@ -597,9 +603,13 @@ function change_data_size() {
   fill_items('charts');
 };
 
-function make_new_data(item) {
-  json[data_idx]['generator'] = item;
-  json[data_idx]['data'] = data_generator(item);
+function make_new_data() {
+  if (json[data_idx]['data_type'] == 'text') {
+    json[data_idx]['generator'] = 'name';
+  } else if (json[data_idx]['data_type'] == 'int') {
+    json[data_idx]['generator'] = 'age';
+  }
+  json[data_idx]['data'] = data_generator(json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
     document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
   }
@@ -624,6 +634,10 @@ function data_generator(item) {
   } else if (item == 'age') {
     for (var i = 0; i < data_number; i++) {
       data.push(Math.floor(Math.random()*100));
+    }
+  } else if (item == 'height') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(Math.random()*140+50)
     }
   }
   return data;  
