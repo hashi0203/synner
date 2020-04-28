@@ -504,7 +504,7 @@ function add_field(type) {
   data_idx = json.length-1;
   add_title_col(data_idx);
   add_canvas_col(data_idx);
-  add_dependency_col(data_idx);
+  replace_all_children('dependencies');
   add_data_col(data_idx);
   edit_selected();
   draw_chart(data_idx);
