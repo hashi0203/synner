@@ -100,7 +100,7 @@ function add_title_col(i) {
   app_child([input,th]);
 
   var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
+  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','edit_selected('+i+'); fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
   app_child([icon,th]);
 
   var icon = new_elem('i');
@@ -343,7 +343,6 @@ function fill_data_detail_content() {
         document.getElementById('description'+i).classList.add('active');
       } else {
         document.getElementById('description'+i).classList.remove('active');
-        // add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
       }
     }
     if (did == 0) {
@@ -352,10 +351,8 @@ function fill_data_detail_content() {
       for (var i = 0; i < domains.length; i++) {
         if (i == domid) {
           document.getElementById('domain'+i).classList.add('active');
-          // add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary active']]);
         } else {
           document.getElementById('domain'+i).classList.remove('active');
-          // add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary']]);
         }
       }
       draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
