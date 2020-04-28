@@ -477,6 +477,24 @@ function edit_selected(i) {
       }
     }
   }
+  for (var j = 0; j < json.length; j++) {
+    if (j == i) {
+      document.getElementById('title'+j).classList.add("bg-gray");
+    } else {
+      document.getElementById('title'+j).classList.remove("bg-gray");
+    }
+  }
+  for (var j = 0; j < json.length; j++) {
+    if (j == i) {
+      for (var k = 0; k < json[j]['data'].length; k++) {
+        document.getElementById('data'+j+'_'+k).classList.add("bg-gray");
+      }
+    } else {
+      for (var k = 0; k < json[j]['data'].length; k++) {
+        document.getElementById('data'+j+'_'+k).classList.remove("bg-gray");
+      }
+    }
+  }
 };
 
 function change_data_size() {
