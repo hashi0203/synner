@@ -688,6 +688,44 @@ function data_generator(item) {
   return data;  
 };
 
+function data_generator_test(type, info) {
+  var data = [];
+  if (type == 'int') {
+    var min = Math.ceil(info['min']);
+    var max = Math.floor(info['max']);
+    data.push(min + Math.floor(Math.random()*(max-min+1)));
+  } else if (type == 'float') {
+    data.push(min + Math.random()*max);
+  }
+  
+  if (item == 'name') {
+    for (var i = 0; i < data_number; i++) {  
+      data.push(Math.random().toString(32).substring(2));
+    }
+  } else if (item == 'sex') {
+    for (var i = 0; i < data_number; i++) {
+      if (Math.random() < 0.5) {
+        data.push('M');
+      } else {
+        data.push('F');
+      }
+    }
+  } else if (item == 'age') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(Math.floor(Math.random()*100));
+    }
+  } else if (item == 'height') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(Math.random()*140+50);
+    }
+  } else if (item == 'birthday') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(getRandomYmd('1945/01/01', '2019/12/31'));
+    }
+  }
+  return data;  
+};
+
 function init() {
   data_number = Number(document.getElementById("data_number").value);
   if (data_number < 1) {
