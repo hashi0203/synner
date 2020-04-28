@@ -693,9 +693,33 @@ function data_generator_test(type, info) {
   if (type == 'int') {
     var min = Math.ceil(info['min']);
     var max = Math.floor(info['max']);
-    data.push(min + Math.floor(Math.random()*(max-min+1)));
+    for (var i = 0; i < data_number; i++) {  
+      data.push(min + Math.floor(Math.random()*(max-min+1)));
+    }
   } else if (type == 'float') {
-    data.push(min + Math.random()*max);
+    for (var i = 0; i < data_number; i++) {  
+      data.push(info['min'] + Math.random()*(info['max']-info['min']));
+    }
+  } else if (type == 'date') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(getRandomYmd(info['min'], info['max']));
+    }
+  } else if (info['text'] == 'choice') {
+    var rate = info['rate'];
+    var value = info['value'];
+    var sum  = function(arr) {
+        return arr.reduce(function(prev, current, i, arr) {
+            return prev+current;
+        });
+    };
+    if (choice.length != value.length) {
+      console.log('lengths of choice and value do not match');
+      return;
+    }
+    
+    for (var i = 0; i < data_number; i++) {
+      
+    }
   }
   
   if (item == 'name') {
