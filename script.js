@@ -7,21 +7,23 @@ var dist_chart;
 
 function toCountDict(array,type){
   let dict = {};
-  if (type == 'float') {
+  if (type == 'float' || type == 'int') {
     for(let key of array){
       dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
     }
+    const compare = (x, y) => x - y;
+    var keys = Object.keys(dict).sort(compare);
   } else {
     for(let key of array){
       dict[key] = array.filter(function(x){return x==key}).length;
     }
+    var keys = Object.keys(dict).sort(function(a,b){
+          if( a < b ) return -1;
+          if( a > b ) return 1;
+          return 0;
+    });
   }
   
-  var keys = Object.keys(dict).sort(function(a,b){
-        if( a < b ) return -1;
-        if( a > b ) return 1;
-        return 0;
-  });
   var values = [];
   for (var i = 0; i < keys.length; i++) {
     values.push(dict[keys[i]]*100/data_number);
@@ -95,7 +97,7 @@ function draw_dist_chart(i) {
   }
   
   var canvas = document.getElementById('dist_chart');
-  var data = toCountDict(json[i]['data']);
+  var data = toCountDict(json[i]['data'],json[i]['data_type']);
   var mydata = {
     labels: data[0],
     datasets: [
@@ -634,7 +636,7 @@ function make_new_data() {
     json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
   }
   
-  json[data_idx]['data'] = data_generator(json[i]['data_type'],json[data_idx]['generator']);
+  json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
     document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
   }
