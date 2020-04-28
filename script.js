@@ -470,7 +470,7 @@ function edit_selected(i) {
   for (var i = 0; i < items.length; i++) {
     var tds = document.getElementById(items[i]).children;
     for (var j = 0; j < tds.length; j++) {
-      tds.
+      console.log(tds[j].className);
     }
   }
 };
