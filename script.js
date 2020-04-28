@@ -3,6 +3,7 @@ var data_idx = 0;
 var json;
 var max_id;
 var items = ['titles','canvases','dependencies','datas'];
+var dist_chart;
 
 function toCountDict(array){
   let dict = {};
@@ -77,12 +78,13 @@ function draw_chart(i) {
   });
 };
 
-function draw_dist_chart(canvas,data, i) {
-  if (json[i]['dist_chart']) {
-    json[i]['dist_chart'].destroy();
+function draw_dist_chart(i) {
+  if (dist_chart) {
+    dist_chart.destroy();
   }
   
-  data = toCountDict(data);
+  var canvas = document.getElementById('dist_chart');
+  var data = toCountDict(json[i]['data']);
   var mydata = {
     labels: data[0],
     datasets: [
@@ -127,7 +129,7 @@ function draw_dist_chart(canvas,data, i) {
     maintainAspectRatio: false
   };
 
-  json[i]['dist_chart'] = new Chart(canvas, {
+  dist_chart = new Chart(canvas, {
 
     type: 'bar',  //グラフの種類
     data: mydata,  //表示するデータ
@@ -274,7 +276,11 @@ function fill_items(item) {
     for (var i = 0; i < json.length; i++) {
       add_data_col(i);
     }
-  } else if (item == 'chart ')
+  } else if (item == 'charts') {
+    for (var i = 0; i < json.length; i++) {
+      draw_chart(i);
+    }
+  }
 };
 
 function fill_data_detail_title(idx) {
@@ -430,7 +436,7 @@ function fill_data_detail_content() {
           document.getElementById('domain'+i).classList.remove('active');
         }
       }
-      draw_dist_chart(document.getElementById('dist_chart'), json[data_idx]["data"],data_idx);
+      draw_dist_chart(data_idx);
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
       var rmv_obj = document.getElementById('val_dist_table');
@@ -510,9 +516,7 @@ function delete_field(i) {
   for (var i = 0; i < items.length; i++) {
     replace_all_children(items[i]);
   }
-  for (var i = 0; i < json.length; i++) {
-      draw_chart(i);
-  }
+  fill_items('charts');
 };
 
 function update_title(i) {
@@ -531,14 +535,6 @@ function delete_dependency(i,j) {
   json[i]['dependency'].splice(j,1);
   replace_all_children('dependencies');
 };
-
-// function update_canvas(i) {
-//   var canvas = document.getElementById('canvas'+i);
-//   if (json[i]['chart']) {
-//     json[i]['chart'].destroy();
-//   }
-//   draw_chart(canvas, json[i]["data"],i);
-// }
 
 function update_data(i,j) {
   json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
@@ -592,9 +588,7 @@ function change_data_size() {
     json[i]['data'] = data_generator(json[i]['generator']);
   }
   replace_all_children('datas');
-  for (var i = 0; i < json.length; i++) {
-    draw_chart(i);
-  }
+  fill_items('charts');
 };
 
 function make_new_data(item) {
@@ -686,9 +680,7 @@ function init() {
   }
   edit_selected(data_idx);
   
-  for (var i = 0; i < json.length; i++) {
-      draw_chart(i);
-  }
+  fill_items('charts');
   
   fill_data_detail_title(data_idx);
   make_data_detail_content();
