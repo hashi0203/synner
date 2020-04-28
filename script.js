@@ -96,11 +96,11 @@ function app_child(cs){
 function add_title_col(i) {
   var th = new_elem('th');
   var input = new_elem('input');
-  add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]]]);
+  add_atts(input,[['type','text'],['id','title'+i],['value',json[i]["name"]],['onchange','update_title('+i+')']]);
   app_child([input,th]);
 
   var icon = new_elem('i');
-  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','edit_selected('+i+'); fill_data_detail_title('+i+'); fill_data_detail_content('+i+');']]);
+  add_atts(icon,[['class','far fa-edit fa-fw point'],['onclick','fill_data_detail_title('+i+'); edit_selected('+i+'); fill_data_detail_content('+i+');']]);
   app_child([icon,th]);
 
   var icon = new_elem('i');
@@ -227,10 +227,11 @@ function make_sug_table(item) {
   if (item == 'custom') {
     title = 'Custom';
     content = 'Design your own custom type';
-    onclick = 
+    onclick = "make_new_data('age');";
   } else if (item == 'random') {
     title = 'Random';
     content = 'Make random dataset';
+    onclick = "";
   }
   
   var table = new_elem('table');
@@ -249,7 +250,7 @@ function make_sug_table(item) {
   var td = new_elem('td');
   add_atts(td,[['class','bg-gray']]);
   var button = new_elem('button');
-  add_atts(button, [['type', 'button'],['class','btn btn-primary']]);
+  add_atts(button, [['type', 'button'],['class','btn btn-primary'],['onclick',onclick]]);
   button.textContent = 'Use';
   app_child([button,td,tr,table]);
   return table;
@@ -452,6 +453,13 @@ function delete_field(i) {
   }
 };
 
+function update_title(i) {
+  json[i]['name'] = document.getElementById('title'+i).value;
+  if (i == data_idx) {
+    fill_data_detail_title(data_idx);
+  }
+};
+
 function add_dependency(i,j) {
   json[i]['dependency'].push(json[j]['id']);
   replace_all_children('dependencies');
@@ -526,6 +534,15 @@ function change_data_size() {
     update_canvas(i);
   }
 };
+
+function make_new_data(item) {
+  json[data_idx]['data'] = data_generator(item);
+  for (var i = 0; i < data_number; i++) {
+    document.getElementById('data'+data_idx+'_'+i).value = json[data_idx]['data'][i];
+  }
+  update_canvas(data_idx);
+  fill_data_detail_content();
+}
 
 function data_generator(item) {
   var data = [];
