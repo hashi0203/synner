@@ -373,7 +373,7 @@ function make_data_detail_content() {
     var label = new_elem('label');
     add_atts(label,[['id','description'+i],['class','center btn btn-outline-primary descriptions']]);
     var input = new_elem('input');
-    add_atts(input,[['type','radio'],['name','describe-by'],['value',i]]);
+    add_atts(input,[['type','radio'],['name','describe-by'],['value',i],['onclick','change_descriptions('+i+')']]);
     if (i == 0) {
       input.checked = true;
     }
@@ -452,6 +452,10 @@ function fill_data_detail_content() {
     }
     if (did == 0) {
       var domid = json[data_idx]['domain'];
+      if (domid == undefined) {
+        domid = 0;
+        json[data_idx]['domain'] = 0;
+      }
       var domains = document.getElementsByClassName('domains');
       for (var i = 0; i < domains.length; i++) {
         if (i == domid) {
@@ -560,6 +564,11 @@ function update_data(i,j) {
   }
 };
 
+function change_descriptions(i) {
+  json[data_idx]['description'] = i;
+  fill_data_detail_content();
+}
+
 function edit_selected() {
   for (var i = 0; i < items.length; i++) {
     var tds = document.getElementById(items[i]).children;
@@ -596,7 +605,7 @@ function change_selected_field(i) {
   fill_data_detail_title();
   edit_selected();
   fill_data_detail_content();
-}
+};
 
 function change_data_size() {
   data_number = Number(document.getElementById("data_number").value);
