@@ -417,7 +417,12 @@ function replace_all_children(item) {
 };
 
 function delete_field(i) {
+  var iid = json[i]['id'];
+  console.log(iid);
   json.splice(i,1);
+  for (var j = 0; j < json.length; j++) {
+    json[j]['dependency'] = json[j]['dependency'].filter(function(value) { return value != iid; });
+  }
   if (i == data_idx) {
     data_idx = 0;
     fill_data_detail_title(data_idx);
@@ -428,15 +433,8 @@ function delete_field(i) {
   for (var i = 0; i < items.length; i++) {
     replace_all_children(items[i]);
   }
-  var i = 0;
-  while (true) {
-    var canvas = document.getElementById('canvas'+i);
-    if (canvas) {
-      draw_chart(canvas, json[i]["data"],i);
-      i++;
-    } else {
-      break;
-    }
+  for (var i = 0; i < json.length; i++) {
+      draw_chart(document.getElementById('canvas'+i), json[i]["data"],i);
   }
 };
 
@@ -595,15 +593,19 @@ function init() {
   }
   edit_selected(data_idx);
   
-  var i = 0;
-  while (true) {
-    var canvas = document.getElementById('canvas'+i);
-    if (canvas) {
-      draw_chart(canvas, json[i]["data"],i);
-      i++;
-    } else {
-      break;
-    }
+  // var i = 0;
+  // while (true) {
+  //   var canvas = document.getElementById('canvas'+i);
+  //   if (canvas) {
+  //     draw_chart(canvas, json[i]["data"],i);
+  //     i++;
+  //   } else {
+  //     break;
+  //   }
+  // }
+  
+  for (var i = 0; i < json.length; i++) {
+      draw_chart(document.getElementById('canvas'+i), json[i]["data"],i);
   }
   
   fill_data_detail_title(data_idx);
