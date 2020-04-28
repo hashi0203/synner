@@ -608,6 +608,10 @@ function make_new_data() {
     json[data_idx]['generator'] = 'name';
   } else if (json[data_idx]['data_type'] == 'int') {
     json[data_idx]['generator'] = 'age';
+  } else if (json[data_idx]['data_type'] == 'float') {
+    json[data_idx]['generator'] = 'height';
+  } else if (json[data_idx]['data_type'] == 'date') {
+    json[data_idx]['generator'] = 'birthday';
   }
   json[data_idx]['data'] = data_generator(json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
@@ -615,7 +619,24 @@ function make_new_data() {
   }
   draw_chart(data_idx);
   fill_data_detail_content();
-}
+};
+
+function getRandomYmd(fromYmd, toYmd){
+  var d1 = new Date(fromYmd);
+  var d2 = new Date(toYmd);
+ 
+  var c = (d2 - d1) / 86400000;
+  var x = Math.floor(Math.random() * (c+1));
+ 
+  d1.setDate(d1.getDate() + x);
+ 
+  //フォーマット整形
+  var y = d1.getFullYear();
+  var m = ("00" + (d1.getMonth()+1)).slice(-2);
+  var d = ("00" + d1.getDate()).slice(-2);
+ 
+  return y + "-" + m + "-" + d;
+};
 
 function data_generator(item) {
   var data = [];
@@ -637,7 +658,11 @@ function data_generator(item) {
     }
   } else if (item == 'height') {
     for (var i = 0; i < data_number; i++) {
-      data.push(Math.random()*140+50)
+      data.push(Math.random()*140+50);
+    }
+  } else if (item == 'birthday') {
+    for (var i = 0; i < data_number; i++) {
+      data.push(getRandomYmd('1945/01/01', '2019/12/31'));
     }
   }
   return data;  
