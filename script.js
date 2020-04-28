@@ -425,6 +425,14 @@ function fill_data_detail_content() {
         document.getElementById('description'+i).classList.remove('active');
       }
     }
+    var describeds = document.getElementsByClassName('describeds');
+    for (var i = 0; i < describeds.length; i++) {
+      if (i == did) {
+        document.getElementById('described'+i).style.display = 'table-cell';
+      } else {
+        document.getElementById('described'+i).style.display = 'none';
+      }
+    }
     if (did == 0) {
       var domid = json[data_idx]['domain'];
       var domains = document.getElementsByClassName('domains');
@@ -455,14 +463,6 @@ function fill_data_detail_content() {
         var input = new_elem('input');
         add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
         app_child([input,td1,tr1,table,table_wrapper]);
-      }
-    }
-    var describeds = document.getElementsByClassName('describeds');
-    for (var i = 0; i < describeds.length; i++) {
-      if (i == did) {
-        document.getElementById('described'+i).style.display = 'table-cell';
-      } else {
-        document.getElementById('described'+i).style.display = 'none';
       }
     }
   } else {
