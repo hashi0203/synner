@@ -229,11 +229,13 @@ function make_sug_table(item) {
   }
   
   var table = new_elem('table');
+  add_atts(table,[['border','1']]);
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = title;
   app_child([th,tr,table]);
   var tr = new_elem('tr');
+  add_atts(tr,[['height','150']]);
   var td = new_elem('td');
   td.textContent = content;
   app_child([td,tr,table]);
@@ -252,7 +254,7 @@ function make_data_detail_content() {
   var tr = new_elem('tr');
   var th = new_elem('th');
   th.textContent = 'Default Case';
-  add_atts(th,[['colspan','2']]);
+  add_atts(th,[['colspan','2'],['class','bg-gray']]);
   app_child([th,tr,table]);
   
   var tr = new_elem('tr');
@@ -331,6 +333,7 @@ function make_data_detail_content() {
 function fill_data_detail_content() {
   if (json[data_idx]['data'].length >= 1) {
     document.getElementById('description').style.display = 'table-cell';
+    document.getElementById('sug_custom').style.display = 'none';
     var did = json[data_idx]['description'];
     var descriptions = document.getElementsByClassName('descriptions');
     for (var i = 0; i < descriptions.length; i++) {
@@ -381,7 +384,12 @@ function fill_data_detail_content() {
       }
     }
   } else {
-    document.getElementsByClassName('descriptions').style.display = 'none';
+    document.getElementById('description').style.display = 'none';
+    document.getElementById('sug_custom').style.display = 'table-cell';
+    var describeds = document.getElementsByClassName('describeds');
+    for (var i = 0; i < describeds.length; i++) {
+      document.getElementById('described'+i).style.display = 'none';
+    }
   }
   
 };
@@ -395,6 +403,8 @@ function add_field() {
   add_canvas_col(idx);
   add_dependency_col(idx);
   add_data_col(idx);
+  fill_data_detail_title(idx);
+  fill_data_detail_content();
 };
 
 function replace_all_children(item) {

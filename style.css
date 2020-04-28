@@ -53,7 +53,7 @@ table.layout-fixed {
   padding-right: 5px;
 }
 
-#description {
+#description, #sug_custom {
   text-align: center;
   width: 200px;
   height: 230px;
