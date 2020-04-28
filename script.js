@@ -220,6 +220,30 @@ function fill_data_detail_title(idx) {
   document.getElementById('data_detail_title').textContent = json[data_idx]['name'];
 };
 
+function make_sug_table(item) {
+  if (item == 'custom') {
+    var table = new_elem('table');
+    var tr = new_elem('tr');
+    var th = new_elem('th');
+    th.textContent = 'Custom';
+    app_child([th,tr,table]);
+    var tr = new_elem('tr');
+    var td = new_elem('td');
+    td.textContent = 'Design your own custom type';
+    app_child([td,tr,table]);
+    var tr = new_elem('tr');
+    var td = new_elem('td');
+    var button = new_elem('button');
+    add_atts(button, [['type', 'button'],['class','btn btn-primary']]);
+    button.textContent = 'Use';
+    app_child([button,])
+    
+    <button type="button" class="btn btn-primary">Primary</button>
+    var input = new_elem('input');
+    add_atts(input, [['type', 'button'],['']])
+  }
+}
+
 function make_data_detail_content() {
   var table = new_elem('table');
   add_atts(table,[['border','1']]);
@@ -228,6 +252,7 @@ function make_data_detail_content() {
   th.textContent = 'Default Case';
   add_atts(th,[['colspan','2']]);
   app_child([th,tr,table]);
+  
   var tr = new_elem('tr');
   var td = new_elem('td');
   add_atts(td,[['id','description']]);
@@ -252,6 +277,31 @@ function make_data_detail_content() {
     app_child([span,label,div]);
   }
   app_child([div,td,tr]);
+  
+  // var tr = new_elem('tr');
+  // var td = new_elem('td');
+  // add_atts(td,[['id','sug_custom']]);
+  // var div = new_elem('div');
+  // div.textContent = 'Describe by:';
+  // app_child([div,td]);
+  // var div = new_elem('div');
+  // add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  // var items = ['Distribution','Enumeration','Expression','Visual Relationship','Sequence'];
+  // for (var i=0; i<items.length; i++) {
+  //   var label = new_elem('label');
+  //   add_atts(label,[['id','description'+i],['class','center btn btn-outline-primary descriptions']]);
+  //   var input = new_elem('input');
+  //   add_atts(input,[['type','radio'],['name','describe-by'],['value',i]]);
+  //   if (i == 0) {
+  //     input.checked = true;
+  //   }
+  //   input.required = true;
+  //   app_child([input,label]);
+  //   var span = new_elem('span');
+  //   span.textContent = items[i];
+  //   app_child([span,label,div]);
+  // }
+  // app_child([div,td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','described0'],['class','describeds']]);
@@ -350,7 +400,7 @@ function fill_data_detail_content() {
 
 function add_field() {
   max_id++;
-  json.push({"id": max_id, "name": 'Column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
+  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data': [], 'description': 0, 'domain': 0});
   
   var idx = json.length-1;
   add_title_col(idx);
