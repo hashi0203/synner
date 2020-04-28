@@ -223,9 +223,11 @@ function fill_data_detail_title(idx) {
 function make_sug_table(item) {
   var title;
   var content;
+  var onclick;
   if (item == 'custom') {
     title = 'Custom';
     content = 'Design your own custom type';
+    onclick = 
   } else if (item == 'random') {
     title = 'Random';
     content = 'Make random dataset';
