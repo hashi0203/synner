@@ -5,12 +5,26 @@ var max_id;
 var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
 
+function isNumber(numVal){
+  var pattern = /^[-]?([1-9]\d*|0)(\.\d+)?$/;
+  return pattern.test(numVal);
+};
+
 function toCountDict(array){
   let dict = {};
   for(let key of array){
-      dict[key] = array.filter(function(x){return x==key}).length;
+      if (isNumber(key)) {
+        key = Math.round(key);
+        dict[key] = array.filter(function(x){return Math.round(x)==key}).length;
+      } else {
+        dict[key] = array.filter(function(x){return x==key}).length;
+      }
   }
-  var keys = Object.keys(dict);
+  var keys = Object.keys(dict).sort(function(a,b){
+        if( a < b ) return -1;
+        if( a > b ) return 1;
+        return 0;
+  });
   var values = [];
   for (var i = 0; i < keys.length; i++) {
     values.push(dict[keys[i]]*100/data_number);
