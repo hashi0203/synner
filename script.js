@@ -1,5 +1,5 @@
 var data_number;
-var data_idx;
+var data_idx = 0;
 var json;
 var max_id;
 var items = ['titles','canvases','dependencies','datas'];
@@ -340,9 +340,10 @@ function fill_data_detail_content() {
     var descriptions = document.getElementsByClassName('descriptions');
     for (var i = 0; i < descriptions.length; i++) {
       if (i == did) {
-        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary active']]);
+        document.getElementById('description'+i).classList.add('active');
       } else {
-        add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
+        document.getElementById('description'+i).classList.remove('active');
+        // add_atts(document.getElementById('description'+i),[['class','center btn btn-outline-primary']]);
       }
     }
     if (did == 0) {
@@ -350,9 +351,11 @@ function fill_data_detail_content() {
       var domains = document.getElementsByClassName('domains');
       for (var i = 0; i < domains.length; i++) {
         if (i == domid) {
-          add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary active']]);
+          document.getElementById('domain'+i).classList.add('active');
+          // add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary active']]);
         } else {
-          add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary']]);
+          document.getElementById('domain'+i).classList.remove('active');
+          // add_atts(document.getElementById('domain'+i),[['class','center btn btn-outline-primary']]);
         }
       }
       draw_chart(document.getElementById('dist_chart'+data_idx), json[data_idx]["data"],data_idx);
@@ -467,10 +470,14 @@ function update_data(i,j) {
 };
 
 function edit_selected(i) {
-  for (var i = 0; i < items.length; i++) {
-    var tds = document.getElementById(items[i]).children;
-    for (var j = 0; j < tds.length; j++) {
-      console.log(tds[j].className);
+  for (var j = 0; j < items.length; j++) {
+    var tds = document.getElementById(items[j]).children;
+    for (var k = 0; k < tds.length; k++) {
+      if (k == i) {
+        tds[k].classList.add("bg-gray");
+      } else {
+        tds[k].classList.remove("bg-gray");
+      }
     }
   }
 };
@@ -584,7 +591,7 @@ function init() {
     }
   }
   
-  fill_data_detail_title(0);
+  fill_data_detail_title(data_idx);
   make_data_detail_content();
   fill_data_detail_content();
 };
