@@ -480,7 +480,7 @@ function fill_data_detail_content() {
         var tr1 = new_elem('tr');
         var td1 = new_elem('td');
         var input = new_elem('input');
-        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]]]);
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum('')']]);
         app_child([input,td1,tr1]);
         var td1 = new_elem('td');
         var input = new_elem('input');
