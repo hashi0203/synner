@@ -667,7 +667,18 @@ function make_new_data() {
   fill_data_detail_content();
 };
 
-function getRandomYmd(fromYmd, toYmd){
+var normRand = function (m, s) {
+  var a = 1 - Math.random();
+  var b = 1 - Math.random();
+  var c = Math.sqrt(-2 * Math.log(a));
+  if(0.5 - Math.random() > 0) {
+    return c * Math.sin(Math.PI * 2 * b) * s + m;
+  }else{
+    return c * Math.cos(Math.PI * 2 * b) * s + m;
+  }
+};
+
+function ymdRand(fromYmd, toYmd){
   var d1 = new Date(fromYmd);
   var d2 = new Date(toYmd);
  
@@ -687,18 +698,23 @@ function getRandomYmd(fromYmd, toYmd){
 function data_generator(type, info) {
   var data = [];
   if (type == 'int') {
-    var min = Math.ceil(info['min']);
-    var max = Math.floor(info['max']);
-    for (var i = 0; i < data_number; i++) {  
-      data.push(min + Math.floor(Math.random()*(max-min+1)));
+    if (info['distribution'] == 'uniform') {
+      var min = Math.ceil(info['min']);
+      var max = Math.floor(info['max']);
+      for (var i = 0; i < data_number; i++) {  
+        data.push(min + Math.floor(Math.random()*(max-min+1)));
+      }
+    } else if (info['distribution'] == 'gaussian') {
+      var mean = 
     }
+    
   } else if (type == 'float') {
     for (var i = 0; i < data_number; i++) {  
       data.push(info['min'] + Math.random()*(info['max']-info['min']));
     }
   } else if (type == 'date') {
     for (var i = 0; i < data_number; i++) {
-      data.push(getRandomYmd(info['min'], info['max']));
+      data.push(ymdRand(info['min'], info['max']));
     }
   } else if (info['text'] == 'choice') {
     var rate = info['rate'].slice(0,info['rate'].length);
@@ -787,7 +803,7 @@ function init() {
     { "id": 3,
       "name": "Age",
       "dependency": [],
-      "generator": {"min":0, "max":100},
+      "generator": {"distribution": 'uniform', "min":0, "max":100},
       "data_type": 'int',
       "data": age,
       "description": 3,
