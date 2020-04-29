@@ -590,8 +590,9 @@ function update_enum() {
   }
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('datas');
+  edit_selected();
   fill_items('charts');
-}
+};
 
 function edit_selected() {
   for (var i = 0; i < items.length; i++) {
