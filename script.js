@@ -475,15 +475,12 @@ function fill_data_detail_content() {
       }
       
       if (json[data_idx]['generator']['value'] == undefined) {
+        json[data_idx]['generator']['value'] = [];
+          json[data_idx]['generator']['rate'] = [];
         var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
         for (var i = 0; i < data[0].length; i++) {
-          json[data_idx]['generator']['value'][i]
-          add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
-          app_child([input,td1,tr1]);
-          var td1 = new_elem('td');
-          var input = new_elem('input');
-          add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
-          app_child([input,td1,tr1,table,table_wrapper]);
+          json[data_idx]['generator']['value'].push(data[0][i]);
+          json[data_idx]['generator']['rate'].push(data[1][i]*100/data_number);
         }
       }
       
@@ -500,24 +497,6 @@ function fill_data_detail_content() {
         add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',json[data_idx]['generator']['rate'][i]],['onchange','update_enum()']]);
         app_child([input,td1,tr1,table,table_wrapper]);
       }
-      
-      
-//       if (json[data_idx]['description'] == 1) {
-        
-//       } else {
-//         var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
-//         for (var i = 0; i < data[0].length; i++) {
-//           var tr1 = new_elem('tr');
-//           var td1 = new_elem('td');
-//           var input = new_elem('input');
-//           add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
-//           app_child([input,td1,tr1]);
-//           var td1 = new_elem('td');
-//           var input = new_elem('input');
-//           add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
-//           app_child([input,td1,tr1,table,table_wrapper]);
-//         }
-//       }
     }
   } else {
     document.getElementById('description').style.display = 'none';
