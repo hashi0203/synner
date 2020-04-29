@@ -473,26 +473,11 @@ function fill_data_detail_content() {
       if (rmv_obj != null) {
         table_wrapper.removeChild(rmv_obj);
       }
-      var table = new_elem('table');
-      add_atts(table,[['id','val_dist_table']]);
-      if (json[data_idx]['description'] == 1) {
-        for (var i = 0; i < json[data_idx]['generator']['value'].length; i++) {
-          var tr1 = new_elem('tr');
-          var td1 = new_elem('td');
-          var input = new_elem('input');
-          add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',json[data_idx]['generator']['value'][i]],['onchange','update_enum()']]);
-          app_child([input,td1,tr1]);
-          var td1 = new_elem('td');
-          var input = new_elem('input');
-          add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',json[data_idx]['generator']['rate'][i]],['onchange','update_enum()']]);
-          app_child([input,td1,tr1,table,table_wrapper]);
-        }
-      } else {
+      
+      if (json[data_idx]['generator']['value'] == undefined) {
         var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
         for (var i = 0; i < data[0].length; i++) {
-          var tr1 = new_elem('tr');
-          var td1 = new_elem('td');
-          var input = new_elem('input');
+          json[data_idx]['generator']['value'][i]
           add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
           app_child([input,td1,tr1]);
           var td1 = new_elem('td');
@@ -501,6 +486,38 @@ function fill_data_detail_content() {
           app_child([input,td1,tr1,table,table_wrapper]);
         }
       }
+      
+      var table = new_elem('table');
+      add_atts(table,[['id','val_dist_table']]);
+      for (var i = 0; i < json[data_idx]['generator']['value'].length; i++) {
+        var tr1 = new_elem('tr');
+        var td1 = new_elem('td');
+        var input = new_elem('input');
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',json[data_idx]['generator']['value'][i]],['onchange','update_enum()']]);
+        app_child([input,td1,tr1]);
+        var td1 = new_elem('td');
+        var input = new_elem('input');
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',json[data_idx]['generator']['rate'][i]],['onchange','update_enum()']]);
+        app_child([input,td1,tr1,table,table_wrapper]);
+      }
+      
+      
+//       if (json[data_idx]['description'] == 1) {
+        
+//       } else {
+//         var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
+//         for (var i = 0; i < data[0].length; i++) {
+//           var tr1 = new_elem('tr');
+//           var td1 = new_elem('td');
+//           var input = new_elem('input');
+//           add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
+//           app_child([input,td1,tr1]);
+//           var td1 = new_elem('td');
+//           var input = new_elem('input');
+//           add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
+//           app_child([input,td1,tr1,table,table_wrapper]);
+//         }
+//       }
     }
   } else {
     document.getElementById('description').style.display = 'none';
@@ -704,8 +721,8 @@ function data_generator(type, info) {
       data.push(getRandomYmd(info['min'], info['max']));
     }
   } else if (info['text'] == 'choice') {
-    var rate = info['rate'];
-    var value = info['value'];
+    var rate = info['rate'].slice(0,info['rate'].length);
+    var value = info['value'].slice(0,info['value'].length);
     if (rate.length != value.length) {
       console.log('lengths of rate and value do not match');
       return;
