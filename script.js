@@ -652,9 +652,9 @@ function make_new_data() {
   if (json[data_idx]['data_type'] == 'text') {
     json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = {"min":0, "max":100};
+    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":50, "variance":30};
   } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = {"min":50, "max":190};
+    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":140, "variance":50};
   } else if (json[data_idx]['data_type'] == 'date') {
     json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
   }
@@ -699,19 +699,28 @@ function data_generator(type, info) {
   var data = [];
   if (type == 'int') {
     if (info['distribution'] == 'uniform') {
+      console.log(info);
       var min = Math.ceil(info['min']);
       var max = Math.floor(info['max']);
       for (var i = 0; i < data_number; i++) {  
         data.push(min + Math.floor(Math.random()*(max-min+1)));
       }
     } else if (info['distribution'] == 'gaussian') {
-      var mean = 
+      for (var i = 0; i < data_number; i++) {  
+        data.push(Math.round(normRand(info['mean'],info['variance'])));
+      }
+    }
+  } else if (type == 'float') {
+    if (info['distribution'] == 'uniform') {
+      for (var i = 0; i < data_number; i++) {  
+        data.push(info['min'] + Math.random()*(info['max']-info['min']));
+      }
+    } else if (info['distribution'] == 'gaussian') {
+      for (var i = 0; i < data_number; i++) {  
+        data.push(normRand(info['mean'],info['variance']));
+      }
     }
     
-  } else if (type == 'float') {
-    for (var i = 0; i < data_number; i++) {  
-      data.push(info['min'] + Math.random()*(info['max']-info['min']));
-    }
   } else if (type == 'date') {
     for (var i = 0; i < data_number; i++) {
       data.push(ymdRand(info['min'], info['max']));
@@ -767,18 +776,12 @@ function init() {
     document.getElementById("data_number").value = data_number;
   }
   
-  var name = data_generator('text',{"text":'random', "min":3, "max":7});
-  var surname = data_generator('text',{"text":'random', "min":3, "max": 7});
-  var sex = data_generator('text',{"text": 'choice', "rate":[1,2], "value":['F','M']});
-  var age = data_generator('int', {"min":0, "max":100});
-  
   json = [
     { "id": 0,
       "name": "Name",
       "dependency": [2],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
-      "data": name,
       "description": 0,
       "domain" : 2
     },
@@ -787,7 +790,6 @@ function init() {
       "dependency": [],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
-      "data": surname,
       "description": 2,
       "expressions": "uniform(0,1)"
     },
@@ -796,7 +798,6 @@ function init() {
       "dependency": [],
       "generator": {"text": 'choice', "rate":[1,2], "value":['F','M']},
       "data_type": 'text',
-      "data": sex,
       "description": 1,
       "enumeration": [1,2]
     },
@@ -805,11 +806,14 @@ function init() {
       "dependency": [],
       "generator": {"distribution": 'uniform', "min":0, "max":100},
       "data_type": 'int',
-      "data": age,
       "description": 3,
       "visual-relationship": []
     },
   ];
+  
+  for (var i = 0; i < json.length; i++) {
+    json[i]['data'] = data_generator(json[i]['data_type'],json[i]['generator']);
+  }
   
   max_id = json.length;
   
