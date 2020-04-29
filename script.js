@@ -480,11 +480,11 @@ function fill_data_detail_content() {
         var tr1 = new_elem('tr');
         var td1 = new_elem('td');
         var input = new_elem('input');
-        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum('')']]);
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
         app_child([input,td1,tr1]);
         var td1 = new_elem('td');
         var input = new_elem('input');
-        add_atts(input,[['type','text'],['class','size_fix'], ['id','dist'+i],['value',data[1][i]*100/data_number]]);
+        add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
         app_child([input,td1,tr1,table,table_wrapper]);
       }
     }
@@ -569,6 +569,17 @@ function update_data(i,j) {
 function change_descriptions(i) {
   json[data_idx]['description'] = i;
   fill_data_detail_content();
+};
+
+function update_enum(f,i) {
+  if (f == 0) {
+    json[data_idx]['generator']['value'][i] = Number(document.getElementById('value'+i).value);
+  } else if (f == 1) {
+    json[data_idx]['generator']['rate'][i] = Number(document.getElementById('rate'+i).value);
+  }
+  json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
+  replace_all_children('datas');
+  fill_items('charts');
 }
 
 function edit_selected() {
