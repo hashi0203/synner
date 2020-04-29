@@ -473,19 +473,33 @@ function fill_data_detail_content() {
       if (rmv_obj != null) {
         table_wrapper.removeChild(rmv_obj);
       }
-      var data = toCountDict(json[data_idx]['data']);
       var table = new_elem('table');
       add_atts(table,[['id','val_dist_table']]);
-      for (var i = 0; i < data[0].length; i++) {
-        var tr1 = new_elem('tr');
-        var td1 = new_elem('td');
-        var input = new_elem('input');
-        add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
-        app_child([input,td1,tr1]);
-        var td1 = new_elem('td');
-        var input = new_elem('input');
-        add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
-        app_child([input,td1,tr1,table,table_wrapper]);
+      if (json[data_idx]['description'] == 1) {
+        for (var i = 0; i < json[data_idx]['generator']['value'].length; i++) {
+          var tr1 = new_elem('tr');
+          var td1 = new_elem('td');
+          var input = new_elem('input');
+          add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',json[data_idx]['generator']['value'][i]],['onchange','update_enum()']]);
+          app_child([input,td1,tr1]);
+          var td1 = new_elem('td');
+          var input = new_elem('input');
+          add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',json[data_idx]['generator']['rate'][i]],['onchange','update_enum()']]);
+          app_child([input,td1,tr1,table,table_wrapper]);
+        }
+      } else {
+        var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
+        for (var i = 0; i < data[0].length; i++) {
+          var tr1 = new_elem('tr');
+          var td1 = new_elem('td');
+          var input = new_elem('input');
+          add_atts(input,[['type','text'],['class','size_fix'], ['id','value'+i],['value',data[0][i]],['onchange','update_enum(0,'+i+')']]);
+          app_child([input,td1,tr1]);
+          var td1 = new_elem('td');
+          var input = new_elem('input');
+          add_atts(input,[['type','text'],['class','size_fix'], ['id','rate'+i],['value',data[1][i]*100/data_number],['onchange','update_enum(1,'+i+')']]);
+          app_child([input,td1,tr1,table,table_wrapper]);
+        }
       }
     }
   } else {
@@ -571,11 +585,12 @@ function change_descriptions(i) {
   fill_data_detail_content();
 };
 
-function update_enum(f,i) {
-  if (f == 0) {
-    json[data_idx]['generator']['value'][i] = Number(document.getElementById('value'+i).value);
-  } else if (f == 1) {
+function update_enum() {
+  var i = 0;
+  while (document.getElementById('value'+i)) {
+    json[data_idx]['generator']['value'][i] = document.getElementById('value'+i).value;
     json[data_idx]['generator']['rate'][i] = Number(document.getElementById('rate'+i).value);
+    i++;
   }
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('datas');
@@ -671,36 +686,6 @@ function getRandomYmd(fromYmd, toYmd){
  
   return y + "-" + m + "-" + d;
 };
-
-// function data_generator(item) {
-//   var data = [];
-//   if (item == 'name') {
-//     for (var i = 0; i < data_number; i++) {  
-//       data.push(Math.random().toString(32).substring(2));
-//     }
-//   } else if (item == 'sex') {
-//     for (var i = 0; i < data_number; i++) {
-//       if (Math.random() < 0.5) {
-//         data.push('M');
-//       } else {
-//         data.push('F');
-//       }
-//     }
-//   } else if (item == 'age') {
-//     for (var i = 0; i < data_number; i++) {
-//       data.push(Math.floor(Math.random()*100));
-//     }
-//   } else if (item == 'height') {
-//     for (var i = 0; i < data_number; i++) {
-//       data.push(Math.random()*140+50);
-//     }
-//   } else if (item == 'birthday') {
-//     for (var i = 0; i < data_number; i++) {
-//       data.push(getRandomYmd('1945/01/01', '2019/12/31'));
-//     }
-//   }
-//   return data;  
-// };
 
 function data_generator(type, info) {
   var data = [];
