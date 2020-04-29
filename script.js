@@ -652,9 +652,9 @@ function make_new_data() {
   if (json[data_idx]['data_type'] == 'text') {
     json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":50, "variance":30};
+    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":50, "variance":30, "min": 0, "max": 100};
   } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":140, "variance":50};
+    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":140, "variance":50, "min": 50, "max": 190};
   } else if (json[data_idx]['data_type'] == 'date') {
     json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
   }
@@ -679,32 +679,24 @@ function normRand (m, s) {
 };
 
 function normRandmm (m, s, min, max) {
-  var val;
+  var val = Math.round(normRand(m,s));
   if (min != undefined && max != undefined) {
-    val = Math.round(normRand(info['mean'],info['variance']));
     while (val < min || val > max) {
-      val = Math.round(normRand(info['mean'],info['variance']));
+      val = Math.round(normRand(m,s));
     }
   } else if (min != undefined) {
-      val = Math.round(normRand(info['mean'],info['variance']));
-      while (val < min) {
-        val = Math.round(normRand(info['mean'],info['variance']));
-      }
+    while (val < min) {
+      val = Math.round(normRand(m,s));
+    }
   } else if (max != undefined) {
     for (var i = 0; i < data_number; i++) {
-      var val = Math.round(normRand(info['mean'],info['variance']));
       while (val > max) {
-        val = Math.round(normRand(info['mean'],info['variance']));
+        val = Math.round(normRand(m,s));
       }
-      data.push(val);
-    }
-  } else {
-    for (var i = 0; i < data_number; i++) {
-      var val = Math.round(normRand(info['mean'],info['variance']));
-      data.push(val);
     }
   }
-}
+  return val;
+};
 
 function ymdRand(fromYmd, toYmd){
   var d1 = new Date(fromYmd);
@@ -733,35 +725,8 @@ function data_generator(type, info) {
         data.push(min + Math.floor(Math.random()*(max-min+1)));
       }
     } else if (info['distribution'] == 'gaussian') {
-      if (min != undefined && max != undefined) {
-        for (var i = 0; i < data_number; i++) {
-          var val = Math.round(normRand(info['mean'],info['variance']));
-          while (val < min || val > max) {
-            val = Math.round(normRand(info['mean'],info['variance']));
-          }
-          data.push(val);
-        }
-      } else if (min != undefined) {
-        for (var i = 0; i < data_number; i++) {
-          var val = Math.round(normRand(info['mean'],info['variance']));
-          while (val < min) {
-            val = Math.round(normRand(info['mean'],info['variance']));
-          }
-          data.push(val);
-        }
-      } else if (max != undefined) {
-        for (var i = 0; i < data_number; i++) {
-          var val = Math.round(normRand(info['mean'],info['variance']));
-          while (val > max) {
-            val = Math.round(normRand(info['mean'],info['variance']));
-          }
-          data.push(val);
-        }
-      } else {
-        for (var i = 0; i < data_number; i++) {
-          var val = Math.round(normRand(info['mean'],info['variance']));
-          data.push(val);
-        }
+      for (var i = 0; i < data_number; i++) {
+        data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
       }
     }
   } else if (type == 'float') {
@@ -771,7 +736,7 @@ function data_generator(type, info) {
       }
     } else if (info['distribution'] == 'gaussian') {
       for (var i = 0; i < data_number; i++) {  
-        data.push(normRand(info['mean'],info['variance']));
+        data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
       }
     }
     
