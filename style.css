@@ -71,8 +71,8 @@ table.layout-fixed {
   width: 70%
 }
 
-#described0 .btn-group-vertical {
-  float:left;
+#dom_items {
+  float: left;
 }
 
 #described1 table {

@@ -388,25 +388,27 @@ function make_data_detail_content() {
   app_child([div,td,tr]);
   
   var td = new_elem('td');
-  add_atts(td,[['id','described0'],['class','describeds'],['valign','middle']]);
+  add_atts(td,[['id','described0'],['class','describeds']]);
   var div = new_elem('div');
-  div.textContent = 'Domain:';
-  app_child([div,td]);
-  var div = new_elem('div');
-  add_atts(div,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
+  add_atts(div,[['id','dom_items']]);
+  var div1 = new_elem('div');
+  div1.textContent = 'Domain:';
+  app_child([div1,div]);
+  var div1 = new_elem('div');
+  add_atts(div1,[['class','btn-group-vertical btn-group-toggle'],['data-toggle','buttons']]);
   var items = ['Uniform','Gaussian','Gamma','Exponential','Custom'];
   for (var i=0; i<items.length; i++) {
     var label = new_elem('label');
     add_atts(label,[['id','domain'+i],['class','center btn btn-outline-primary domains']]);
     var input = new_elem('input');
-    add_atts(input,[['type','radio'],['name','domain'],['value',i]]);
+    add_atts(input,[['type','radio'],['name','domain'],['value',i],['onclick','change_domains('+i+')']]);
     input.required = true;
     app_child([input,label]);
     var span = new_elem('span');
     span.textContent = items[i];
-    app_child([span,label,div]);
+    app_child([span,label,div1]);
   }
-  app_child([div,td]);
+  app_child([div1,div,td]);
   var div = new_elem('div');
   add_atts(div,[['class','dist_chart_container']]);
   var canvas = new_elem('canvas');
@@ -596,6 +598,16 @@ function change_descriptions(i) {
   json[data_idx]['description'] = i;
   fill_data_detail_content();
 };
+
+function change_domains(i) {
+  json[data_idx]['domain'] = i;
+  var mean = document.getElementById('s_mean');
+  var variance = document.getElementById('s_variance');
+  
+  if (i == 0) {
+    documen
+  }
+}
 
 function update_enum() {
   var i = 0;
