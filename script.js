@@ -485,6 +485,14 @@ function fill_data_detail_content() {
         }
       }
       draw_dist_chart(data_idx);
+      var stats = ['mean','variance','min','max'];
+      var mean = json[data_idx]['generator'][];
+      var variance;
+      var min;
+      var max;
+      for (var i = 0; i < stats.length; i++) {
+        
+      }
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
       var rmv_obj = document.getElementById('val_dist_table');
@@ -603,10 +611,14 @@ function change_domains(i) {
   json[data_idx]['domain'] = i;
   var mean = document.getElementById('s_mean');
   var variance = document.getElementById('s_variance');
-  
   if (i == 0) {
-    documen
+    mean.style.display = 'none';
+    variance.style.display = 'none';
+  } else {
+    mean.style.display = 'block';
+    variance.style.display = 'block';
   }
+  fill_data_detail_content();
 }
 
 function update_enum() {
