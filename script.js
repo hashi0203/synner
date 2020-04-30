@@ -471,11 +471,9 @@ function fill_data_detail_content() {
       }
     }
     if (did == 0) {
-      // var domid = json[data_idx]['domain'];
       var domid = json[data_idx]['generator']['distribution'];
       if (domid == undefined) {
         domid = 0;
-        // json[data_idx]['domain'] = 0;
         json[data_idx]['generator']['distribution'] = 0;
       }
       var domains = document.getElementsByClassName('domains');
@@ -491,33 +489,15 @@ function fill_data_detail_content() {
       var variance = json[data_idx]['generator']['variance'];
       var min = json[data_idx]['generator']['min'];
       var max = json[data_idx]['generator']['max'];
-      // if (json[data_idx]['domain'] == 0) {
       if (json[data_idx]['generator']['distribution'] == 0) {
         document.getElementById('s_mean').style.display = 'none';
         document.getElementById('s_variance').style.display = 'none';
-        // if (min == undefined) {
-        //   min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
-        //   json[data_idx]['generator']['min'] = min;
-        // }
         document.getElementById('input_min').value = min;
-        // if (max == undefined) {
-        //   max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
-        //   json[data_idx]['generator']['max'] = max;
-        // }
         document.getElementById('input_max').value = max;
-      // } else if (json[data_idx]['domain'] == 1) {
       } else if (json[data_idx]['generator']['distribution'] == 1) {
         document.getElementById('s_mean').style.display = 'block';
         document.getElementById('s_variance').style.display = 'block';
-        // if (mean == undefined) {
-        //   mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
-        //   json[data_idx]['generator']['mean'] = mean;
-        // }
         document.getElementById('input_mean').value = mean;
-        // if (variance == undefined) {
-        //   variance = json[data_idx]['data'].reduce((a,b)=>a+(b-mean)**2)/json[data_idx]['data'].length/1024;
-        //   json[data_idx]['generator']['variance'] = variance;
-        // }
         document.getElementById('input_variance').value = variance;
         if (min != undefined) {        
           document.getElementById('input_min').value = min;
@@ -641,7 +621,6 @@ function change_descriptions(i) {
 };
 
 function change_domains(i) {
-  // json[data_idx]['domain'] = i;
   json[data_idx]['generator']['distribution'] = i;
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
@@ -931,8 +910,7 @@ function init() {
       "dependency": [2],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
-      "description": 0,
-      // "domain" : 2
+      "description": 0
     },
     { "id": 1,
       "name": "Surname",
