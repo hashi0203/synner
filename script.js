@@ -640,6 +640,10 @@ function change_domains(i) {
   json[data_idx]['domain'] = i;
   json[data_idx]['generator']['distribution'] = i;
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
+  replace_all_children('canvases');
+  replace_all_children('datas');
+  fill_items('charts');
+  edit_selected();
   fill_data_detail_content();
 }
 
@@ -791,7 +795,7 @@ function data_generator(type, info) {
         info['mean'] = (min+max)/2;
       }
       if (info['variance'] == undefined) {
-        info['variance'] = 
+        info['variance'] = (max-min)**2/1024;
       }
       for (var i = 0; i < data_number; i++) {
         data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
@@ -803,6 +807,12 @@ function data_generator(type, info) {
         data.push(info['min'] + Math.random()*(info['max']-info['min']));
       }
     } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = (min+max)/2;
+      }
+      if (info['variance'] == undefined) {
+        info['variance'] = (max-min)**2/1024;
+      }
       for (var i = 0; i < data_number; i++) {  
         data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
       }
