@@ -388,7 +388,7 @@ function make_data_detail_content() {
   app_child([div,td,tr]);
   
   var td = new_elem('td');
-  add_atts(td,[['id','described0'],['class','describeds']]);
+  add_atts(td,[['id','described0'],['class','describeds'],['valign','middle']]);
   var div = new_elem('div');
   div.textContent = 'Domain:';
   app_child([div,td]);
