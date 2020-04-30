@@ -656,12 +656,10 @@ function update_stats() {
       document.getElementById('input_max').value = json[data_idx]['generator']['max'];
     }
   } else if (json[data_idx]['generator']['distribution'] == 1) {
-    console.log("ccc");
     if (document.getElementById('input_mean').value == "") {
       document.getElementById('input_mean').value = json[data_idx]['generator']['mean'];
     }
     if (document.getElementById('input_variance').value == "") {
-      console.log("bbb");
       document.getElementById('input_variance').value = json[data_idx]['generator']['variance'];
     }
   }
@@ -669,7 +667,9 @@ function update_stats() {
   var stats = ['mean','variance','min','max'];
   for (var i = 0; i < stats.length; i++) {
     json[data_idx]['generator'][stats[i]] = Number(document.getElementById('input_'+stats[i]).value);
+    console.log(document.getElementById('input_'+stats[i]).value);
   }
+  console.log("bbb");
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
   replace_all_children('datas');
