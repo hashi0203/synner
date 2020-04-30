@@ -411,7 +411,19 @@ function make_data_detail_content() {
   add_atts(div,[['class','dist_chart_container']]);
   var canvas = new_elem('canvas');
   add_atts(canvas,[['id','dist_chart']]);
-  app_child([canvas,div,td,tr]);
+  app_child([canvas,div,td]);
+  
+  var div = new_elem('div');
+  add_atts(div,[['id','statistics']]);
+  var div2 = new_elem('s_mean');
+  var label = new_elem('label');
+  add_atts(label,[['for','input_mean']]);
+  label.textContent = 'mean';
+  app_child([label,div2]);
+  var input = new_elem('input');
+  add_atts(input,[['id','input_mean'],['type','number'],['step','0.1']]);
+  app_child([input,div2,div,td,tr]);
+  
   
   var td = new_elem('td');
   add_atts(td,[['id','described1'],['class','describeds']]);
@@ -476,7 +488,7 @@ function fill_data_detail_content() {
       
       if (json[data_idx]['generator']['value'] == undefined) {
         json[data_idx]['generator']['value'] = [];
-          json[data_idx]['generator']['rate'] = [];
+        json[data_idx]['generator']['rate'] = [];
         var data = toCountDict(json[data_idx]['data'],json[data_idx]['data_type']);
         for (var i = 0; i < data[0].length; i++) {
           json[data_idx]['generator']['value'].push(data[0][i]);
