@@ -787,6 +787,12 @@ function data_generator(type, info) {
         data.push(min + Math.floor(Math.random()*(max-min+1)));
       }
     } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = (min+max)/2;
+      }
+      if (info['variance'] == undefined) {
+        info['variance'] = 
+      }
       for (var i = 0; i < data_number; i++) {
         data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
       }
