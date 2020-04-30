@@ -645,7 +645,27 @@ function change_domains(i) {
   fill_items('charts');
   edit_selected();
   fill_data_detail_content();
-}
+};
+
+function update_stats() {
+  if (json[data_idx]['generator']['distribution'] == 0) {
+    if (document.getElementById('input_min').value == undefined) {
+      document.getElementById('input_min').value = json[data_idx]['generator']['min'];
+    }
+    if (document.getElementById('input_max').value == undefined) {
+      document.getElementById('input_max').value = json[data_idx]['generator']['max'];
+    }
+  } else if (json[data_idx]['generator']['distribution'] == 1) {
+    if (document.getElementById('input_mean').value == undefined) {
+      document.getElementById('input_mean').value = json[data_idx]['generator']['mean'];
+    }
+    if (document.getElementById('input_variance').value == undefined) {
+      document.getElementById('input_variance').value = json[data_idx]['generator']['variance'];
+    }
+  }
+  
+  
+};
 
 function update_enum() {
   var i = 0;
