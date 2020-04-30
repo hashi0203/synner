@@ -426,7 +426,7 @@ function make_data_detail_content() {
     label.textContent = stats[i];
     app_child([label,div2]);
     var input = new_elem('input');
-    add_atts(input,[['id','input_'+stats[i]],['type','number']]);
+    add_atts(input,[['id','input_'+stats[i]],['type','number'],['onchange','update_stats();']]);
     app_child([input,div2,div]);
   }
   app_child([div,td,tr]);
