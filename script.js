@@ -638,8 +638,8 @@ function change_descriptions(i) {
 
 function change_domains(i) {
   json[data_idx]['domain'] = i;
-  var mean = document.getElementById('s_mean');
-  var variance = document.getElementById('s_variance');
+  json[data_idx]['generator']['distribution'] = i;
+  json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   fill_data_detail_content();
 }
 
@@ -714,9 +714,9 @@ function make_new_data() {
   if (json[data_idx]['data_type'] == 'text') {
     json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":50, "variance":30, "min": 0, "max": 100};
+    json[data_idx]['generator'] = {"distribution": 1, "mean":50, "variance":30, "min": 0, "max": 100};
   } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = {"distribution": 'gaussian', "mean":140, "variance":50, "min": 50, "max": 190};
+    json[data_idx]['generator'] = {"distribution": 1, "mean":140, "variance":50, "min": 50, "max": 190};
   } else if (json[data_idx]['data_type'] == 'date') {
     json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
   }
@@ -782,21 +782,21 @@ function data_generator(type, info) {
   if (type == 'int') {
     var min = Math.ceil(info['min']);
     var max = Math.floor(info['max']);
-    if (info['distribution'] == 'uniform') {
+    if (info['distribution'] == 0) {
       for (var i = 0; i < data_number; i++) {  
         data.push(min + Math.floor(Math.random()*(max-min+1)));
       }
-    } else if (info['distribution'] == 'gaussian') {
+    } else if (info['distribution'] == 1) {
       for (var i = 0; i < data_number; i++) {
         data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
       }
     }
   } else if (type == 'float') {
-    if (info['distribution'] == 'uniform') {
+    if (info['distribution'] == 0) {
       for (var i = 0; i < data_number; i++) {  
         data.push(info['min'] + Math.random()*(info['max']-info['min']));
       }
-    } else if (info['distribution'] == 'gaussian') {
+    } else if (info['distribution'] == 1) {
       for (var i = 0; i < data_number; i++) {  
         data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
       }
@@ -885,7 +885,7 @@ function init() {
     { "id": 3,
       "name": "Age",
       "dependency": [],
-      "generator": {"distribution": 'uniform', "min":0, "max":100},
+      "generator": {"distribution": 0, "min":0, "max":100},
       "data_type": 'int',
       "description": 3,
       "visual-relationship": []
