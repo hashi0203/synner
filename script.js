@@ -471,10 +471,12 @@ function fill_data_detail_content() {
       }
     }
     if (did == 0) {
-      var domid = json[data_idx]['domain'];
+      // var domid = json[data_idx]['domain'];
+      var domid = json[data_idx]['generator']['distribution'];
       if (domid == undefined) {
         domid = 0;
-        json[data_idx]['domain'] = 0;
+        // json[data_idx]['domain'] = 0;
+        json[data_idx]['generator']['distribution'] = 0;
       }
       var domains = document.getElementsByClassName('domains');
       for (var i = 0; i < domains.length; i++) {
@@ -489,7 +491,8 @@ function fill_data_detail_content() {
       var variance = json[data_idx]['generator']['variance'];
       var min = json[data_idx]['generator']['min'];
       var max = json[data_idx]['generator']['max'];
-      if (json[data_idx]['domain'] == 0) {
+      // if (json[data_idx]['domain'] == 0) {
+      if (json[data_idx]['generator']['distribution'] == 0) {
         document.getElementById('s_mean').style.display = 'none';
         document.getElementById('s_variance').style.display = 'none';
         // if (min == undefined) {
@@ -502,7 +505,8 @@ function fill_data_detail_content() {
         //   json[data_idx]['generator']['max'] = max;
         // }
         document.getElementById('input_max').value = max;
-      } else if (json[data_idx]['domain'] == 1) {
+      // } else if (json[data_idx]['domain'] == 1) {
+      } else if (json[data_idx]['generator']['distribution'] == 1) {
         document.getElementById('s_mean').style.display = 'block';
         document.getElementById('s_variance').style.display = 'block';
         // if (mean == undefined) {
@@ -567,7 +571,7 @@ function fill_data_detail_content() {
 
 function add_field(type) {
   max_id++;
-  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data_type': type, 'data': [], 'description': 0, 'domain': 0});
+  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data_type': type, 'data': [], 'description': 0});
   
   data_idx = json.length-1;
   add_title_col(data_idx);
@@ -637,7 +641,7 @@ function change_descriptions(i) {
 };
 
 function change_domains(i) {
-  json[data_idx]['domain'] = i;
+  // json[data_idx]['domain'] = i;
   json[data_idx]['generator']['distribution'] = i;
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
@@ -817,17 +821,16 @@ function data_generator(type, info) {
   var data = [];
   if (type == 'int') {
     var min = Math.ceil(info['min']);
-    var max = Math.floor(info['max']);
-    if (min == undefined) {
-      min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
-      json[data_idx]['generator']['min'] = min;
-    }
-    if (max == undefined) {
-      max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
-      json[data_idx]['generator']['max'] = max;
-    }
-    
+    var max = Math.floor(info['max']);    
     if (info['distribution'] == 0) {
+      if (info['min'] == undefined) {
+        min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+        info['min'] = min;
+      }
+      if (info['max'] == undefined) {
+        max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+        info['max'] = max;
+      }
       for (var i = 0; i < data_number; i++) {  
         data.push(min + Math.floor(Math.random()*(max-min+1)));
       }
@@ -844,6 +847,14 @@ function data_generator(type, info) {
     }
   } else if (type == 'float') {
     if (info['distribution'] == 0) {
+      if (info['min'] == undefined) {
+        min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+        info['min'] = min;
+      }
+      if (info['max'] == undefined) {
+        max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+        info['max'] = max;
+      }
       for (var i = 0; i < data_number; i++) {  
         data.push(info['min'] + Math.random()*(info['max']-info['min']));
       }
@@ -921,7 +932,7 @@ function init() {
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
       "description": 0,
-      "domain" : 2
+      // "domain" : 2
     },
     { "id": 1,
       "name": "Surname",
@@ -944,7 +955,7 @@ function init() {
       "dependency": [],
       "generator": {"distribution": 0, "min":0, "max":100},
       "data_type": 'int',
-      "description": 3,
+      "description": 0,
       "visual-relationship": []
     },
   ];
