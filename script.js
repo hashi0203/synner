@@ -649,22 +649,33 @@ function change_domains(i) {
 
 function update_stats() {
   if (json[data_idx]['generator']['distribution'] == 0) {
-    if (document.getElementById('input_min').value == undefined) {
+    if (document.getElementById('input_min').value == "") {
       document.getElementById('input_min').value = json[data_idx]['generator']['min'];
     }
-    if (document.getElementById('input_max').value == undefined) {
+    if (document.getElementById('input_max').value == "") {
       document.getElementById('input_max').value = json[data_idx]['generator']['max'];
     }
   } else if (json[data_idx]['generator']['distribution'] == 1) {
-    if (document.getElementById('input_mean').value == undefined) {
+    console.log("ccc");
+    if (document.getElementById('input_mean').value == "") {
       document.getElementById('input_mean').value = json[data_idx]['generator']['mean'];
     }
-    if (document.getElementById('input_variance').value == undefined) {
+    if (document.getElementById('input_variance').value == "") {
+      console.log("bbb");
       document.getElementById('input_variance').value = json[data_idx]['generator']['variance'];
     }
   }
-  
-  
+  console.log("aaaa");
+  var stats = ['mean','variance','min','max'];
+  for (var i = 0; i < stats.length; i++) {
+    json[data_idx]['generator'][stats[i]] = Number(document.getElementById('input_'+stats[i]).value);
+  }
+  json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
+  replace_all_children('canvases');
+  replace_all_children('datas');
+  fill_items('charts');
+  edit_selected();
+  fill_data_detail_content();
 };
 
 function update_enum() {
