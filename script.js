@@ -639,39 +639,6 @@ function change_descriptions(i) {
 function change_domains(i) {
   json[data_idx]['domain'] = i;
   json[data_idx]['generator']['distribution'] = i;
-  var mean = json[data_idx]['generator']['mean'];
-  var variance = json[data_idx]['generator']['variance'];
-  var min = json[data_idx]['generator']['min'];
-  var max = json[data_idx]['generator']['max'];
-  if (json[data_idx]['domain'] == 0) {
-    if (min == undefined) {
-      min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
-      json[data_idx]['generator']['min'] = min;
-    }
-    document.getElementById('input_min').value = min;
-    if (max == undefined) {
-      max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
-      json[data_idx]['generator']['max'] = max;
-    }
-    document.getElementById('input_max').value = max;
-  } else if (json[data_idx]['domain'] == 1) {
-    if (mean == undefined) {
-      mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
-      json[data_idx]['generator']['mean'] = mean;
-    }
-    document.getElementById('input_mean').value = mean;
-    if (variance == undefined) {
-      variance = json[data_idx]['data'].reduce((a,b)=>a+(b-mean)**2)/json[data_idx]['data'].length;
-      json[data_idx]['generator']['variance'] = variance;
-    }
-    document.getElementById('input_variance').value = variance;
-    if (min != undefined) {        
-      document.getElementById('input_min').value = min;
-    }
-    if (max != undefined) {
-      document.getElementById('input_max').value = max;
-    }
-  }
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
   replace_all_children('datas');
