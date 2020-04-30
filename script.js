@@ -490,6 +490,8 @@ function fill_data_detail_content() {
       var min = json[data_idx]['generator']['min'];
       var max = json[data_idx]['generator']['max'];
       if (json[data_idx]['domain'] == 0) {
+        document.getElementById('s_mean').style.display = 'none';
+        document.getElementById('s_variance').style.display = 'none';
         if (min == undefined) {
           min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
           json[data_idx]['generator']['min'] = min;
@@ -501,16 +503,24 @@ function fill_data_detail_content() {
         }
         document.getElementById('input_max').value = max;
       } else if (json[data_idx]['domain'] == 1) {
+        document.getElementById('s_mean').style.display = 'block';
+        document.getElementById('s_variance').style.display = 'block';
         if (mean == undefined) {
           mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
           json[data_idx]['generator']['mean'] = mean;
         }
         document.getElementById('input_mean').value = mean;
-        if (mean == undefined) {
-          variance = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
-          json[data_idx]['generator']['mean'] = mean;
+        if (variance == undefined) {
+          variance = json[data_idx]['data'].reduce((a,b)=>a+(b-mean)**2)/json[data_idx]['data'].length;
+          json[data_idx]['generator']['variance'] = variance;
         }
-        document.getElementById('input_mean').value = mean;
+        document.getElementById('input_variance').value = variance;
+        if (min != undefined) {        
+          document.getElementById('input_min').value = min;
+        }
+        if (max != undefined) {
+          document.getElementById('input_max').value = max;
+        }
       }
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
@@ -630,13 +640,6 @@ function change_domains(i) {
   json[data_idx]['domain'] = i;
   var mean = document.getElementById('s_mean');
   var variance = document.getElementById('s_variance');
-  if (i == 0) {
-    mean.style.display = 'none';
-    variance.style.display = 'none';
-  } else {
-    mean.style.display = 'block';
-    variance.style.display = 'block';
-  }
   fill_data_detail_content();
 }
 
