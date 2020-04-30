@@ -502,7 +502,15 @@ function fill_data_detail_content() {
         document.getElementById('input_max').value = max;
       } else if (json[data_idx]['domain'] == 1) {
         if (mean == undefined) {
-}
+          mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
+          json[data_idx]['generator']['mean'] = mean;
+        }
+        document.getElementById('input_mean').value = mean;
+        if (mean == undefined) {
+          variance = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
+          json[data_idx]['generator']['mean'] = mean;
+        }
+        document.getElementById('input_mean').value = mean;
       }
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
