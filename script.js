@@ -492,29 +492,28 @@ function fill_data_detail_content() {
       if (json[data_idx]['domain'] == 0) {
         document.getElementById('s_mean').style.display = 'none';
         document.getElementById('s_variance').style.display = 'none';
-        if (min == undefined) {
-          min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
-          json[data_idx]['generator']['min'] = min;
-        }
+        // if (min == undefined) {
+        //   min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+        //   json[data_idx]['generator']['min'] = min;
+        // }
         document.getElementById('input_min').value = min;
-        if (max == undefined) {
-          max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
-          json[data_idx]['generator']['max'] = max;
-        }
+        // if (max == undefined) {
+        //   max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+        //   json[data_idx]['generator']['max'] = max;
+        // }
         document.getElementById('input_max').value = max;
       } else if (json[data_idx]['domain'] == 1) {
         document.getElementById('s_mean').style.display = 'block';
         document.getElementById('s_variance').style.display = 'block';
-        if (mean == undefined) {
-          // mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
-          mean = 
-          json[data_idx]['generator']['mean'] = mean;
-        }
+        // if (mean == undefined) {
+        //   mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
+        //   json[data_idx]['generator']['mean'] = mean;
+        // }
         document.getElementById('input_mean').value = mean;
-        if (variance == undefined) {
-          variance = json[data_idx]['data'].reduce((a,b)=>a+(b-mean)**2)/json[data_idx]['data'].length;
-          json[data_idx]['generator']['variance'] = variance;
-        }
+        // if (variance == undefined) {
+        //   variance = json[data_idx]['data'].reduce((a,b)=>a+(b-mean)**2)/json[data_idx]['data'].length/1024;
+        //   json[data_idx]['generator']['variance'] = variance;
+        // }
         document.getElementById('input_variance').value = variance;
         if (min != undefined) {        
           document.getElementById('input_min').value = min;
@@ -819,6 +818,15 @@ function data_generator(type, info) {
   if (type == 'int') {
     var min = Math.ceil(info['min']);
     var max = Math.floor(info['max']);
+    if (min == undefined) {
+      min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+      json[data_idx]['generator']['min'] = min;
+    }
+    if (max == undefined) {
+      max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+      json[data_idx]['generator']['max'] = max;
+    }
+    
     if (info['distribution'] == 0) {
       for (var i = 0; i < data_number; i++) {  
         data.push(min + Math.floor(Math.random()*(max-min+1)));
