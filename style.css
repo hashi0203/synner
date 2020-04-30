@@ -55,12 +55,12 @@ table.layout-fixed {
 #description, #sug_custom {
   text-align: center;
   width: 200px;
-  height: 230px;
+  height: 250px;
 }
 
 .describeds {
   padding-left: 2%;
-  height: 230px;
+  height: 250px;
 }
 
 .dist_chart_container {
@@ -88,9 +88,12 @@ table.layout-fixed {
   width: 10%;
 }
 
-#statistics div label, #statistics div, input {
-  display: block;
+#statistics div, input {
   width: 100px;
+}
+
+label {
+  margin-bottom: 0;
 }
 
 #val_dist{

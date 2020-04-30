@@ -413,20 +413,21 @@ function make_data_detail_content() {
   add_atts(canvas,[['id','dist_chart']]);
   app_child([canvas,div,td]);
   
-  var stats = ['mean','variance','min','max'];
-  var vals = []
-  
   var div = new_elem('div');
   add_atts(div,[['id','statistics']]);
-  var div2 = new_elem('s_mean');
-  var label = new_elem('label');
-  add_atts(label,[['for','input_mean']]);
-  label.textContent = 'mean';
-  app_child([label,div2]);
-  var input = new_elem('input');
-  add_atts(input,[['id','input_mean'],['type','number'],['step','0.1']]);
-  app_child([input,div2,div,td,tr]);
-  
+  var stats = ['mean','variance','min','max'];
+  for (var i = 0; i < stats.length; i++) {
+    var div2 = new_elem('div');
+    add_atts(div2,[['id','s_'+stats[i]]]);
+    var label = new_elem('label');
+    add_atts(label,[['for','input_'+stats[i]]]);
+    label.textContent = stats[i];
+    app_child([label,div2]);
+    var input = new_elem('input');
+    add_atts(input,[['id','input_'+stats[i]],['type','number']]);
+    app_child([input,div2,div]);
+  }
+  app_child([div,td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','described1'],['class','describeds']]);
