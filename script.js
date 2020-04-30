@@ -506,7 +506,8 @@ function fill_data_detail_content() {
         document.getElementById('s_mean').style.display = 'block';
         document.getElementById('s_variance').style.display = 'block';
         if (mean == undefined) {
-          mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
+          // mean = json[data_idx]['data'].reduce((a,b)=>a+b)/json[data_idx]['data'].length;
+          mean = 
           json[data_idx]['generator']['mean'] = mean;
         }
         document.getElementById('input_mean').value = mean;
