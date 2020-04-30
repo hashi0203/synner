@@ -413,6 +413,9 @@ function make_data_detail_content() {
   add_atts(canvas,[['id','dist_chart']]);
   app_child([canvas,div,td]);
   
+  var stats = ['mean','variance','min','max'];
+  var vals = []
+  
   var div = new_elem('div');
   add_atts(div,[['id','statistics']]);
   var div2 = new_elem('s_mean');

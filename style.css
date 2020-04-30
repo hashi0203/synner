@@ -83,6 +83,16 @@ table.layout-fixed {
   width: 50%;
 }
 
+#statistics {
+  float: left;
+  width: 10%;
+}
+
+#statistics div label, #statistics div, input {
+  display: block;
+  width: 100px;
+}
+
 #val_dist{
   max-height: 200px;
   overflow-y: scroll;
