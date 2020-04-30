@@ -485,13 +485,24 @@ function fill_data_detail_content() {
         }
       }
       draw_dist_chart(data_idx);
-      var stats = ['mean','variance','min','max'];
-      var mean = json[data_idx]['generator'][];
-      var variance;
-      var min;
-      var max;
-      for (var i = 0; i < stats.length; i++) {
-        
+      var mean = json[data_idx]['generator']['mean'];
+      var variance = json[data_idx]['generator']['variance'];
+      var min = json[data_idx]['generator']['min'];
+      var max = json[data_idx]['generator']['max'];
+      if (json[data_idx]['domain'] == 0) {
+        if (min == undefined) {
+          min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+          json[data_idx]['generator']['min'] = min;
+        }
+        document.getElementById('input_min').value = min;
+        if (max == undefined) {
+          max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+          json[data_idx]['generator']['max'] = max;
+        }
+        document.getElementById('input_max').value = max;
+      } else if (json[data_idx]['domain'] == 1) {
+        if (mean == undefined) {
+}
       }
     } else if (did == 1) {
       var table_wrapper = document.getElementById('val_dist');
