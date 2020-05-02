@@ -1067,7 +1067,6 @@ function init() {
 
 function exportCSV() {
   if (window.confirm('Export as csv?')) {
-    var fs = require('fs');
     var formatCSV = '';
     for (var i = 0; i < json.length; i++) {
       formatCSV += json[i]['name'];
@@ -1087,12 +1086,14 @@ function exportCSV() {
         } 
       }
     }
-    fs.writeFile('formList.csv', formatCSV, 'utf8', function (err) {
-      if (err) {
-        console.log('Successfully downloaded.');
-      } else {
-        console.log('Something went wrong. Try again.');
-      }
-    });
+    let bom  = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    let blob = new Blob([bom, formatCSV], {type: 'text/csv'});
+    let url = (window.URL || window.webkitURL).createObjectURL(blob);
+    let link = document.createElement('a');
+    link.download = 'generated_data.csv';
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 };
