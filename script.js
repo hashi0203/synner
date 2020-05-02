@@ -426,7 +426,7 @@ function make_data_detail_content() {
     label.textContent = stats[i];
     app_child([label,div2]);
     var input = new_elem('input');
-    add_atts(input,[['id','input_'+stats[i]],['type','number'],['onchange','update_stats();']]);
+    add_atts(input,[['id','input_'+stats[i]],['onchange','update_stats();']]);
     app_child([input,div2,div]);
   }
   app_child([div,td,tr]);
@@ -485,6 +485,18 @@ function fill_data_detail_content() {
         }
       }
       draw_dist_chart(data_idx);
+      
+      var stats = ['mean','variance','min','max'];
+      for (var i = 0; i < stats.length; i++) {
+        if (json[data_idx]['data_type'] == 'int') {
+          add_atts(document.getElementById('input_'+stats[i]),[['type','number'],['step',1]]);
+        } else if (json[data_idx]['data_type'] == 'float') {
+          add_atts(document.getElementById('input_'+stats[i]),[['type','number'],['step',0.1]]);
+        } else {
+          add_atts(document.getElementById('input_'+stats[i]),[['type',json[data_idx]['data_type']]]);
+        }
+      }
+      
       var mean = json[data_idx]['generator']['mean'];
       var variance = json[data_idx]['generator']['variance'];
       var min = json[data_idx]['generator']['min'];
