@@ -13,6 +13,15 @@ function toCountDict(array,type){
     }
     const compare = (x, y) => x - y;
     var keys = Object.keys(dict).sort(compare);
+  } else if (type == 'date') {
+    var min = array.reduce((a,b)=>a < b ? a : b).split('-');
+    var max = array.reduce((a,b)=>a > b ? a : b).split('-');
+    if (Number(min[0]) - Number(min[1]) >= 10) {
+      for (let key of array) {
+        var y = key.split('-')[0];
+        dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length;
+      }
+    } else if (Number(min[1]) - Number(max[1]) >= 1 || Number)
   } else {
     for(let key of array){
       dict[key] = array.filter(function(x){return x==key}).length;
@@ -912,8 +921,7 @@ function data_generator(type, info) {
         info['min'] = json[data_idx]['data'].reduce((a,b)=>a < b ? a : b);
       }
       if (info['max'] == undefined) {
-        max = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
-        info['max'] = max;
+        info['max'] = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
       }
     } else if (info['distribution'] == 1) {
       if (info['mean'] == undefined) {
