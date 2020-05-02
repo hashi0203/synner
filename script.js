@@ -6,38 +6,57 @@ var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
 
 function toCountDict(array,type){
-  let dict = {};
-  if (type == 'float' || type == 'int') {
-    for(let key of array){
-      dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
-    }
-    const compare = (x, y) => x - y;
-    var keys = Object.keys(dict).sort(compare);
-  } else if (type == 'date') {
-    var min = array.reduce((a,b)=>a < b ? a : b).split('-');
-    var max = array.reduce((a,b)=>a > b ? a : b).split('-');
-    if (Number(min[0]) - Number(min[1]) >= 10) {
-      for (let key of array) {
-        var y = key.split('-')[0];
-        dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length;
+  if (array.length != 0) {
+    let dict = {};
+    if (type == 'float' || type == 'int') {
+      for(let key of array){
+        dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
       }
-    } else if (Number(min[1]) - Number(max[1]) >= 1 || Number)
-  } else {
-    for(let key of array){
-      dict[key] = array.filter(function(x){return x==key}).length;
+      const compare = (x, y) => x - y;
+      var keys = Object.keys(dict).sort(compare);
+    } else if (type == 'date') {
+      var min = array.reduce((a,b)=>a < b ? a : b).split('-');
+      var max = array.reduce((a,b)=>a > b ? a : b).split('-');
+      if (Number(min[0]) - Number(max[0]) >= 10) {
+        for (let key of array) {
+          var y = key.split('-')[0];
+          dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length;
+        }
+      } else if (Number(min[0]) == Number(max[0]) || (Number(min[0])+1 == Number(max[0]) && Number(max[1]) < Number(min[1]))) {
+        for (let key of array) {
+          var ymd = key.split('-');
+          dict[ymd[1]+'-'+ymd[2]] = array.filter(function(x){return (x.split('-')[1]==ymd[1] && x.split('-')[2]==ymd[2]);}).length;
+        }
+      } else {
+        for (let key of array) {
+          var ymd = key.split('-');
+          dict[ymd[0]+'-'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;
+        }
+      }
+      var keys = Object.keys(dict).sort(function(a,b){
+            if( a < b ) return -1;
+            if( a > b ) return 1;
+            return 0;
+      });
+    } else {
+      for(let key of array){
+        dict[key] = array.filter(function(x){return x==key}).length;
+      }
+      var keys = Object.keys(dict).sort(function(a,b){
+            if( a < b ) return -1;
+            if( a > b ) return 1;
+            return 0;
+      });
     }
-    var keys = Object.keys(dict).sort(function(a,b){
-          if( a < b ) return -1;
-          if( a > b ) return 1;
-          return 0;
-    });
+
+    var values = [];
+    for (var i = 0; i < keys.length; i++) {
+      values.push(dict[keys[i]]*100/data_number);
+    }
+    return [keys,values];
+  } else {
+    return [[],[]];
   }
-  
-  var values = [];
-  for (var i = 0; i < keys.length; i++) {
-    values.push(dict[keys[i]]*100/data_number);
-  }
-  return [keys,values];
 };
 
 function draw_chart(i) {
