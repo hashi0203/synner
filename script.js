@@ -663,7 +663,7 @@ function update_stats() {
     if (document.getElementById('input_'+stats[i]).value == "") {
       json[data_idx]['generator'][stats[i]] = undefined;
     } else {
-      json[data_idx]['generator'][stats[i]] = Number(document.getElementById('input_'+stats[i]).value);
+      json[data_idx]['generator'][stats[i]] = document.getElementById('input_'+stats[i]).value;
     }
   }
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
@@ -749,7 +749,7 @@ function make_new_data() {
   } else if (json[data_idx]['data_type'] == 'float') {
     json[data_idx]['generator'] = {"distribution": 1, "mean":140, "variance":50, "min": 50, "max": 190};
   } else if (json[data_idx]['data_type'] == 'date') {
-    json[data_idx]['generator'] = {"min":'1945/01/01', "max":'2019/12/31'};
+    json[data_idx]['generator'] = {"min":'1945-01-01', "max":'2019-12-31'};
   }
   
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
