@@ -427,6 +427,9 @@ function make_data_detail_content() {
     app_child([label,div2]);
     var input = new_elem('input');
     add_atts(input,[['id','input_'+stats[i]],['onchange','update_stats();']]);
+    if (i == 2) {
+      add_atts(input,[['type','number'],['step','1']]);
+    }
     app_child([input,div2,div]);
   }
   app_child([div,td,tr]);
@@ -486,7 +489,7 @@ function fill_data_detail_content() {
       }
       draw_dist_chart(data_idx);
       
-      var stats = ['mean','variance','min','max'];
+      var stats = ['mean','min','max'];
       for (var i = 0; i < stats.length; i++) {
         if (json[data_idx]['data_type'] == 'int') {
           add_atts(document.getElementById('input_'+stats[i]),[['type','number'],['step',1]]);
@@ -791,9 +794,41 @@ function normRandmm (m, s, min, max) {
   return val;
 };
 
-function ymdRand(fromYmd, toYmd){
+function ymdMid(fromYmd, toYmd) {
   var d1 = new Date(fromYmd);
   var d2 = new Date(toYmd);
+  
+  var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
+  d1.setDate(d1.getDate() + Math.round(c/2));
+  
+  //フォーマット整形
+  var y = d1.getFullYear();
+  var m = ("00" + (d1.getMonth()+1)).slice(-2);
+  var d = ("00" + d1.getDate()).slice(-2);
+ 
+  return y + "-" + m + "-" + d;
+};
+
+function ymdVar(fromYmd, toYmd) {
+  var d1 = new Date(fromYmd);
+  var d2 = new Date(toYmd);
+  
+  var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
+  return c**2/1024;
+};
+
+function ymdRand(info){
+  var d1;
+  if (info['min'] != undefined) {
+    d1 = new Date(info['min']);
+  }
+  var d2;
+  if (info['max'] != undefined) {
+    d2 = new Date(info['max']);
+  }
+  var d3;
+  if (info['mean'] != undefined) {
+    d= new Date(info['mean'])
   
   var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
   var x = Math.floor(Math.random() * (c+1));
@@ -837,6 +872,8 @@ function data_generator(type, info) {
       }
     }
   } else if (type == 'float') {
+    var min = info['min'];
+    var max = info['max'];    
     if (info['distribution'] == 0) {
       if (info['min'] == undefined) {
         min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
@@ -863,8 +900,7 @@ function data_generator(type, info) {
   } else if (type == 'date') {
     if (info['distribution'] == 0) {
       if (info['min'] == undefined) {
-        min = json[data_idx]['data'].reduce((a,b)=>a < b ? a : b);
-        info['min'] = min;
+        info['min'] = json[data_idx]['data'].reduce((a,b)=>a < b ? a : b);
       }
       if (info['max'] == undefined) {
         max = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
@@ -875,18 +911,18 @@ function data_generator(type, info) {
       }
     } else if (info['distribution'] == 1) {
       if (info['mean'] == undefined) {
-        info['mean'] = (min+max)/2;
+        info['mean'] = ymdMid(info['min'],info['max']);
       }
       if (info['variance'] == undefined) {
-        info['variance'] = (max-min)**2/1024;
+        info['variance'] = ymdVar(info['min'],info['max']);
       }
       for (var i = 0; i < data_number; i++) {  
-        data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
+        data.push(ymdRand(info));
       }
     }
     
     for (var i = 0; i < data_number; i++) {
-      data.push(ymdRand(info['min'], info['max']));
+      data.push(ymdRand(info));
     }
   } else if (info['text'] == 'choice') {
     var rate = info['rate'].slice(0,info['rate'].length);
