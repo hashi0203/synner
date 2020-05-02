@@ -752,7 +752,7 @@ function make_new_data() {
   } else if (json[data_idx]['data_type'] == 'float') {
     json[data_idx]['generator'] = {"distribution": 1, "mean":140, "variance":50, "min": 50, "max": 190};
   } else if (json[data_idx]['data_type'] == 'date') {
-    json[data_idx]['generator'] = {"min":'1945-01-01', "max":'2019-12-31'};
+    json[data_idx]['generator'] = {"distribution": 0, "min":'1945-01-01', "max":'2019-12-31'};
   }
   
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
@@ -818,27 +818,33 @@ function ymdVar(fromYmd, toYmd) {
 };
 
 function ymdRand(info){
-  var d1;
+  var min;
   if (info['min'] != undefined) {
-    d1 = new Date(info['min']);
+    min = new Date(info['min']);
   }
-  var d2;
+  var max;
   if (info['max'] != undefined) {
-    d2 = new Date(info['max']);
+    max = new Date(info['max']);
   }
-  var d3;
+  var mean;
   if (info['mean'] != undefined) {
-    d= new Date(info['mean'])
+    mean = new Date(info['mean']);
+  }
   
-  var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
-  var x = Math.floor(Math.random() * (c+1));
+  var c = (max - min) / 86400000;
+  var m = (mean- min) / 86400000;
+  if (info['distribution'] == 0) {
+    var x = Math.floor(Math.random() * (c+1));
+  } else if (info['distribution'] == 1) {
+    var x = Math.floor(normRandmm(m,info['variance'],0,c));
+  }
  
-  d1.setDate(d1.getDate() + x);
+  min.setDate(min.getDate() + x);
  
   //フォーマット整形
-  var y = d1.getFullYear();
-  var m = ("00" + (d1.getMonth()+1)).slice(-2);
-  var d = ("00" + d1.getDate()).slice(-2);
+  var y = min.getFullYear();
+  var m = ("00" + (min.getMonth()+1)).slice(-2);
+  var d = ("00" + min.getDate()).slice(-2);
  
   return y + "-" + m + "-" + d;
 };
@@ -906,9 +912,6 @@ function data_generator(type, info) {
         max = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
         info['max'] = max;
       }
-      for (var i = 0; i < data_number; i++) {  
-        data.push(ymdRand(info));
-      }
     } else if (info['distribution'] == 1) {
       if (info['mean'] == undefined) {
         info['mean'] = ymdMid(info['min'],info['max']);
@@ -916,12 +919,8 @@ function data_generator(type, info) {
       if (info['variance'] == undefined) {
         info['variance'] = ymdVar(info['min'],info['max']);
       }
-      for (var i = 0; i < data_number; i++) {  
-        data.push(ymdRand(info));
-      }
     }
-    
-    for (var i = 0; i < data_number; i++) {
+    for (var i = 0; i < data_number; i++) {  
       data.push(ymdRand(info));
     }
   } else if (info['text'] == 'choice') {
