@@ -1079,8 +1079,8 @@ function exportCSV() {
     }
     for (var i = 0; i < data_number; i++) {
       for (var j = 0; j < json.length; j++) {
-        formatCSV += json[i]['name'];
-        if (i == json.length - 1) {
+        formatCSV += json[j]['data'][i];
+        if (j == json.length - 1) {
           formatCSV += '\n';
         } else {
           formatCSV += ',';
@@ -1089,9 +1089,9 @@ function exportCSV() {
     }
     fs.writeFile('formList.csv', formatCSV, 'utf8', function (err) {
       if (err) {
-        console.log('保存できませんでした');
+        console.log('Successfully downloaded.');
       } else {
-        console.log('保存できました');
+        console.log('Something went wrong. Try again.');
       }
     });
   }
