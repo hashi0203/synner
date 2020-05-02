@@ -1,0 +1,140 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+
+.chart_container {
+  position: relative;
+  height:100px;
+  width: 200px;
+}
+
+.title_input {
+  width: 160px;
+}
+
+.size_fix {
+  width: 100%;
+}
+
+#data_list_scroll {
+  width:100%;
+  overflow-x:scroll;
+}
+
+table.layout-fixed {
+    table-layout: fixed;
+}
+
+#data_list {
+  maxwidth: 100%;
+}
+
+.data_scroll {
+  height:200px;
+  overflow-y:auto;
+}
+
+#data_detail {
+  padding: 10px;
+}
+
+#dependencies td div {
+  float: left;
+  padding-right: 5px;
+}
+
+#description, #sug_custom {
+  text-align: center;
+  width: 200px;
+  height: 250px;
+}
+
+.describeds {
+  padding-left: 2%;
+  height: 250px;
+}
+
+.dist_chart_container {
+  float: left;
+  position: relative;
+  padding-left: 2%;
+  height:200px;
+  width: 70%
+}
+
+#dom_items {
+  float: left;
+}
+
+#described1 table {
+  width: 60%;
+}
+
+#described1 table tr th {
+  width: 50%;
+}
+
+#statistics {
+  float: left;
+  width: 10%;
+}
+
+#statistics div, input {
+  width: 100px;
+}
+
+label {
+  margin-bottom: 0;
+}
+
+#val_dist{
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+#val_dist tr td {
+  width: 50%;
+}
+
+.del_button {
+  background-color: rgb(10,10,10,0.2);
+  border-radius: 7px;
+  display: inline-block;
+}
+
+.batsu{
+    font-size: 80%;/*ボタンの大きさ*/
+    font-weight: bold;
+    border: 1px solid #999;
+    color: #999 !important;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    width: 1.3em;
+    line-height: 1.3em;
+    cursor: pointer;
+    transition: .2s;
+}
+    
+.batsu:hover{
+    background: #333;
+    border-color: #333;
+    color: #FFF !important;
+}
+
+.point {
+  cursor: pointer;
+}
+
+.bg-gray {
+  background-color: rgb(192,192,192,0.5);
+}
