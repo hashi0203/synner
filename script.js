@@ -1064,3 +1064,26 @@ function init() {
   make_data_detail_content();
   fill_data_detail_content();
 };
+
+function exportCSV() {
+  var result = window.confirm('Export as csv?');
+  console.log(result);
+//   for (var i = 0; i < content.length; i++) {
+//       var value = content[i];
+
+//       for (var j = 0; j < value.length; j++) { var innerValue = value[j]===null?'':value[j].toString(); var result = innerValue.replace(/"/g, '""'); if (result.search(/("|,|\n)/g) >= 0)
+//       result = '"' + result + '"';
+//       if (j > 0)
+//       formatCSV += ',';
+//       formatCSV += result;
+//     }
+//     formatCSV += '\n';
+//   }
+//   fs.writeFile('formList.csv', formatCSV, 'utf8', function (err) {
+//     if (err) {
+//       console.log('保存できませんでした');
+//     } else {
+//       console.log('保存できました');
+//     }
+//   });
+};
