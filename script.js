@@ -696,6 +696,9 @@ function update_stats() {
     } else {
       json[data_idx]['generator'][stats[i]] = document.getElementById('input_'+stats[i]).value;
     }
+    if (json[data_idx]['data_type'] == 'int' || json[data_idx]['data_type'] == 'float') {
+      json[data_idx]['generator'][stats[i]] = Number(json[data_idx]['generator'][stats[i]]);
+    }
   }
   if (json[data_idx]['generator']['min'] > json[data_idx]['generator']['max']) {
     document.getElementById('input_min').value = json[data_idx]['generator']['max'];
