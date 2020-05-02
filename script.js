@@ -1090,7 +1090,7 @@ function exportCSV() {
     let blob = new Blob([bom, formatCSV], {type: 'text/csv'});
     let url = (window.URL || window.webkitURL).createObjectURL(blob);
     let link = document.createElement('a');
-    link.download = 'generated_data.csv';
+    link.download = 'synner_data.csv';
     link.href = url;
     document.body.appendChild(link);
     link.click();
