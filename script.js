@@ -17,8 +17,6 @@ function toCountDict(array,type){
     } else if (type == 'date') {
       var min = array.reduce((a,b)=>a < b ? a : b).split('-');
       var max = array.reduce((a,b)=>a > b ? a : b).split('-');
-      console.log(min);
-      console.log(max);
       if (Number(max[0]) - Number(min[0]) >= 10) {
         for (let key of array) {
           var y = key.split('-')[0];
@@ -699,6 +697,12 @@ function update_stats() {
       json[data_idx]['generator'][stats[i]] = document.getElementById('input_'+stats[i]).value;
     }
   }
+  if (json[data_idx]['generator']['min'] > json[data_idx]['generator']['max']) {
+    document.getElementById('input_min').value = json[data_idx]['generator']['max'];
+    document.getElementById('input_max').value = json[data_idx]['generator']['min'];
+    json[data_idx]['generator']['max'] = document.getElementById('input_max').value;
+    json[data_idx]['generator']['min'] = document.getElementById('input_min').value;
+  }
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
   replace_all_children('datas');
@@ -813,13 +817,13 @@ function normRandmm (m, s, min, max) {
       val = Math.round(normRand(m,s));
       c++;
     }
-  } else if (min != undefined && c < 100) {
-    while (val < min) {
+  } else if (min != undefined) {
+    while (val < min && c < 100) {
       val = Math.round(normRand(m,s));
       c++;
     }
-  } else if (max != undefined && c < 100) {
-    while (val > max) {
+  } else if (max != undefined) {
+    while (val > max && c < 100) {
       val = Math.round(normRand(m,s));
       c++;
     }
@@ -847,7 +851,7 @@ function ymdVar(fromYmd, toYmd) {
   var d2 = new Date(toYmd);
   
   var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
-  return c**2/32765;
+  return c/10;
 };
 
 function ymdRand(info){
@@ -904,7 +908,7 @@ function data_generator(type, info) {
         info['mean'] = (min+max)/2;
       }
       if (info['variance'] == undefined) {
-        info['variance'] = (max-min)**2/1024;
+        info['variance'] = (max-min)/10;
       }
       for (var i = 0; i < data_number; i++) {
         data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
@@ -930,7 +934,7 @@ function data_generator(type, info) {
         info['mean'] = (min+max)/2;
       }
       if (info['variance'] == undefined) {
-        info['variance'] = (max-min)**2/1024;
+        info['variance'] = (max-min)/10;
       }
       for (var i = 0; i < data_number; i++) {  
         data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
