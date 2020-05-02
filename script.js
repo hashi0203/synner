@@ -794,8 +794,8 @@ function normRandmm (m, s, min, max) {
 function ymdRand(fromYmd, toYmd){
   var d1 = new Date(fromYmd);
   var d2 = new Date(toYmd);
- 
-  var c = (d2 - d1) / 86400000;
+  
+  var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
   var x = Math.floor(Math.random() * (c+1));
  
   d1.setDate(d1.getDate() + x);
@@ -860,8 +860,31 @@ function data_generator(type, info) {
         data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
       }
     }
-    
   } else if (type == 'date') {
+    if (info['distribution'] == 0) {
+      if (info['min'] == undefined) {
+        min = json[data_idx]['data'].reduce((a,b)=>a < b ? a : b);
+        info['min'] = min;
+      }
+      if (info['max'] == undefined) {
+        max = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
+        info['max'] = max;
+      }
+      for (var i = 0; i < data_number; i++) {  
+        data.push(ymdRand(info));
+      }
+    } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = (min+max)/2;
+      }
+      if (info['variance'] == undefined) {
+        info['variance'] = (max-min)**2/1024;
+      }
+      for (var i = 0; i < data_number; i++) {  
+        data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
+      }
+    }
+    
     for (var i = 0; i < data_number; i++) {
       data.push(ymdRand(info['min'], info['max']));
     }
