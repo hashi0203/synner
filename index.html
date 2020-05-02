@@ -29,7 +29,7 @@
           </ul>
           <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle point" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Add Field
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -46,15 +46,15 @@
               <span><input type="number" id="data_number" value="1000" style="width:80px" onchange="change_data_size();"></span>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Download Data</a>
+              <a class="nav-link point" onclick="exportCSV();">Download Data</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle point" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Script
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item"><label class="point">Upload<input type="file" style="display:none;"></label></a>
-                <a class="dropdown-item point" onclick="exportCSV();">Download</a>
+                <a class="dropdown-item"><label class="point">Load<input type="file" style="display:none;"></label></a>
+                <a class="dropdown-item point">Save</a>
               </div>
             </li>
             <li>
