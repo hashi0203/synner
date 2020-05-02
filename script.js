@@ -17,7 +17,9 @@ function toCountDict(array,type){
     } else if (type == 'date') {
       var min = array.reduce((a,b)=>a < b ? a : b).split('-');
       var max = array.reduce((a,b)=>a > b ? a : b).split('-');
-      if (Number(min[0]) - Number(max[0]) >= 10) {
+      console.log(min);
+      console.log(max);
+      if (Number(max[0]) - Number(min[0]) >= 10) {
         for (let key of array) {
           var y = key.split('-')[0];
           dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length;
@@ -25,12 +27,12 @@ function toCountDict(array,type){
       } else if (Number(min[0]) == Number(max[0]) || (Number(min[0])+1 == Number(max[0]) && Number(max[1]) < Number(min[1]))) {
         for (let key of array) {
           var ymd = key.split('-');
-          dict[ymd[1]+'-'+ymd[2]] = array.filter(function(x){return (x.split('-')[1]==ymd[1] && x.split('-')[2]==ymd[2]);}).length;
+          dict[ymd[0]+'/'+ymd[1]+'/'+ymd[2]] = array.filter(function(x){return (x.split('-')[1]==ymd[1] && x.split('-')[2]==ymd[2]);}).length;
         }
       } else {
         for (let key of array) {
           var ymd = key.split('-');
-          dict[ymd[0]+'-'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;
+          dict[ymd[0]+'/'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;
         }
       }
       var keys = Object.keys(dict).sort(function(a,b){
@@ -845,7 +847,7 @@ function ymdVar(fromYmd, toYmd) {
   var d2 = new Date(toYmd);
   
   var c = (d2 - d1) / 86400000; // fromYmd から toYmd までの日数
-  return c**2/1024;
+  return c**2/32765;
 };
 
 function ymdRand(info){
