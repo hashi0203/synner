@@ -742,6 +742,7 @@ function change_data_size() {
   }
   replace_all_children('datas');
   fill_items('charts');
+  draw_dist_chart(data_idx);
 };
 
 function make_new_data() {
@@ -776,19 +777,21 @@ function normRand (m, s) {
 
 function normRandmm (m, s, min, max) {
   var val = Math.round(normRand(m,s));
+  var c = 0;
   if (min != undefined && max != undefined) {
-    while (val < min || val > max) {
+    while ((val < min || val > max) && c < 100) {
       val = Math.round(normRand(m,s));
+      c++;
     }
-  } else if (min != undefined) {
+  } else if (min != undefined && c < 100) {
     while (val < min) {
       val = Math.round(normRand(m,s));
+      c++;
     }
-  } else if (max != undefined) {
-    for (var i = 0; i < data_number; i++) {
-      while (val > max) {
-        val = Math.round(normRand(m,s));
-      }
+  } else if (max != undefined && c < 100) {
+    while (val > max) {
+      val = Math.round(normRand(m,s));
+      c++;
     }
   }
   return val;
