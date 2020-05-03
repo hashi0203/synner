@@ -359,7 +359,7 @@ function make_sug_table(item) {
   if (item == 'custom') {
     title = 'Custom';
     content = 'Design your own custom type';
-    onclick = "make_new_data();";
+    onclick = "make_new_data('custom',[]);";
   } else if (item == 'uniform') {
     title = 'Uniform';
     if (json[data_idx]['data_type'] == 'text') {
@@ -372,16 +372,17 @@ function make_sug_table(item) {
       var min = 50;
       var max = 190;
     } else if (json[data_idx]['data_type'] == 'date') {
-      var min = '1945-01-01';
-      var max = '2019-12-31';
+      var min = '1945/01/01';
+      var max = '2019/12/31';
     }
     if (json[data_idx]['data'].length >= 2) {
-      min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
-      max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
+      min = get_min(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
+      max = get_max(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
     }
-    content = 'Minimum: '+min+'\nMaximun: '+max;
-    onclick = "";
+    content = 'Minimum: '+min+'\n Maximun: '+max;
+    onclick = "make_new_data('uniform',["+min+","+max+"])";
   } else if (item == 'gaussian') {
+    title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
       var mean = 5;
       var sd = 2;
@@ -395,6 +396,19 @@ function make_sug_table(item) {
       var mean = '1982/07/01';
       var sd = 2500;
     }
+    if (json[data_idx]['data'].length >= 2) {
+      var min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
+      var max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
+      if (json[data_idx]['data_type'] == 'date') {
+        mean = ymdMid(min,max);
+        sd = ymdSd(min,max);
+      } else {
+        mean = (min+max)/2;
+        sd = (max-min)/4;
+      }
+    }
+    content = 'Mean: '+mean+'\n Std Dev: '+sd;
+    onclick = "make_new_data('uniform',["+mean+","+sd+"])";
   }
   
   var table = new_elem('table');
