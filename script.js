@@ -430,9 +430,11 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Std Dev: '+sd;
     ps.push(p);
-    onclick = "make_new_data('uniform',["+mean+","+sd+"])";
+    onclick = "make_new_data('gaussian',["+mean+","+sd+"])";
   }
   
+  var div = new_elem('div');
+  add_atts(div,[['style','float:left;']]);
   var table = new_elem('table');
   add_atts(table,[['border','1'], ['width', '160'],['style','text-align: center; margin-left: 20px;']]);
   var tr = new_elem('tr');
@@ -453,8 +455,8 @@ function make_sug_table(item) {
   var button = new_elem('button');
   add_atts(button, [['type', 'button'],['class','btn btn-primary'],['onclick',onclick]]);
   button.textContent = 'Use';
-  app_child([button,td,tr,table]);
-  return table;
+  app_child([button,td,tr,table,div]);
+  return div;
 };
 
 function make_data_detail_content() {
@@ -475,8 +477,6 @@ function make_data_detail_content() {
   
   var td = new_elem('td');
   add_atts(td,[['id','sugs']]);
-  // var table1 = make_sug_table('random');
-  // app_child([table1,td,tr]);
   app_child([td,tr]);
   
   var td = new_elem('td');
@@ -580,7 +580,9 @@ function fill_data_detail_content() {
     for (var i = 0; i < describeds.length; i++) {
       document.getElementById('described'+i).style.display = 'none';
     }
-    var sugs = document.getElementById('sugs');
+    var elem = document.getElementById('sugs');
+    var sugs = elem.cloneNode(false);
+    elem.parentNode.replaceChild(sugs,elem);
     var table = make_sug_table('uniform');
     app_child([table,sugs]);
     var table = make_sug_table('gaussian');
@@ -882,17 +884,22 @@ function change_data_size() {
   draw_dist_chart(data_idx);
 };
 
-function make_new_data() {
+function make_new_data(item,val) {
   json[data_idx]['new_data'] = false;
-  if (json[data_idx]['data_type'] == 'text') {
-    json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
-  } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = {"distribution": 1, "mean":50, "sd":30, "min": 0, "max": 100};
-  } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = {"distribution": 1, "mean":140, "sd":50, "min": 50, "max": 190};
-  } else if (json[data_idx]['data_type'] == 'date') {
-    json[data_idx]['generator'] = {"distribution": 0, "min":'1945-01-01', "max":'2019-12-31'};
+  if (item == 'custom') {
+    if (json[data_idx]['data_type'] == 'text') {
+      json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
+    } else if (json[data_idx]['data_type'] == 'int') {
+      json[data_idx]['generator'] = {"distribution": 1, "mean":50, "sd":30, "min": 0, "max": 100};
+    } else if (json[data_idx]['data_type'] == 'float') {
+      json[data_idx]['generator'] = {"distribution": 1, "mean":140, "sd":50, "min": 50, "max": 190};
+    } else if (json[data_idx]['data_type'] == 'date') {
+      json[data_idx]['generator'] = {"distribution": 0, "min":'1945-01-01', "max":'2019-12-31'};
+    }
+  } else if (item == 'uniform') {
+    json[data_idx]['generator'] = {"distribution": 0, "min": val[0], "max": val[1]};
   }
+  
   
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
