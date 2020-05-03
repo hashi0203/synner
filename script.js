@@ -388,8 +388,13 @@ function make_sug_table(item) {
       var max = '2019/12/31';
     }
     if (json[data_idx]['data'].filter(function(x){return x!=undefined}).length >= 2) {
-      min = get_min(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
-      max = get_max(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
+      if (json[data_idx]['data_type'] == 'date') {
+        min = get_min(json[data_idx]['data'],json[data_idx]['data_type']).replace(/-/g,'/');
+        max = get_max(json[data_idx]['data'],json[data_idx]['data_type']).replace(/-/g,'/');
+      } else {
+        min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
+        max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
+      }
     }
     var p = new_elem('p');
     p.textContent = 'Minimum: '+min;
@@ -417,7 +422,7 @@ function make_sug_table(item) {
       var min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
       var max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
       if (json[data_idx]['data_type'] == 'date') {
-        mean = ymdMid(min,max);
+        mean = ymdMid(min,max).replace(/-/g,'/');
         sd = ymdSd(min,max);
       } else {
         mean = (min+max)/2;
@@ -898,8 +903,9 @@ function make_new_data(item,val) {
     }
   } else if (item == 'uniform') {
     json[data_idx]['generator'] = {"distribution": 0, "min": val[0], "max": val[1]};
+  } else if (item == 'gaussian') {
+    json[data_idx]['generator'] = {"distribution": 1, "mean": val[0], "sd": val[1]};
   }
-  
   
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   for (var i = 0; i < data_number; i++) {
