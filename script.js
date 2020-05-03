@@ -21,6 +21,19 @@ function get_max(array,type) {
   }
 };
 
+function assoc_sort(dict,type) {
+  if (type == 'int' || type == 'float') {
+    const compare = (x, y) => x - y;
+    return Object.keys(dict).sort(compare);
+  } else {
+    return Object.keys(dict).sort(function(a,b){
+            if( a < b ) return -1;
+            if( a > b ) return 1;
+            return 0;
+          });
+  }
+};
+
 function toCountDict(array,type){
   if (array.length != 0) {
     let dict = {};
@@ -28,8 +41,6 @@ function toCountDict(array,type){
       for(let key of array){
         dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
       }
-      const compare = (x, y) => x - y;
-      var keys = Object.keys(dict).sort(compare);
     } else if (type == 'date') {
       var min = get_min(array,type).split('-');
       var max = get_max(array,type).split('-');
@@ -49,21 +60,12 @@ function toCountDict(array,type){
           dict[ymd[0]+'/'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;
         }
       }
-      var keys = Object.keys(dict).sort(function(a,b){
-            if( a < b ) return -1;
-            if( a > b ) return 1;
-            return 0;
-      });
     } else {
       for(let key of array){
         dict[key] = array.filter(function(x){return x==key}).length;
       }
-      var keys = Object.keys(dict).sort(function(a,b){
-            if( a < b ) return -1;
-            if( a > b ) return 1;
-            return 0;
-      });
     }
+    var keys = assoc_sort(dict,type);
 
     var values = [];
     for (var i = 0; i < keys.length; i++) {
@@ -374,16 +376,10 @@ function make_sug_table(item) {
       var max = '2019-12-31';
     }
     if (json[data_idx]['data'].length >= 2) {
-      var keys = Object.keys(dict).sort(function(a,b){
-            if( a < b ) return -1;
-            if( a > b ) return 1;
-            return 0;
-      });
-      
-      const compare = (x, y) => x - y;
-      var keys = Object.keys(dict).sort(compare);
+      min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
+      max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
     }
-    content = 'Minimum: ';
+    content = 'Minimum: '+min+'\nMaximun: '+max;
     onclick = "";
   } else if (item == 'gaussian') {
     if (json[data_idx]['data_type'] == 'text') {
@@ -967,7 +963,7 @@ function data_generator(type, info) {
         info['min'] = min;
       }
       if (info['max'] == undefined) {
-        max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+        max = get_max(json[data_idx]['data'],type);
         info['max'] = max;
       }
       for (var i = 0; i < data_number; i++) {  
@@ -989,11 +985,11 @@ function data_generator(type, info) {
     var max = info['max'];    
     if (info['distribution'] == 0) {
       if (info['min'] == undefined) {
-        min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+        min = get_min(json[data_idx]['data'],type);
         info['min'] = min;
       }
       if (info['max'] == undefined) {
-        max = json[data_idx]['data'].reduce((a,b)=>Math.max(a,b));
+        max = get_max(json[data_idx]['data'],type);
         info['max'] = max;
       }
       for (var i = 0; i < data_number; i++) {  
@@ -1013,10 +1009,10 @@ function data_generator(type, info) {
   } else if (type == 'date') {
     if (info['distribution'] == 0) {
       if (info['min'] == undefined) {
-        info['min'] = json[data_idx]['data'].reduce((a,b)=>a < b ? a : b);
+        info['min'] = get_min(json[data_idx]['data'],type);
       }
       if (info['max'] == undefined) {
-        info['max'] = json[data_idx]['data'].reduce((a,b)=>a > b ? a : b);
+        info['max'] = get_max(json[data_idx]['data'],type);
       }
     } else if (info['distribution'] == 1) {
       if (info['mean'] == undefined) {
