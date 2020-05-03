@@ -388,8 +388,9 @@ function make_data_detail_content() {
   
   var td = new_elem('td');
   add_atts(td,[['id','sugs']]);
-  var table1 = make_sug_table('random');
-  app_child([table1,td,tr]);
+  // var table1 = make_sug_table('random');
+  // app_child([table1,td,tr]);
+  app_child([td,tr]);
   
   var td = new_elem('td');
   add_atts(td,[['id','description']]);
@@ -445,13 +446,17 @@ function make_data_detail_content() {
   
   var div = new_elem('div');
   add_atts(div,[['id','statistics']]);
-  var stats = ['mean','variance','min','max'];
+  var stats = ['mean','sd','min','max'];
   for (var i = 0; i < stats.length; i++) {
     var div2 = new_elem('div');
     add_atts(div2,[['id','s_'+stats[i]]]);
     var label = new_elem('label');
     add_atts(label,[['for','input_'+stats[i]]]);
-    label.textContent = stats[i];
+    if (i == 1) {
+      label.textContent = "standard diviation";
+    } else {
+      label.textContent = stats[i];
+    }
     app_child([label,div2]);
     var input = new_elem('input');
     add_atts(input,[['id','input_'+stats[i]],['onchange','update_stats();']]);
@@ -529,19 +534,19 @@ function fill_data_detail_content() {
       }
       
       var mean = json[data_idx]['generator']['mean'];
-      var variance = json[data_idx]['generator']['variance'];
+      var sd = json[data_idx]['generator']['sd'];
       var min = json[data_idx]['generator']['min'];
       var max = json[data_idx]['generator']['max'];
       if (json[data_idx]['generator']['distribution'] == 0) {
         document.getElementById('s_mean').style.display = 'none';
-        document.getElementById('s_variance').style.display = 'none';
+        document.getElementById('s_sd').style.display = 'none';
         document.getElementById('input_min').value = min;
         document.getElementById('input_max').value = max;
       } else if (json[data_idx]['generator']['distribution'] == 1) {
         document.getElementById('s_mean').style.display = 'block';
-        document.getElementById('s_variance').style.display = 'block';
+        document.getElementById('s_sd').style.display = 'block';
         document.getElementById('input_mean').value = mean;
-        document.getElementById('input_variance').value = variance;
+        document.getElementById('input_sd').value = sd;
         if (min != undefined) {        
           document.getElementById('input_min').value = min;
         }
@@ -685,11 +690,11 @@ function update_stats() {
     if (document.getElementById('input_mean').value == "") {
       document.getElementById('input_mean').value = json[data_idx]['generator']['mean'];
     }
-    if (document.getElementById('input_variance').value == "") {
-      document.getElementById('input_variance').value = json[data_idx]['generator']['variance'];
+    if (document.getElementById('input_sd').value == "") {
+      document.getElementById('input_sd').value = json[data_idx]['generator']['sd'];
     }
   }
-  var stats = ['mean','variance','min','max'];
+  var stats = ['mean','sd','min','max'];
   for (var i = 0; i < stats.length; i++) {
     if (document.getElementById('input_'+stats[i]).value == "") {
       json[data_idx]['generator'][stats[i]] = undefined;
@@ -786,9 +791,9 @@ function make_new_data() {
   if (json[data_idx]['data_type'] == 'text') {
     json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
-    json[data_idx]['generator'] = {"distribution": 1, "mean":50, "variance":30, "min": 0, "max": 100};
+    json[data_idx]['generator'] = {"distribution": 1, "mean":50, "sd":30, "min": 0, "max": 100};
   } else if (json[data_idx]['data_type'] == 'float') {
-    json[data_idx]['generator'] = {"distribution": 1, "mean":140, "variance":50, "min": 50, "max": 190};
+    json[data_idx]['generator'] = {"distribution": 1, "mean":140, "sd":50, "min": 50, "max": 190};
   } else if (json[data_idx]['data_type'] == 'date') {
     json[data_idx]['generator'] = {"distribution": 0, "min":'1945-01-01', "max":'2019-12-31'};
   }
@@ -849,7 +854,7 @@ function ymdMid(fromYmd, toYmd) {
   return y + "-" + m + "-" + d;
 };
 
-function ymdVar(fromYmd, toYmd) {
+function ymdSd(fromYmd, toYmd) {
   var d1 = new Date(fromYmd);
   var d2 = new Date(toYmd);
   
@@ -876,7 +881,7 @@ function ymdRand(info){
   if (info['distribution'] == 0) {
     var x = Math.floor(Math.random() * (c+1));
   } else if (info['distribution'] == 1) {
-    var x = Math.floor(normRandmm(m,info['variance'],0,c));
+    var x = Math.floor(normRandmm(m,info['sd'],0,c));
   }
  
   min.setDate(min.getDate() + x);
@@ -910,11 +915,11 @@ function data_generator(type, info) {
       if (info['mean'] == undefined) {
         info['mean'] = (min+max)/2;
       }
-      if (info['variance'] == undefined) {
-        info['variance'] = (max-min)/10;
+      if (info['sd'] == undefined) {
+        info['sd'] = (max-min)/10;
       }
       for (var i = 0; i < data_number; i++) {
-        data.push(Math.round(normRandmm(info['mean'],info['variance'],min,max)));
+        data.push(Math.round(normRandmm(info['mean'],info['sd'],min,max)));
       }
     }
   } else if (type == 'float') {
@@ -936,11 +941,11 @@ function data_generator(type, info) {
       if (info['mean'] == undefined) {
         info['mean'] = (min+max)/2;
       }
-      if (info['variance'] == undefined) {
-        info['variance'] = (max-min)/10;
+      if (info['sd'] == undefined) {
+        info['sd'] = (max-min)/10;
       }
       for (var i = 0; i < data_number; i++) {  
-        data.push(normRandmm(info['mean'],info['variance'],info['min'],info['max']));
+        data.push(normRandmm(info['mean'],info['sd'],info['min'],info['max']));
       }
     }
   } else if (type == 'date') {
@@ -955,8 +960,8 @@ function data_generator(type, info) {
       if (info['mean'] == undefined) {
         info['mean'] = ymdMid(info['min'],info['max']);
       }
-      if (info['variance'] == undefined) {
-        info['variance'] = ymdVar(info['min'],info['max']);
+      if (info['sd'] == undefined) {
+        info['sd'] = ymdSd(info['min'],info['max']);
       }
     }
     for (var i = 0; i < data_number; i++) {  
@@ -1016,6 +1021,7 @@ function init() {
   json = [
     { "id": 0,
       "name": "Name",
+      "new_data": false,
       "dependency": [2],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
@@ -1023,6 +1029,7 @@ function init() {
     },
     { "id": 1,
       "name": "Surname",
+      "new_data": false,
       "dependency": [],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
@@ -1031,6 +1038,7 @@ function init() {
     },
     { "id": 2,
       "name": "Sex",
+      "new_data": false,
       "dependency": [],
       "generator": {"text": 'choice', "rate":[1,2], "value":['F','M']},
       "data_type": 'text',
@@ -1039,6 +1047,7 @@ function init() {
     },
     { "id": 3,
       "name": "Age",
+      "new_data": false,
       "dependency": [],
       "generator": {"distribution": 0, "min":0, "max":100},
       "data_type": 'int',
