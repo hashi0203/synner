@@ -39,30 +39,40 @@ function toCountDict(array,type){
     let dict = {};
     if (type == 'float' || type == 'int') {
       for(let key of array){
-        dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
+        if (key != undefined) {
+          dict[Math.round(key)] = array.filter(function(x){return Math.round(x)==Math.round(key);}).length;
+        }
       }
     } else if (type == 'date') {
       var min = get_min(array,type).split('-');
       var max = get_max(array,type).split('-');
       if (Number(max[0]) - Number(min[0]) >= 10) {
         for (let key of array) {
-          var y = key.split('-')[0];
-          dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length;
+          if (key != undefined) {
+            var y = key.split('-')[0];
+            dict[y] = array.filter(function(x){return x.split('-')[0]==y;}).length; 
+          }
         }
       } else if (Number(min[0]) == Number(max[0]) || (Number(min[0])+1 == Number(max[0]) && Number(max[1]) < Number(min[1]))) {
         for (let key of array) {
-          var ymd = key.split('-');
-          dict[ymd[0]+'/'+ymd[1]+'/'+ymd[2]] = array.filter(function(x){return (x.split('-')[1]==ymd[1] && x.split('-')[2]==ymd[2]);}).length;
+          if (key != undefined) {
+            var ymd = key.split('-');
+            dict[ymd[0]+'/'+ymd[1]+'/'+ymd[2]] = array.filter(function(x){return (x.split('-')[1]==ymd[1] && x.split('-')[2]==ymd[2]);}).length;            
+          }
         }
       } else {
         for (let key of array) {
-          var ymd = key.split('-');
-          dict[ymd[0]+'/'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;
+          if (key != undefined) {
+            var ymd = key.split('-');
+            dict[ymd[0]+'/'+ymd[1]] = array.filter(function(x){return (x.split('-')[0]==ymd[0] && x.split('-')[1]==ymd[1]);}).length;            
+          }
         }
       }
     } else {
       for(let key of array){
-        dict[key] = array.filter(function(x){return x==key}).length;
+        if (key != undefined) {
+          dict[key] = array.filter(function(x){return x==key}).length;          
+        }
       }
     }
     var keys = assoc_sort(dict,type);
@@ -354,11 +364,13 @@ function fill_data_detail_title() {
 
 function make_sug_table(item) {
   var title;
-  var content;
+  var ps = [];
   var onclick;
   if (item == 'custom') {
     title = 'Custom';
-    content = 'Design your own custom type';
+    var p = new_elem('p');
+    p.textContent = 'Design your own custom type';
+    ps.push(p);
     onclick = "make_new_data('custom',[]);";
   } else if (item == 'uniform') {
     title = 'Uniform';
@@ -375,11 +387,16 @@ function make_sug_table(item) {
       var min = '1945/01/01';
       var max = '2019/12/31';
     }
-    if (json[data_idx]['data'].length >= 2) {
+    if (json[data_idx]['data'].filter(function(x){return x!=undefined}).length >= 2) {
       min = get_min(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
       max = get_max(json[data_idx]['data'],json[data_idx]['data_type']).replace('-','/');
     }
-    content = 'Minimum: '+min+'\n Maximun: '+max;
+    var p = new_elem('p');
+    p.textContent = 'Minimum: '+min;
+    ps.push(p);
+    var p = new_elem('p');
+    p.textContent = 'Maximun: '+max;
+    ps.push(p);
     onclick = "make_new_data('uniform',["+min+","+max+"])";
   } else if (item == 'gaussian') {
     title = 'Gaussian';
@@ -396,7 +413,7 @@ function make_sug_table(item) {
       var mean = '1982/07/01';
       var sd = 2500;
     }
-    if (json[data_idx]['data'].length >= 2) {
+    if (json[data_idx]['data'].filter(function(x){return x!=undefined}).length >= 2) {
       var min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
       var max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
       if (json[data_idx]['data_type'] == 'date') {
@@ -407,7 +424,12 @@ function make_sug_table(item) {
         sd = (max-min)/4;
       }
     }
-    content = 'Mean: '+mean+'\n Std Dev: '+sd;
+    var p = new_elem('p');
+    p.textContent = 'Mean: '+mean;
+    ps.push(p);
+    var p = new_elem('p');
+    p.textContent = 'Std Dev: '+sd;
+    ps.push(p);
     onclick = "make_new_data('uniform',["+mean+","+sd+"])";
   }
   
@@ -421,7 +443,9 @@ function make_sug_table(item) {
   var tr = new_elem('tr');
   add_atts(tr,[['height','150']]);
   var td = new_elem('td');
-  td.textContent = content;
+  for (var i = 0; i < ps.length; i++) {
+    app_child([ps[i],td]); 
+  }
   app_child([td,tr,table]);
   var tr = new_elem('tr');
   var td = new_elem('td');
