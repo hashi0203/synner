@@ -453,7 +453,7 @@ function make_data_detail_content() {
     var label = new_elem('label');
     add_atts(label,[['for','input_'+stats[i]]]);
     if (i == 1) {
-      label.textContent = "standard diviation";
+      label.textContent = "Std Dev";
     } else {
       label.textContent = stats[i];
     }
@@ -461,7 +461,7 @@ function make_data_detail_content() {
     var input = new_elem('input');
     add_atts(input,[['id','input_'+stats[i]],['onchange','update_stats();']]);
     if (i == 2) {
-      add_atts(input,[['type','number'],['step','1']]);
+      add_atts(input,[['type','number'],['step',1]]);
     }
     app_child([input,div2,div]);
   }
@@ -485,7 +485,17 @@ function make_data_detail_content() {
 };
 
 function fill_data_detail_content() {
-  if (json[data_idx]['data'].length >= 1) {
+  if (json[data_idx]['new_data']) {
+    document.getElementById('description').style.display = 'none';
+    document.getElementById('sug_custom').style.display = 'table-cell';
+    document.getElementById('sugs').style.display = 'table-cell';
+    var describeds = document.getElementsByClassName('describeds');
+    for (var i = 0; i < describeds.length; i++) {
+      document.getElementById('described'+i).style.display = 'none';
+    }
+    var sugs = document.getElementById('sugs');
+    
+  } else {
     document.getElementById('description').style.display = 'table-cell';
     document.getElementById('sug_custom').style.display = 'none';
     document.getElementById('sugs').style.display = 'none';
@@ -585,21 +595,12 @@ function fill_data_detail_content() {
         app_child([input,td1,tr1,table,table_wrapper]);
       }
     }
-  } else {
-    document.getElementById('description').style.display = 'none';
-    document.getElementById('sug_custom').style.display = 'table-cell';
-    document.getElementById('sugs').style.display = 'table-cell';
-    var describeds = document.getElementsByClassName('describeds');
-    for (var i = 0; i < describeds.length; i++) {
-      document.getElementById('described'+i).style.display = 'none';
-    }
-  }
-  
+  }  
 };
 
 function add_field(type) {
   max_id++;
-  json.push({"id": max_id, "name": 'column'+max_id, 'dependency': [], 'data_type': type, 'data': [], 'description': 0});
+  json.push({"id": max_id, "name": 'column'+max_id, "new_data": true, 'dependency': [], 'data_type': type, 'data': [], 'description': 0});
   
   data_idx = json.length-1;
   add_title_col(data_idx);
@@ -788,6 +789,7 @@ function change_data_size() {
 };
 
 function make_new_data() {
+  json[data_idx]['new_data'] = false;
   if (json[data_idx]['data_type'] == 'text') {
     json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
   } else if (json[data_idx]['data_type'] == 'int') {
