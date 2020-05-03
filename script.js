@@ -342,10 +342,40 @@ function make_sug_table(item) {
     title = 'Custom';
     content = 'Design your own custom type';
     onclick = "make_new_data();";
-  } else if (item == 'random') {
-    title = 'Random';
-    content = 'Make random dataset';
+  } else if (item == 'uniform') {
+    title = 'Uniform';
+    if (json[data_idx]['data_type'] == 'text') {
+      var min = 3;
+      var max = 11;
+    } else if (json[data_idx]['data_type'] == 'int') {
+      var min = 0;
+      var max = 100;
+    } else if (json[data_idx]['data_type'] == 'float') {
+      var min = 50;
+      var max = 190;
+    } else if (json[data_idx]['data_type'] == 'date') {
+      var min = '1945-01-01';
+      var max = '2019-12-31';
+    }
+    if (json[data_idx]['data'].length >= 2) {
+      
+    }
+    content = 'Minimum: ';
     onclick = "";
+  } else if (item == 'gaussian') {
+    if (json[data_idx]['data_type'] == 'text') {
+      var mean = 5;
+      var sd = 2;
+    } else if (json[data_idx]['data_type'] == 'int') {
+      var mean = 50;
+      var sd = 30;
+    } else if (json[data_idx]['data_type'] == 'float') {
+      var mean = 140;
+      var sd = 50;
+    } else if (json[data_idx]['data_type'] == 'date') {
+      var mean = '1982/07/01';
+      var sd = 2500;
+    }
   }
   
   var table = new_elem('table');
@@ -494,7 +524,10 @@ function fill_data_detail_content() {
       document.getElementById('described'+i).style.display = 'none';
     }
     var sugs = document.getElementById('sugs');
-    
+    var table = make_sug_table('uniform');
+    app_child([table,sugs]);
+    var table = make_sug_table('gaussian');
+    app_child([table,sugs]);
   } else {
     document.getElementById('description').style.display = 'table-cell';
     document.getElementById('sug_custom').style.display = 'none';
