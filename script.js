@@ -5,6 +5,22 @@ var max_id;
 var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
 
+function get_min(array,type) {
+  if (type == 'int' || type == 'float') {
+    return array.reduce((a,b)=>Math.min(a,b));
+  } else {
+    return array.reduce((a,b)=>a < b ? a : b);
+  }
+};
+
+function get_max(array,type) {
+  if (type == 'int' || type == 'float') {
+    return array.reduce((a,b)=>Math.max(a,b));
+  } else {
+    return array.reduce((a,b)=>a > b ? a : b);
+  }
+};
+
 function toCountDict(array,type){
   if (array.length != 0) {
     let dict = {};
@@ -15,8 +31,8 @@ function toCountDict(array,type){
       const compare = (x, y) => x - y;
       var keys = Object.keys(dict).sort(compare);
     } else if (type == 'date') {
-      var min = array.reduce((a,b)=>a < b ? a : b).split('-');
-      var max = array.reduce((a,b)=>a > b ? a : b).split('-');
+      var min = get_min(array,type).split('-');
+      var max = get_max(array,type).split('-');
       if (Number(max[0]) - Number(min[0]) >= 10) {
         for (let key of array) {
           var y = key.split('-')[0];
@@ -358,7 +374,14 @@ function make_sug_table(item) {
       var max = '2019-12-31';
     }
     if (json[data_idx]['data'].length >= 2) {
+      var keys = Object.keys(dict).sort(function(a,b){
+            if( a < b ) return -1;
+            if( a > b ) return 1;
+            return 0;
+      });
       
+      const compare = (x, y) => x - y;
+      var keys = Object.keys(dict).sort(compare);
     }
     content = 'Minimum: ';
     onclick = "";
@@ -690,7 +713,11 @@ function delete_dependency(i,j) {
 };
 
 function update_data(i,j) {
-  json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
+  if (json[i]['data_type'] == 'int' || json[i]['data_type'] == 'float') {
+    json[i]['data'][j] = Number(document.getElementById('data'+i+'_'+j).value);
+  } else {
+    json[i]['data'][j] = document.getElementById('data'+i+'_'+j).value;
+  }
   draw_chart(i);
   if (i = data_idx) {
     fill_data_detail_content();
@@ -936,7 +963,7 @@ function data_generator(type, info) {
     var max = Math.floor(info['max']);    
     if (info['distribution'] == 0) {
       if (info['min'] == undefined) {
-        min = json[data_idx]['data'].reduce((a,b)=>Math.min(a,b));
+        min = get_min(json[data_idx]['data'],type);
         info['min'] = min;
       }
       if (info['max'] == undefined) {
