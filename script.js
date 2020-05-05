@@ -165,12 +165,12 @@ function draw_chart(i) {
 };
 
 function norm_func (x, m, s) {
-  return 100/(Math.sqrt(2*Math.pi*(s**2))) * Math.exp(-((x-m)**2)/(2*(s**2)));
+  return 100/(Math.sqrt(2*Math.PI*(s**2))) * Math.exp(-((x-m)**2)/(2*(s**2)));
 };
 
 function exact_model(keys, type, info) {
   var data = [];
-  var v = 1/keys.length;
+  var v = 100/keys.length;
   if (type == 'int' || type == 'float') {
     if (info['distribution'] == 0) {
       keys.forEach(function(k){
@@ -178,8 +178,11 @@ function exact_model(keys, type, info) {
       });
     } else if (info['distribution'] == 1) {
       keys.forEach(function(k){
-        data.push(norm_func(k,info['mean'],info['sd']));
+        data.push(norm_func(k,info['mean'],info['sd'])/keys.length);
       });
+      console.log(info['mean']);
+      console.log(info['sd']);
+      console.log(data);
     }
   } else if (type == 'date') {
     if (info['distribution'] == 0) {
