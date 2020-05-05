@@ -225,8 +225,10 @@ function draw_dist_chart(i) {
 };
 
 function layers() {
+  // dist_chart = dist_chart;
   dist_chart.chart.config.data.datasets[1].backgroundColor = "rgba(36,22,236,1)";
-}
+  dist_chart.chart.update();
+};
 
 function new_elem(e) {
   return document.createElement(e);
