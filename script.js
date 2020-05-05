@@ -178,11 +178,8 @@ function exact_model(keys, type, info) {
       });
     } else if (info['distribution'] == 1) {
       keys.forEach(function(k){
-        data.push(norm_func(k,info['mean'],info['sd'])/keys.length);
+        data.push(norm_func(k,info['mean'],info['sd']));
       });
-      console.log(info['mean']);
-      console.log(info['sd']);
-      console.log(data);
     }
   } else if (type == 'date') {
     if (info['distribution'] == 0) {
@@ -285,8 +282,6 @@ function draw_dist_chart(i) {
     options: options  //オプション設定
 
   });
-  
-  console.log(dist_chart);
 };
 
 function onlayers() {
