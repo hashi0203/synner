@@ -164,111 +164,38 @@ function draw_chart(i) {
   });
 };
 
-function 
+function norm_func (x, m, s) {
+  return 1/(Math.sqrt(2*Math.pi*(s**2))) * Math.exp(-(x-m)**2/(2*(s**2)));
+};
 
 function exact_model(keys, type, info) {
   var data = [];
-  if (type == 'int') {
-    var min = Math.ceil(info['min']);
-    var max = Math.floor(info['max']);    
+  var v = data_number/keys.length;
+  if (type == 'int' || type == 'float') {
     if (info['distribution'] == 0) {
-      var v = data_number/(max-min+1);
-      for (var i = 0; i < keys.length; i++) {  
+      keys.forEach(function(k){
         data.push(v);
-      }
+      });
     } else if (info['distribution'] == 1) {
-      if (info['mean'] == undefined) {
-        info['mean'] = (min+max)/2;
-      }
-      if (info['sd'] == undefined) {
-        info['sd'] = (max-min)/10;
-      }
-      for (var i = 0; i < data_number; i++) {
-        data.push(Math.round(normRandmm(info['mean'],info['sd'],min,max)));
-      }
-    }
-  } else if (type == 'float') {
-    var min = info['min'];
-    var max = info['max'];    
-    if (info['distribution'] == 0) {
-      if (info['min'] == undefined) {
-        min = get_min(json[data_idx]['data'],type);
-        info['min'] = min;
-      }
-      if (info['max'] == undefined) {
-        max = get_max(json[data_idx]['data'],type);
-        info['max'] = max;
-      }
-      for (var i = 0; i < data_number; i++) {  
-        data.push(info['min'] + Math.random()*(info['max']-info['min']));
-      }
-    } else if (info['distribution'] == 1) {
-      if (info['mean'] == undefined) {
-        info['mean'] = (min+max)/2;
-      }
-      if (info['sd'] == undefined) {
-        info['sd'] = (max-min)/10;
-      }
-      for (var i = 0; i < data_number; i++) {  
-        data.push(normRandmm(info['mean'],info['sd'],info['min'],info['max']));
-      }
+      keys.forEach(function(k){
+        data.push(norm_func(k,info['mean'],info['sd']));
+      });
     }
   } else if (type == 'date') {
     if (info['distribution'] == 0) {
-      if (info['min'] == undefined) {
-        info['min'] = get_min(json[data_idx]['data'],type);
-      }
-      if (info['max'] == undefined) {
-        info['max'] = get_max(json[data_idx]['data'],type);
-      }
-    } else if (info['distribution'] == 1) {
-      if (info['mean'] == undefined) {
-        info['mean'] = ymdMid(info['min'],info['max']);
-      }
-      if (info['sd'] == undefined) {
-        info['sd'] = ymdSd(info['min'],info['max']);
-      }
-    }
-    for (var i = 0; i < data_number; i++) {  
-      data.push(ymdRand(info));
-    }
-  } else if (info['text'] == 'choice') {
-    var rate = info['rate'].slice(0,info['rate'].length);
-    var value = info['value'].slice(0,info['value'].length);
-    if (rate.length != value.length) {
-      console.log('lengths of rate and value do not match');
-      return;
-    }
-    for (var i = 1; i < rate.length; i++) {
-      rate[i] += rate[i-1];      
-    }
-    var sum = rate[rate.length-1];
-    var bp = rate.map(elm => {
-      return elm / sum;
-    });
-    for (var i = 0; i < data_number; i++) {
-      var r = Math.random();
-      var idx = bp.findIndex(elm => {
-        return elm > r;
+      keys.forEach(function(k){
+        data.push(v);
       });
-      data.push(value[idx]);
+    } else if (info['distribution'] == 1) {
+      // Todo: 一様関数のまま
+      keys.forEach(function(k){
+        data.push(v);
+      });
     }
-  } else if (info['text'] == 'random') {
-    var min = Math.ceil(info['min']);
-    if (min > 11) {
-      min = 11;
-    }
-    var max = Math.floor(info['max']);
-    if (max > 11) {
-      max = 11;
-    }
-    for (var i = 0; i < data_number; i++) {
-      var str = Math.random().toString(32).substring(2);
-      while (str.length < min) {
-        str = Math.random().toString(32).substring(2);
-      }
-      data.push(str.substring(0,max));
-    }
+  } else {
+    keys.forEach(function(k){
+      data.push(v);
+    });
   }
   return data;  
 };
