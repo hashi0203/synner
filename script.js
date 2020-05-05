@@ -165,12 +165,12 @@ function draw_chart(i) {
 };
 
 function norm_func (x, m, s) {
-  return 1/(Math.sqrt(2*Math.pi*(s**2))) * Math.exp(-(x-m)**2/(2*(s**2)));
+  return 100/(Math.sqrt(2*Math.pi*(s**2))) * Math.exp(-((x-m)**2)/(2*(s**2)));
 };
 
 function exact_model(keys, type, info) {
   var data = [];
-  var v = data_number/keys.length;
+  var v = 1/keys.length;
   if (type == 'int' || type == 'float') {
     if (info['distribution'] == 0) {
       keys.forEach(function(k){
@@ -208,10 +208,19 @@ function draw_dist_chart(i) {
   
   var canvas = document.getElementById('dist_chart');
   var data = toCountDict(json[i]['data'],json[i]['data_type']);
-  // var exact_data = exact_model(data[0],json[i]['data_type'], json[i]['generator']);
+  var exact_data = exact_model(data[0],json[i]['data_type'], json[i]['generator']);
   var mydata = {
     labels: data[0],
     datasets: [
+      {
+        type: 'line',
+        label: 'Number(%)',
+        data: exact_data,
+        borderColor: "rgba(200,202,36,1)",
+        fill: false,
+        radius: 2,
+        borderWidth: 1
+      },
       {
         type: 'line',
         label: 'Number(%)',
@@ -278,12 +287,12 @@ function draw_dist_chart(i) {
 };
 
 function onlayers() {
-  dist_chart.data.datasets[1].backgroundColor = "rgba(36,22,236,0.8)";
+  dist_chart.data.datasets[2].backgroundColor = "rgba(36,22,236,0.8)";
   dist_chart.update();
 };
 
 function outlayers() {
-  dist_chart.data.datasets[1].backgroundColor = "rgba(36,22,236,0)";
+  dist_chart.data.datasets[2].backgroundColor = "rgba(36,22,236,0)";
   dist_chart.update();
 };
 
