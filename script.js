@@ -220,7 +220,13 @@ function draw_dist_chart(i) {
     options: options  //オプション設定
 
   });
+  
+  console.log(dist_chart);
 };
+
+function layers() {
+  dist_chart.chart.config.data.datasets[1].backgroundColor = "rgba(36,22,236,1)";
+}
 
 function new_elem(e) {
   return document.createElement(e);
@@ -548,7 +554,7 @@ function make_data_detail_content() {
   var div = new_elem('div');
   add_atts(div,[['class','dist_chart_container']]);
   var canvas = new_elem('canvas');
-  add_atts(canvas,[['id','dist_chart']]);
+  add_atts(canvas,[['id','dist_chart'], ['onmouseover','layers();']]);
   app_child([canvas,div,td]);
   
   var div = new_elem('div');
