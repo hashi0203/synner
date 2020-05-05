@@ -115,7 +115,8 @@ function draw_chart(i) {
     scales: {
       xAxes: [{
         ticks: {
-          callback: function(value, index, values){ return  '' }
+          // callback: function(value, index, values){ return  '' }
+          display: false
          },
         gridLines: {
           display: false // グリッドラインを表示しない
@@ -127,7 +128,8 @@ function draw_chart(i) {
       yAxes: [{
         ticks: {
           beginAtZero: true, // 0から始める
-          callback: function(value, index, values){ return  '' }
+          // callback: function(value, index, values){ return  '' }
+          display: false
         },
         scaleLabel: {
           display: false // 軸名を表示しない
@@ -158,7 +160,6 @@ function draw_dist_chart(i) {
     labels: data[0],
     datasets: [
       {
-        // yAxisID: "y-axis-0",
         type: 'line',
         label: 'Number(%)',
         data: data[1],
@@ -168,11 +169,9 @@ function draw_dist_chart(i) {
         borderWidth: 1
       },
       {
-        // yAxisID: "y-axis-1",
         type: 'bar',
         label: 'Number(%)',
         data: data[1],
-        // hoverBackgroundColor: "rgba(255,99,132,0.3)",
         hoverBackgroundColor: "rgba(36,22,236,0.3)",
         backgroundColor: "rgba(36,22,236,0)"
       }
@@ -191,7 +190,7 @@ function draw_dist_chart(i) {
     scales: {
       xAxes: [{
         ticks: {
-          callback: function(value, index, values){ return  '' }
+          display: false
          },
         gridLines: {
           display: false // グリッドラインを表示しない
@@ -203,7 +202,7 @@ function draw_dist_chart(i) {
       yAxes: [{
         ticks: {
           beginAtZero: true, // 0から始める
-          callback: function(value, index, values){ return  '' }
+          display:false
         },
         scaleLabel: {
           display: false // 軸名を表示しない
