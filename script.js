@@ -162,10 +162,9 @@ function draw_dist_chart(i) {
         type: 'line',
         label: 'Number(%)',
         data: data[1],
-        // hoverBackgroundColor: "rgba(255,99,132,0.3)",
-        hoverBackgroundColor: "rgba(200,22,236,0.3)",
         borderColor: "rgba(200,22,236,1)",
         fill: false,
+        radius: 2,
         borderWidth: 1
       },
       {
@@ -185,6 +184,10 @@ function draw_dist_chart(i) {
     legend: {
         display: false
      },
+    tooltips: {
+        mode: 'nearest',
+        intersect: false,
+    },
     scales: {
       xAxes: [{
         ticks: {
