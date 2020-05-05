@@ -224,10 +224,14 @@ function draw_dist_chart(i) {
   console.log(dist_chart);
 };
 
-function layers() {
-  // dist_chart = dist_chart;
-  dist_chart.chart.config.data.datasets[1].backgroundColor = "rgba(36,22,236,1)";
-  dist_chart.chart.update();
+function onlayers() {
+  dist_chart.data.datasets[1].backgroundColor = "rgba(36,22,236,0.8)";
+  dist_chart.update();
+};
+
+function outlayers() {
+  dist_chart.data.datasets[1].backgroundColor = "rgba(36,22,236,0)";
+  dist_chart.update();
 };
 
 function new_elem(e) {
@@ -556,7 +560,7 @@ function make_data_detail_content() {
   var div = new_elem('div');
   add_atts(div,[['class','dist_chart_container']]);
   var canvas = new_elem('canvas');
-  add_atts(canvas,[['id','dist_chart'], ['onmouseover','layers();']]);
+  add_atts(canvas,[['id','dist_chart'], ['onmouseover','onlayers();'], ['onmouseout','outlayers();']]);
   app_child([canvas,div,td]);
   
   var div = new_elem('div');
