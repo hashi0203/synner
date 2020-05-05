@@ -158,22 +158,24 @@ function draw_dist_chart(i) {
     labels: data[0],
     datasets: [
       {
-        yAxisID: "y-axis-0",
+        // yAxisID: "y-axis-0",
         type: 'line',
         label: 'Number(%)',
         data: data[1],
         // hoverBackgroundColor: "rgba(255,99,132,0.3)",
         hoverBackgroundColor: "rgba(200,22,236,0.3)",
-        backgroundColor: "rgba(200,22,236,1)"
+        borderColor: "rgba(200,22,236,1)",
+        fill: false,
+        borderWidth: 1
       },
       {
-        yAxisID: "y-axis-1",
+        // yAxisID: "y-axis-1",
         type: 'bar',
         label: 'Number(%)',
         data: data[1],
         // hoverBackgroundColor: "rgba(255,99,132,0.3)",
         hoverBackgroundColor: "rgba(36,22,236,0.3)",
-        backgroundColor: "rgba(36,22,236,1)"
+        backgroundColor: "rgba(36,22,236,0)"
       }
     ]
   };
