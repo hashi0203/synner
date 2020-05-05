@@ -23,10 +23,16 @@ function get_max(array,type) {
 
 function assoc_sort(dict,type) {
   if (type == 'int' || type == 'float') {
-    const compare = (x, y) => x - y;
-    var sorted = Object.keys(dict).sort(compare);
-    
-    return 
+    // const compare = (x, y) => x - y;
+    // return Object.keys(dict).sort(compare);
+    var keys = Object.keys(dict);
+    var min = get_min(keys, type);
+    var max = get_max(keys, type);
+    var ret = [];
+    for (var i = min; i <= max; i++) {
+      ret.push(i);
+    }
+    return ret;
   } else {
     return Object.keys(dict).sort(function(a,b){
             if( a < b ) return -1;
@@ -81,7 +87,11 @@ function toCountDict(array,type){
 
     var values = [];
     for (var i = 0; i < keys.length; i++) {
-      values.push(dict[keys[i]]*100/data_number);
+      if (dict[keys[i]] == undefined) {
+        values.push(0);
+      } else {
+        values.push(dict[keys[i]]*100/data_number); 
+      }
     }
     return [keys,values];
   } else {
@@ -114,6 +124,9 @@ function draw_chart(i) {
     legend: {
         display: false
      },
+    tooltips: {
+      intersect: false
+    },
     scales: {
       xAxes: [{
         ticks: {
@@ -151,14 +164,17 @@ function draw_chart(i) {
   });
 };
 
+function 
+
 function exact_model(keys, type, info) {
   var data = [];
   if (type == 'int') {
     var min = Math.ceil(info['min']);
     var max = Math.floor(info['max']);    
     if (info['distribution'] == 0) {
-      for (var i = 0; i < data_number; i++) {  
-        data.push(min + Math.floor(Math.random()*(max-min+1)));
+      var v = data_number/(max-min+1);
+      for (var i = 0; i < keys.length; i++) {  
+        data.push(v);
       }
     } else if (info['distribution'] == 1) {
       if (info['mean'] == undefined) {
@@ -265,7 +281,7 @@ function draw_dist_chart(i) {
   
   var canvas = document.getElementById('dist_chart');
   var data = toCountDict(json[i]['data'],json[i]['data_type']);
-  var exact_data = exact_model(data[0],json[i]['data_type'], json[i]['generator']);
+  // var exact_data = exact_model(data[0],json[i]['data_type'], json[i]['generator']);
   var mydata = {
     labels: data[0],
     datasets: [
