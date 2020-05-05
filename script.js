@@ -24,7 +24,9 @@ function get_max(array,type) {
 function assoc_sort(dict,type) {
   if (type == 'int' || type == 'float') {
     const compare = (x, y) => x - y;
-    return Object.keys(dict).sort(compare);
+    var sorted = Object.keys(dict).sort(compare);
+    
+    return 
   } else {
     return Object.keys(dict).sort(function(a,b){
             if( a < b ) return -1;
@@ -149,6 +151,113 @@ function draw_chart(i) {
   });
 };
 
+function exact_model(keys, type, info) {
+  var data = [];
+  if (type == 'int') {
+    var min = Math.ceil(info['min']);
+    var max = Math.floor(info['max']);    
+    if (info['distribution'] == 0) {
+      for (var i = 0; i < data_number; i++) {  
+        data.push(min + Math.floor(Math.random()*(max-min+1)));
+      }
+    } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = (min+max)/2;
+      }
+      if (info['sd'] == undefined) {
+        info['sd'] = (max-min)/10;
+      }
+      for (var i = 0; i < data_number; i++) {
+        data.push(Math.round(normRandmm(info['mean'],info['sd'],min,max)));
+      }
+    }
+  } else if (type == 'float') {
+    var min = info['min'];
+    var max = info['max'];    
+    if (info['distribution'] == 0) {
+      if (info['min'] == undefined) {
+        min = get_min(json[data_idx]['data'],type);
+        info['min'] = min;
+      }
+      if (info['max'] == undefined) {
+        max = get_max(json[data_idx]['data'],type);
+        info['max'] = max;
+      }
+      for (var i = 0; i < data_number; i++) {  
+        data.push(info['min'] + Math.random()*(info['max']-info['min']));
+      }
+    } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = (min+max)/2;
+      }
+      if (info['sd'] == undefined) {
+        info['sd'] = (max-min)/10;
+      }
+      for (var i = 0; i < data_number; i++) {  
+        data.push(normRandmm(info['mean'],info['sd'],info['min'],info['max']));
+      }
+    }
+  } else if (type == 'date') {
+    if (info['distribution'] == 0) {
+      if (info['min'] == undefined) {
+        info['min'] = get_min(json[data_idx]['data'],type);
+      }
+      if (info['max'] == undefined) {
+        info['max'] = get_max(json[data_idx]['data'],type);
+      }
+    } else if (info['distribution'] == 1) {
+      if (info['mean'] == undefined) {
+        info['mean'] = ymdMid(info['min'],info['max']);
+      }
+      if (info['sd'] == undefined) {
+        info['sd'] = ymdSd(info['min'],info['max']);
+      }
+    }
+    for (var i = 0; i < data_number; i++) {  
+      data.push(ymdRand(info));
+    }
+  } else if (info['text'] == 'choice') {
+    var rate = info['rate'].slice(0,info['rate'].length);
+    var value = info['value'].slice(0,info['value'].length);
+    if (rate.length != value.length) {
+      console.log('lengths of rate and value do not match');
+      return;
+    }
+    for (var i = 1; i < rate.length; i++) {
+      rate[i] += rate[i-1];      
+    }
+    var sum = rate[rate.length-1];
+    var bp = rate.map(elm => {
+      return elm / sum;
+    });
+    for (var i = 0; i < data_number; i++) {
+      var r = Math.random();
+      var idx = bp.findIndex(elm => {
+        return elm > r;
+      });
+      data.push(value[idx]);
+    }
+  } else if (info['text'] == 'random') {
+    var min = Math.ceil(info['min']);
+    if (min > 11) {
+      min = 11;
+    }
+    var max = Math.floor(info['max']);
+    if (max > 11) {
+      max = 11;
+    }
+    for (var i = 0; i < data_number; i++) {
+      var str = Math.random().toString(32).substring(2);
+      while (str.length < min) {
+        str = Math.random().toString(32).substring(2);
+      }
+      data.push(str.substring(0,max));
+    }
+  }
+  return data;  
+};
+
+
 function draw_dist_chart(i) {
   if (dist_chart) {
     dist_chart.destroy();
@@ -156,6 +265,7 @@ function draw_dist_chart(i) {
   
   var canvas = document.getElementById('dist_chart');
   var data = toCountDict(json[i]['data'],json[i]['data_type']);
+  var exact_data = exact_model(data[0],json[i]['data_type'], json[i]['generator']);
   var mydata = {
     labels: data[0],
     datasets: [
