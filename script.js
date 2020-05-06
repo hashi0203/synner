@@ -453,13 +453,34 @@ function sug_dependency(item) {
   item = item.toLowerCase();
   var deps = [['name','sex'], ['age','height', 'birthday']];
   deps = deps.map(d => d.map(i => new RegExp(i)));
+  var idx = -1;
   var dep = deps.filter((d) => {
-    (d.indexOf(i => {
-      return (i.test(item));
+    var tmp = (d.findIndex(i => {
+      return i.test(item);
     }));
+    if (tmp == -1) {
+      return false;
+    } else {
+      idx = tmp;
+      return true;
+    };
   });
-  var idx = dep.indexOf(item);
-  
+  if (idx == -1) {
+    return [];
+  } else {
+    var ret = [];
+    json.forEach(function(j){
+      var tmp = dep.findIndex(d => {
+        return d.test(j['name']);
+      });
+      if (tmp == -1 || tmp == idx) {
+        return false;
+      } else {
+        ret = json[]
+        return true;
+      }
+    });
+  }
 };
   
 function make_sug_table(item) {
