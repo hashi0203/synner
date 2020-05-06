@@ -453,7 +453,6 @@ function sug_dependency(item) {
   item = item.toLowerCase();
   var deps = [['name','sex'], ['age','height', 'birthday']];
   deps = deps.map(d => d.map(i => new RegExp(i)));
-  console.log(deps);
   var idx = -1;
   var dep = deps.filter(d => {
     var tmp = (d.findIndex(i => {
@@ -466,14 +465,13 @@ function sug_dependency(item) {
       return true;
     };
   });
-  console.log(dep);
   if (idx == -1) {
     return [];
   } else {
     var ret = [];
     json.forEach(function(j){
-      var tmp = dep.findIndex(d => {
-        return d.test(j['name']);
+      var tmp = dep[0].findIndex(i => {
+        return i.test(j['name'].toLowerCase());
       });
       if (tmp == -1 || tmp == idx) {
         return false;
@@ -490,6 +488,11 @@ function make_sug_table(item) {
   var title;
   var ps = [];
   var onclick;
+  var deps = '';
+  sug_dependency(json[data_idx]['name']).forEach(function(d){
+    deps += d + ',';
+  });
+  deps = deps.substr(deps)
   if (item == 'custom') {
     title = 'Custom';
     var p = new_elem('p');
@@ -527,7 +530,6 @@ function make_sug_table(item) {
     p.textContent = 'Maximun: '+max;
     ps.push(p);
     onclick = "make_new_data('uniform',["+min+","+max+"])";
-    console.log(sug_dependency(json[data_idx]['name']));
   } else if (item == 'gaussian') {
     title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
@@ -560,6 +562,8 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Std Dev: '+sd;
     ps.push(p);
+    var p = new_elem('p');
+    p.textContent =
     onclick = "make_new_data('gaussian',["+mean+","+sd+"])";
   }
   
