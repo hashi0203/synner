@@ -476,7 +476,7 @@ function sug_dependency(item) {
       if (tmp == -1 || tmp == idx) {
         return false;
       } else {
-        ret.push(j['name']);
+        ret.push({'name': j['name'],'id': j['id']});
         return true;
       }
     });
@@ -491,9 +491,10 @@ function make_sug_table(item) {
   var deps = sug_dependency(json[data_idx]['name']);
   var depstr = '';
   deps.forEach(function(d){
-    depstr += d + ', ';
+    depstr += d['name'] + ', ';
   });
   depstr = depstr.substr(0,depstr.length-2);
+  deps = deps.map(d => d['id']);
   if (item == 'custom') {
     title = 'Custom';
     var p = new_elem('p');
@@ -533,7 +534,7 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
     ps.push(p);
-    onclick = "make_new_data('uniform',["+min+","+max+"],"+deps+")";
+    onclick = "make_new_data('uniform',["+min+","+max+"],["+deps+"])";
   } else if (item == 'gaussian') {
     title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
@@ -569,7 +570,7 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
     ps.push(p);
-    onclick = "make_new_data('gaussian',["+mean+","+sd+"],"+deps+")";
+    onclick = "make_new_data('gaussian',["+mean+","+sd+"],["+deps+"])";
   }
   
   var div = new_elem('div');
@@ -1028,7 +1029,7 @@ function change_data_size() {
 
 function make_new_data(item,val,deps) {
   json[data_idx]['new_data'] = false;
-  var deps = deps.map()
+  json[data_idx]['dependency'] = deps;
   if (item == 'custom') {
     if (json[data_idx]['data_type'] == 'text') {
       json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
@@ -1051,6 +1052,7 @@ function make_new_data(item,val,deps) {
   }
   draw_chart(data_idx);
   fill_data_detail_content();
+  replace_all_children('dependencies');
 };
 
 function normRand (m, s) {
