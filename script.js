@@ -1128,19 +1128,21 @@ function ymdRand(info){
   }
   
   var c = (max - min) / 86400000;
-  var m = (mean- min) / 86400000;
+  var m = mean / 86400000;
   if (info['distribution'] == 0) {
     var x = Math.floor(Math.random() * (c+1));
+    var ans = min;
   } else if (info['distribution'] == 1) {
-    var x = Math.floor(normRandmm(m,info['sd'],0,c));
+    var x = Math.floor(normRandmm(m,info['sd'],min,max));
+    var ans = mean;
   }
- 
-  min.setDate(min.getDate() + x);
+  
+  ans.setDate(ans.getDate() + x);
  
   //フォーマット整形
-  var y = min.getFullYear();
-  var m = ("00" + (min.getMonth()+1)).slice(-2);
-  var d = ("00" + min.getDate()).slice(-2);
+  var y = ans.getFullYear();
+  var m = ("00" + (ans.getMonth()+1)).slice(-2);
+  var d = ("00" + ans.getDate()).slice(-2);
  
   return y + "-" + m + "-" + d;
 };
