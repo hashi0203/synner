@@ -450,11 +450,17 @@ function fill_data_detail_title() {
 };
 
 function sug_dependency(item) {
-  if (item == 'name' || item == 'name') {
-    
-  }
+  item = item.toLowerCase();
+  var deps = [['name','sex'], ['age','height', 'birthday']];
+  var dep = deps.filter((d) => {
+    return (d.find((i) => {
+      return (i == item);
+    }));
+  });
+  var idx = dep.indexOf(item);
+  
 };
-
+  
 function make_sug_table(item) {
   var title;
   var ps = [];
