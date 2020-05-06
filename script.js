@@ -1128,12 +1128,14 @@ function ymdRand(info){
   }
   
   var c = (max - min) / 86400000;
-  var m = mean / 86400000;
   if (info['distribution'] == 0) {
     var x = Math.floor(Math.random() * (c+1));
     var ans = min;
   } else if (info['distribution'] == 1) {
-    var x = Math.floor(normRandmm(m,info['sd'],min,max));
+    console.log(mean / 86400000,info['sd'],min / 86400000,max / 86400000);
+    var x = Math.floor(normRandmm(mean / 86400000,info['sd'],min / 86400000,max / 86400000));
+    console.log(x);
+    console.log(mean);
     var ans = mean;
   }
   
