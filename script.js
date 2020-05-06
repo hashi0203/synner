@@ -376,7 +376,7 @@ function add_dependency_col(i) {
       continue;
     }
     avail_dep.push(j);
-  }
+  };
   
   if (avail_dep.length >= 1) {
     var div = new_elem('div');
@@ -447,6 +447,12 @@ function fill_items(item) {
 
 function fill_data_detail_title() {
   document.getElementById('data_detail_title').textContent = json[data_idx]['name'];
+};
+
+function sug_dependency(item) {
+  if (item == 'name' || item == 'name') {
+    
+  }
 };
 
 function make_sug_table(item) {
@@ -827,6 +833,9 @@ function update_title(i) {
   json[i]['name'] = document.getElementById('title'+i).value;
   if (i == data_idx) {
     fill_data_detail_title();
+    if (json[i]['new_data']) {
+      fill_data_detail_content();
+    }
   }
 };
 
