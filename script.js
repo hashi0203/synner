@@ -4,7 +4,7 @@ var json;
 var max_id;
 var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
-var new_data_args = [[],[]];
+var new_data_args = {'custom': [[],[]],'uniform': [[],[]],'gaussian': [[],[]]};
 
 function get_min(array,type) {
   if (type == 'int' || type == 'float') {
@@ -488,7 +488,7 @@ function sug_dependency(item) {
 function make_sug_table(item) {
   var title;
   var ps = [];
-  var onclick;
+  var onclick = "make_new_data('"+item+"');";
   var deps = sug_dependency(json[data_idx]['name']);
   var depstr = '';
   deps.forEach(function(d){
@@ -501,7 +501,6 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Design your own custom type';
     ps.push(p);
-    onclick = "make_new_data('custom');";
   } else if (item == 'uniform') {
     title = 'Uniform';
     if (json[data_idx]['data_type'] == 'text') {
@@ -535,9 +534,8 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
     ps.push(p);
-    new_data_args[0] = [min,max];
-    new_data_args[1] = deps;
-    onclick = "make_new_data('uniform',["+min+","+max+"],["+deps+"])";
+    new_data_args[item][0] = [min,max];
+    new_data_args[item][1] = deps;
   } else if (item == 'gaussian') {
     title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
@@ -573,7 +571,8 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
     ps.push(p);
-    onclick = "make_new_data('gaussian',["+mean+","+sd+"],["+deps+"])";
+    new_data_args[item][0] = [mean,sd];
+    new_data_args[item][1] = deps;
   }
   
   var div = new_elem('div');
@@ -1030,9 +1029,9 @@ function change_data_size() {
   draw_dist_chart(data_idx);
 };
 
-function make_new_data(item,val,deps) {
+function make_new_data(item) {
   json[data_idx]['new_data'] = false;
-  json[data_idx]['dependency'] = deps;
+  json[data_idx]['dependency'] = new_data_args[item][1];
   if (item == 'custom') {
     if (json[data_idx]['data_type'] == 'text') {
       json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
@@ -1044,9 +1043,9 @@ function make_new_data(item,val,deps) {
       json[data_idx]['generator'] = {"distribution": 0, "min":'1945-01-01', "max":'2019-12-31'};
     }
   } else if (item == 'uniform') {
-    json[data_idx]['generator'] = {"distribution": 0, "min": val[0], "max": val[1]};
+    json[data_idx]['generator'] = {"distribution": 0, "min": new_data_args[item][0][0], "max": new_data_args[item][0][1]};
   } else if (item == 'gaussian') {
-    json[data_idx]['generator'] = {"distribution": 1, "mean": val[0], "sd": val[1]};
+    json[data_idx]['generator'] = {"distribution": 1, "mean": new_data_args[item][0][0], "sd": new_data_args[item][0][1]};
   }
   
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
