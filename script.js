@@ -453,8 +453,9 @@ function sug_dependency(item) {
   item = item.toLowerCase();
   var deps = [['name','sex'], ['age','height', 'birthday']];
   deps = deps.map(d => d.map(i => new RegExp(i)));
+  console.log(deps);
   var idx = -1;
-  var dep = deps.filter((d) => {
+  var dep = deps.filter(d => {
     var tmp = (d.findIndex(i => {
       return i.test(item);
     }));
@@ -465,6 +466,7 @@ function sug_dependency(item) {
       return true;
     };
   });
+  console.log(dep);
   if (idx == -1) {
     return [];
   } else {
@@ -476,10 +478,11 @@ function sug_dependency(item) {
       if (tmp == -1 || tmp == idx) {
         return false;
       } else {
-        ret = json[]
+        ret.push(j['name']);
         return true;
       }
     });
+    return ret;
   }
 };
   
@@ -524,6 +527,7 @@ function make_sug_table(item) {
     p.textContent = 'Maximun: '+max;
     ps.push(p);
     onclick = "make_new_data('uniform',["+min+","+max+"])";
+    console.log(sug_dependency(json[data_idx]['name']));
   } else if (item == 'gaussian') {
     title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
