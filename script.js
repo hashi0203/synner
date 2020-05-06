@@ -943,7 +943,7 @@ function update_stats() {
     } else {
       json[data_idx]['generator'][stats[i]] = document.getElementById('input_'+stats[i]).value;
     }
-    if (json[data_idx]['data_type'] == 'int' || json[data_idx]['data_type'] == 'float') {
+    if (json[data_idx]['data_type'] == 'int' || json[data_idx]['data_type'] == 'float' || i == 1) {
       json[data_idx]['generator'][stats[i]] = Number(json[data_idx]['generator'][stats[i]]);
     }
   }
