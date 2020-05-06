@@ -488,17 +488,18 @@ function make_sug_table(item) {
   var title;
   var ps = [];
   var onclick;
-  var deps = '';
-  sug_dependency(json[data_idx]['name']).forEach(function(d){
-    deps += d + ',';
+  var deps = sug_dependency(json[data_idx]['name']);
+  var depstr = '';
+  deps.forEach(function(d){
+    depstr += d + ', ';
   });
-  deps = deps.substr(deps)
+  depstr = depstr.substr(0,depstr.length-2);
   if (item == 'custom') {
     title = 'Custom';
     var p = new_elem('p');
     p.textContent = 'Design your own custom type';
     ps.push(p);
-    onclick = "make_new_data('custom',[]);";
+    onclick = "make_new_data('custom',[],[]);";
   } else if (item == 'uniform') {
     title = 'Uniform';
     if (json[data_idx]['data_type'] == 'text') {
@@ -529,7 +530,10 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Maximun: '+max;
     ps.push(p);
-    onclick = "make_new_data('uniform',["+min+","+max+"])";
+    var p = new_elem('p');
+    p.textContent = 'Depends on: '+depstr;
+    ps.push(p);
+    onclick = "make_new_data('uniform',["+min+","+max+"],"+deps+")";
   } else if (item == 'gaussian') {
     title = 'Gaussian';
     if (json[data_idx]['data_type'] == 'text') {
@@ -563,8 +567,9 @@ function make_sug_table(item) {
     p.textContent = 'Std Dev: '+sd;
     ps.push(p);
     var p = new_elem('p');
-    p.textContent =
-    onclick = "make_new_data('gaussian',["+mean+","+sd+"])";
+    p.textContent = 'Depends on: '+depstr;
+    ps.push(p);
+    onclick = "make_new_data('gaussian',["+mean+","+sd+"],"+deps+")";
   }
   
   var div = new_elem('div');
@@ -1021,8 +1026,9 @@ function change_data_size() {
   draw_dist_chart(data_idx);
 };
 
-function make_new_data(item,val) {
+function make_new_data(item,val,deps) {
   json[data_idx]['new_data'] = false;
+  var deps = deps.map()
   if (item == 'custom') {
     if (json[data_idx]['data_type'] == 'text') {
       json[data_idx]['generator'] = {"text":'random', "min":3, "max":11};
