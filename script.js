@@ -452,9 +452,10 @@ function fill_data_detail_title() {
 function sug_dependency(item) {
   item = item.toLowerCase();
   var deps = [['name','sex'], ['age','height', 'birthday']];
+  deps = deps.map(d => d.map(i => new RegExp(i)));
   var dep = deps.filter((d) => {
-    return (d.find((i) => {
-      return (i == item);
+    (d.indexOf(i => {
+      return (i.test(item));
     }));
   });
   var idx = dep.indexOf(item);
