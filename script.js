@@ -4,6 +4,7 @@ var json;
 var max_id;
 var items = ['titles','canvases','dependencies','datas'];
 var dist_chart;
+var new_data_args = [[],[]];
 
 function get_min(array,type) {
   if (type == 'int' || type == 'float') {
@@ -500,7 +501,7 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Design your own custom type';
     ps.push(p);
-    onclick = "make_new_data('custom',[],[]);";
+    onclick = "make_new_data('custom');";
   } else if (item == 'uniform') {
     title = 'Uniform';
     if (json[data_idx]['data_type'] == 'text') {
@@ -534,6 +535,8 @@ function make_sug_table(item) {
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
     ps.push(p);
+    new_data_args[0] = [min,max];
+    new_data_args[1] = deps;
     onclick = "make_new_data('uniform',["+min+","+max+"],["+deps+"])";
   } else if (item == 'gaussian') {
     title = 'Gaussian';
