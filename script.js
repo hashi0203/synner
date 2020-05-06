@@ -91,7 +91,7 @@ function toCountDict(array,type){
       if (dict[keys[i]] == undefined) {
         values.push(0);
       } else {
-        values.push(dict[keys[i]]*100/data_number); 
+        values.push(Math.round(dict[keys[i]]*10000/data_number)/100); 
       }
     }
     return [keys,values];
