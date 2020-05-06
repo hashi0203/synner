@@ -513,23 +513,23 @@ function make_sug_table(item) {
       var min = 50;
       var max = 190;
     } else if (json[data_idx]['data_type'] == 'date') {
-      var min = '1945/01/01';
-      var max = '2019/12/31';
+      var min = '1945-01-01';
+      var max = '2019-12-31';
     }
     if (json[data_idx]['data'].filter(function(x){return x!=undefined}).length >= 2) {
       if (json[data_idx]['data_type'] == 'date') {
-        min = get_min(json[data_idx]['data'],json[data_idx]['data_type']).replace(/-/g,'/');
-        max = get_max(json[data_idx]['data'],json[data_idx]['data_type']).replace(/-/g,'/');
+        min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
+        max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
       } else {
         min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
         max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
       }
     }
     var p = new_elem('p');
-    p.textContent = 'Minimum: '+min;
+    p.textContent = ('Minimum: '+min).replace(/-/g,'/');
     ps.push(p);
     var p = new_elem('p');
-    p.textContent = 'Maximun: '+max;
+    p.textContent = ('Maximun: '+max).replace(/-/g,'/');
     ps.push(p);
     var p = new_elem('p');
     p.textContent = 'Depends on: '+depstr;
@@ -548,14 +548,14 @@ function make_sug_table(item) {
       var mean = 140;
       var sd = 50;
     } else if (json[data_idx]['data_type'] == 'date') {
-      var mean = '1982/07/01';
+      var mean = '1982-07-01';
       var sd = 2500;
     }
     if (json[data_idx]['data'].filter(function(x){return x!=undefined}).length >= 2) {
       var min = get_min(json[data_idx]['data'],json[data_idx]['data_type']);
       var max = get_max(json[data_idx]['data'],json[data_idx]['data_type']);
       if (json[data_idx]['data_type'] == 'date') {
-        mean = ymdMid(min,max).replace(/-/g,'/');
+        mean = ymdMid(min,max);
         sd = ymdSd(min,max);
       } else {
         mean = (min+max)/2;
@@ -563,7 +563,7 @@ function make_sug_table(item) {
       }
     }
     var p = new_elem('p');
-    p.textContent = 'Mean: '+mean;
+    p.textContent = ('Mean: '+mean).replace(/-/g,'/');
     ps.push(p);
     var p = new_elem('p');
     p.textContent = 'Std Dev: '+sd;
