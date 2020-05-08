@@ -906,11 +906,17 @@ function update_data(i,j) {
 };
 
 function change_descriptions(i) {
+  if (i >= 2) {
+    not_implemented();
+  }
   json[data_idx]['description'] = i;
   fill_data_detail_content();
 };
 
 function change_domains(i) {
+  if (i >= 2) {
+    not_implemented();
+  }
   json[data_idx]['generator']['distribution'] = i;
   json[data_idx]['data'] = data_generator(json[data_idx]['data_type'],json[data_idx]['generator']);
   replace_all_children('canvases');
@@ -1306,7 +1312,7 @@ function init() {
     { "id": 4,
       "name": "Height",
       "new_data": false,
-      "dependency": [],
+      "dependency": [2, 3],
       "generator": {"distribution": 1, "mean":140, "sd":50, "min": 50, "max": 190},
       "data_type": 'float',
       "description": 0
