@@ -1277,7 +1277,7 @@ function init() {
       "dependency": [2],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
-      "description": 0
+      "description": 1
     },
     { "id": 1,
       "name": "Surname",
@@ -1285,8 +1285,7 @@ function init() {
       "dependency": [],
       "generator": {"text":'random', "min":3, "max": 7},
       "data_type": 'text',
-      "description": 2,
-      "expressions": "uniform(0,1)"
+      "description": 1
     },
     { "id": 2,
       "name": "Sex",
@@ -1294,8 +1293,7 @@ function init() {
       "dependency": [],
       "generator": {"text": 'choice', "rate":[1,2], "value":['F','M']},
       "data_type": 'text',
-      "description": 1,
-      "enumeration": [1,2]
+      "description": 1
     },
     { "id": 3,
       "name": "Age",
@@ -1303,8 +1301,15 @@ function init() {
       "dependency": [],
       "generator": {"distribution": 0, "min":0, "max":100},
       "data_type": 'int',
-      "description": 0,
-      "visual-relationship": []
+      "description": 0
+    },
+    { "id": 4,
+      "name": "Height",
+      "new_data": false,
+      "dependency": [],
+      "generator": {"distribution": 1, "mean":140, "sd":50, "min": 50, "max": 190},
+      "data_type": 'float',
+      "description": 0
     },
   ];
   
@@ -1357,4 +1362,8 @@ function exportCSV() {
     link.click();
     document.body.removeChild(link);
   }
+};
+
+function not_implemented() {
+  alert("This function has not implemented yet.");
 };
