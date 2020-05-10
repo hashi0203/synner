@@ -188,26 +188,10 @@ function exact_model(keys, type, info) {
         data.push(v);
       });
     } else if (info['distribution'] == 1) {
-      // Todo: 一様関数のまま
       keys.forEach(function(k){
-        
         var datek = new Date(k);
         var mean = new Date(info['mean']);
-
-        var c = (max - min) / 86400000;
-        var x = Math.floor(normRandmm((mae0,info['sd'],(min-mean) / 86400000,(max-mean) / 86400000));
-        var ans = mean;
-        ans.setDate(ans.getDate() + x);
-
-        //フォーマット整形
-        var y = ans.getFullYear();
-        var m = ("00" + (ans.getMonth()+1)).slice(-2);
-        var d = ("00" + ans.getDate()).slice(-2);
-
-        return y + "-" + m + "-" + d;
-        
-        
-        data.push(v);
+        data.push(norm_func((datek - mean) / 86400000, 0, info['sd']));
       });
     }
   } else {
